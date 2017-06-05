@@ -112,7 +112,7 @@ $(document).ready(function(){
 	            </p>
 	            <hr>
 	            <p>
-	            	<a href=<%=detail.get("url") %>><%=detail.get("url") %></a>
+	            	<a href=<%=detail.get("url") %> target="view_window"><%=detail.get("url") %></a>
 	            </p>
 	          
 	        </div>

@@ -16,12 +16,12 @@ import java.util.Properties;
 
 
 public class Mail {
-	private static String  mailServer = "smtp.163.com";  			//邮箱服务器名
+	private static String  mailServer = "d23hubm8";  			//邮箱服务器名
 	private static String  mailProt = "smtp";						//邮箱服务协议
 	
-	private static String  mailAccount = "15521328115@163.com";		//邮箱服务器名
-	private static String  mailPassword = "wangyiwl092";
-	private static String  receiveMailAccount = "598721443@qq.com";
+	private static String  mailAccount = "kylexu@cn.ibm.com";		//邮箱服务器名
+	private static String  mailPassword = " ";
+	private static String  receiveMailAccount = "brucel@cn.ibm.com";
 	
 //	public void sendMail(String context, String receiveMailAccount) throws Exception{
 	public static void main(String[] args) throws Exception {
@@ -42,7 +42,7 @@ public class Mail {
 	        //                  QQ邮箱的SMTP(SLL)端口为465或587, 其他邮箱自行去查看)
 //	        final String smtpPort = "465";
 //	        props.setProperty("mail.smtp.port", smtpPort);
-//            props.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+//          props.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 //	        props.setProperty("mail.smtp.socketFactory.fallback", "false");
 //	        props.setProperty("mail.smtp.socketFactory.port", smtpPort);
 	        
@@ -74,6 +74,7 @@ public class Mail {
      * @throws Exception
      */
     public static MimeMessage createMimeMessage(Session session, String sendMail, String receiveMail) throws Exception {
+    	
         // 1. 创建一封邮件
         MimeMessage message = new MimeMessage(session);
 
