@@ -85,6 +85,24 @@ $(document).ready(function(){
       }
     });
 });
+
+function sendEmail(access_id){
+	$.ajax({
+	    cache: true,
+	    type: "POST",
+	    url:sendEmail.jsp,
+	    data:access_id,// 你的formid
+	    async: false,
+	    error: function(request) {
+	        alert("Connection error");
+	    },
+	    success: function(data) {
+	        $("#commonLayout_appcreshi").parent().html(data);
+	    }
+	});
+}
+
+
 </script>
 </head>
 <body data-spy="scroll" data-target="#myScrollspy">
@@ -114,6 +132,7 @@ $(document).ready(function(){
 	            <p>
 	            	<a href=<%=detail.get("url") %> target="view_window"><%=detail.get("url") %></a>
 	            </p>
+	            <button onclick="sendEmail(access_id)">send Email</button>
 	          
 	        </div>
 	    </div>

@@ -14,7 +14,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>login Blue Key</title>
+<title>Blue Key</title>
 <link rel="stylesheet" href="./css/login.css">
 
 <script type="text/javascript">

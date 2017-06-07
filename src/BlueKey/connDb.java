@@ -18,8 +18,8 @@ public class connDb {
 			Class.forName("com.mysql.jdbc.Driver");
 			//杩炴帴鏁版嵁搴撲腑闂翠欢
 			try{
-//				con = DriverManager.getConnection("jdbc:MySQL://localhost:3306/bluekey","root","root");
-				con = DriverManager.getConnection("jdbc:MySQL://169.53.241.185:3307/daf6b126a7b214534919dff69332245c7","urCFrPNw6AdWO","pnrXRBTaHH7cE");
+				con = DriverManager.getConnection("jdbc:MySQL://localhost:3306/bluekey","root","root");
+//				con = DriverManager.getConnection("jdbc:MySQL://169.53.241.185:3307/daf6b126a7b214534919dff69332245c7","urCFrPNw6AdWO","pnrXRBTaHH7cE");
 			}catch(SQLException e){
 				e.printStackTrace();
 			}
@@ -183,6 +183,22 @@ public class connDb {
 	    endConn();
 		return accessRight;
 	}
+	
+	//query mail_template data
+	public static  Map getMailTemplate(String temp_id) throws SQLException{
+		Map<String,String> MailMap = new HashMap<>();
+	    startConn();
+	    stmt = con.createStatement();
+	    rs = stmt.executeQuery("select subject_title,content from mail_template where temp_id ='"+temp_id+"' and deleted = 0");
+	    while(rs.next()){
+	    	MailMap.put("subject_title",rs.getString("subject_title"));
+	    	MailMap.put("content",rs.getString("content"));
+	    }
+	    
+	    endConn();
+		return MailMap;
+	}
+		
 	
 	//two array to be one 
 	static String[] concat(String[] a, String[] b) {  
