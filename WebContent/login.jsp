@@ -20,18 +20,18 @@
 <script type="text/javascript">
 	function on_submit(){  
 	    if(loginform.email.value=="")  
-	        {  
-	            alert("Email is empty, please fill!");  
-	            loginform.email.focus();  
-	            return false;  
-	              
-	        }  
+        {  
+            alert("Email is empty, please fill!");  
+            loginform.email.focus();  
+            return false;  
+              
+        }  
 	    if(loginform.password.value=="")  
-	        {  
-	            alert("Password is empty, please fiil!");  
-	            loginform.password.focus();  
-	            return false  
-	        }  
+        {  
+            alert("Password is empty, please fill!");  
+            loginform.password.focus();  
+            return false  
+        }  
 	}  
 </script>
 

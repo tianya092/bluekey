@@ -12,9 +12,9 @@
 		activedStatus = user.get("actived");
 		user_id = user.get("user_id");
 		
-		if(activedStatus.equals("1")){
+		/* if(activedStatus.equals("1")){
 			response.sendRedirect("result.jsp?user_id="+user_id);  
-		}
+		} */
     }
 %> 
 <!DOCTYPE html>
@@ -24,11 +24,9 @@
 <title>blue key</title>
 <link rel="stylesheet" href="css/style.css">
 <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
-<script src="js/jquery-3.1.0.min.js"></script>
-
+<script src="js/jquery-3.1.0.js"></script>
+<script src="js/jquery.cxselect.js"></script>
 <script src="js/bootstrap.min.js"></script>
-<script src="//rawgithub.com/indrimuska/jquery-editable-select/master/dist/jquery-editable-select.min.js"></script>
-<link href="//rawgithub.com/indrimuska/jquery-editable-select/master/dist/jquery-editable-select.min.css" rel="stylesheet">
 
 <style type="text/css">
 /*  #bg{
@@ -102,9 +100,9 @@
 </style>
 </head>
 <body style=" padding-top: 0px;">
+	
 	<div id="bg">
-		<div id="container_test">
-		</div>
+	
 		<div id="container">
 		    <div class="nav">
 		  		<div class="ui grid">
@@ -114,69 +112,44 @@
 					      <!--  <br/>Search -->
 					    </div>
 					</div> 
-					<!--  <a href="/posts" class="text-center"><h1>Blue Key</h1></a>
-			      	<p  class="text-center">Management</p> -->
 		  		</div>
 			</div>
-			<div class="ui grid">
-			 	<form class="form-horizontal" role="form" name="form" active = "dosubmit.jsp" onsubmit="return check_submit()">
-			 
-				   	<!--  <div class="form-group">
-				    <label for="cnid"  class="col-sm-4 control-label">CN number</label>
-				    <div class="col-sm-7">
-				    <input type="text"></div>
-				    </div> -->
-				  
-				    <div class="form-group">
-					    <label for="functionid"  class="col-sm-3 control-label">Function</label>
-					    <div class="col-sm-8">
-						    <select class="form-control" name="functionid" onChange="getCommodity()">    
-						      <OPTION VALUE="0">select your function </OPTION>
-						      <option>PP</option>
-						      <option>PI</option>
-						      <option>ENG</option>
-						      <option>BTIT</option>
-						      <option>DSA</option>
-						    </select>
-					    </div>
-				    </div>
-				
-					<div class="form-group">
-					    <label for="teamid"  class="col-sm-3 control-label">Team</label>
-					    <div class="col-sm-8">
-						    <select class="form-control" name="functionid" onChange="getCommodity()">    
-						      <OPTION VALUE="0">select your team </OPTION>
-						      <option>Platform GCM</option>
-						      <option>ECAT GCM</option>
-						      <option>OPERATION</option>
-						      <option>SERVICE</option>
-						      <option>PCE</option>
-						    </select>
-					    </div>
-				    </div>
-				
-				    <div class="form-group">
-				       <label for="commodity"  class="col-sm-3 control-label">Job Role</label>
-					    <div class="col-sm-8">
-					    <select class="form-control" name="commodity">
-					    	 <OPTION VALUE="0">select your Job Role</OPTION>
-					    </select>
-					    </div>
-				    </div>
-				    <div class="form-group">
-					    <label for="commodity"  class="col-sm-3 control-label">Commodity</label>
-					    <div class="col-sm-8">
-						    <select class="form-control" name="commodity">
-						     	<OPTION VALUE="0">select your commodity </OPTION>
-						    </select>
-					    </div>
-				    </div>
-				
+			
+			<div class="ui grid" >
+			 	<form class="form-horizontal" role="form" name="form" action = "dosubmit.jsp"  method="post" >
+			 		<div id="select_role">
+					    <div class="form-group">
+					    	<label for="functionid"  class="col-sm-3 control-label">Function</label>
+					    	 <div class="col-sm-8">
+						    	<select class="function form-control"  name="function" ></select>
+					    	</div>
+				    	</div>
+				    	<div class="form-group">
+					    	<label for="functionid"  class="col-sm-3 control-label">team</label>
+					    	 <div class="col-sm-8">
+						    	<select class="team form-control"  name="team" ></select>
+					    	</div>
+				    	</div>
+				    	
+				    	<div class="form-group">
+					    	<label for="functionid"  class="col-sm-3 control-label">job_role</label>
+					    	 <div class="col-sm-8">
+						    	<select class="job_role form-control"  name="job_role" ></select>
+					    	</div>
+				    	</div>
+				    	<div class="form-group">
+					    	<label for="functionid"  class="col-sm-3 control-label">commodity</label>
+					    	 <div class="col-sm-8">
+						    	<select class="commodity form-control"  name="commodity" ></select>
+					    	</div>
+				    	</div>
+					</div>
+				    
 				    <div class="form-group">
 					    <div class="col-sm-offset-4 col-sm-6">
 					      <div class="checkbox">
 					        <label>
-					          <input type="checkbox"> please remember me
+					          <input type="checkbox" name="remember_type"> please remember me
 					        </label>
 					      </div>
 					    </div>
@@ -184,7 +157,7 @@
 				
 				  	<div class="form-group">
 					    <div class="col-sm-offset-4 col-sm-4">
-					    <input type="hidden" name="user_id" value = "<%=user_id %>>">
+					    <input type="hidden" name="user_id" value = "<%=user_id %>">
 					      <button type="submit" class="btn btn-default">submit</button>
 					    </div>
 				  	</div>
@@ -193,41 +166,97 @@
 		</div>
 	</div>
 
-<script language="JavaScript" type="text/javascript">
 
-     var commodity=[["MECHANICAL","THERMAL","PCB"],[],["INTERCONNECT","PSU","PCB"],[],[]];
-
-     function getCommodity(){
-          var slt_functionid = document.form.functionid;
-          var slt_commodity = document.form.commodity;
-          var function_commodity = commodity[slt_functionid.selectedIndex -1];
-          slt_commodity.length = 1;
-          for(var j = 0; j<function_commodity.length;j++){
-            slt_commodity[j+1]=new Option(function_commodity[j],function_commodity[j]);
-          }
-          this.parentNode.nextSibling.value=this.options[this.selectedIndex].text;
-     
-     }
-     //å¯ä»¥éè¿è¾å¥æ¥å¿«ééæ©
-
-	$('#functionid').editableSelect({ effects: 'default' });
-	<script type="text/javascript">
-	function on_submit(){  
-	    if(loginform.email.value=="")  
-	        {  
-	            alert("Email is empty, please fill!");  
-	            loginform.email.focus();  
-	            return false;  
-	              
-	        }  
-	    if(loginform.password.value=="")  
-	        {  
-	            alert("Password is empty, please fiil!");  
-	            loginform.password.focus();  
-	            return false  
-	        }  
-	}  
-
+<script>
+(function() {
+  var urlSelectData = [
+	    {'v': '1', 'n': 'PP', 's': [
+	        {'v': '1', 'n': 'Ellen Xu', 's': [
+		          {'v': '1', 'n': 'GCM', 's': [
+			        	  {'v': '1', 'n': 'Platform'},
+			        	  {'v': '2', 'n': 'Ecat'},
+			        	  {'v': '3', 'n': 'PCB'},
+		          ]}
+	        ]},
+	        {'v': '2', 'n': 'Vivian Chen', 's': [
+		          {'v': '2', 'n': 'BC'},
+		          {'v': '3', 'n': 'Admin'},
+		          {'v': '4', 'n': 'Government relationship'},
+		          {'v': '5', 'n': 'HR'},
+		          {'v': '6', 'n': 'Assistant of Excutive'},
+		          {'v': '7', 'n': 'Communication'},
+		          {'v': '8', 'n': 'Reception'}
+	        ]},
+         	{'v': '3', 'n': 'Shirly Xie', 's': [
+	          	  {'v': '9', 'n': 'Consult'}
+	        ]},
+	        {'v': '4', 'n': 'Simon Lv', 's': [
+		          {'v': '10', 'n': 'PCE'},
+		          {'v': '11', 'n': 'GCM'}
+	        ]}
+	   ]},
+	   {'v': '2', 'n': 'PI', 's': [
+	        {'v': '5', 'n': 'Hugo cai', 's': [
+		          {'v': '11', 'n': 'DSW NPM'},
+		          {'v': '12', 'n': 'DSW BNPM'},
+		          {'v': '13', 'n': 'BPE'},
+		          {'v': '14', 'n': 'ESW NPM'},
+		          {'v': '15', 'n': 'ESW BNPM'},
+		          {'v': '16', 'n': 'Code Mangerment Team'},
+		          {'v': '17', 'n': 'SAP team'},
+		          {'v': '18', 'n': 'Pring team'},
+		          {'v': '19', 'n': 'CP team'}
+	        ]},
+	        {'v': '6', 'n': 'kenny Kong', 's': [
+		          {'v': '11', 'n': 'DSW NPM'},
+		          {'v': '12', 'n': 'DSW BNPM'},
+		          {'v': '13', 'n': 'BPE'},
+		          {'v': '14', 'n': 'ESW NPM'},
+		          {'v': '15', 'n': 'ESW BNPM'},
+		          {'v': '16', 'n': 'Code Mangerment Team'},
+		          {'v': '17', 'n': 'SAP team'},
+		          {'v': '18', 'n': 'Pring team'},
+		          {'v': '19', 'n': 'CP team'}
+	        ]},
+	        {'v': '7', 'n': 'Anne lei', 's': [
+		          {'v': '11', 'n': 'DSW NPM'},
+		          {'v': '12', 'n': 'DSW BNPM'},
+		          {'v': '13', 'n': 'BPE'},
+		          {'v': '14', 'n': 'ESW NPM'},
+		          {'v': '15', 'n': 'ESW BNPM'},
+		          {'v': '16', 'n': 'Code Mangerment Team'},
+		          {'v': '17', 'n': 'SAP team'},
+		          {'v': '18', 'n': 'Pring team'},
+		          {'v': '19', 'n': 'CP team'}
+	        ]}
+	   ]},
+	   {'v': '3', 'n': 'Finance', 's': [
+	        {'v': '8', 'n': 'Li Ping', 's': [
+		          {'v': '20', 'n': 'CPC FIN Control'},
+		          {'v': '21', 'n': 'Staff Financial Analyst'}
+	        ]}
+	   ]},
+	   {'v': '4', 'n': 'DSA', 's': [
+	        {'v': '9', 'n': 'Mike Huang', 's': [
+		          {'v': '22', 'n': 'Demand planning'},
+		          {'v': '23', 'n': 'Inventory '},
+		          {'v': '24', 'n': 'Supply Assurance'},
+		          {'v': '25', 'n': 'GCSA '},
+	        ]}
+	   ]},
+	   {'v': '5', 'n': 'COSSM', 's': [
+	        {'v': '10', 'n': 'Jessica Wei', 's': [
+		          {'v': '26', 'n': 'Hardware Order to Delivery management'}		         
+	        ]}
+	   ]}
+  ];
+  $('#select_role').cxSelect({
+    selects: ['function', 'team', 'job_role', 'commodity'],
+    required: true,
+    jsonValue: 'v',
+    url: urlSelectData
+  });
+})();
 </script>
 </body>
 </html>

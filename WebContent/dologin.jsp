@@ -15,11 +15,12 @@
 			request.getSession().setAttribute("user_id",user_id);        //save user_id
 			session.setMaxInactiveInterval(12*3600);  //sessiion timeout 12h
 			
-			if(activedStatus.equals("1")){
+			response.sendRedirect("input.jsp?user_id="+user_id);  
+			/* if(activedStatus.equals("1")){
 				response.sendRedirect("result.jsp?user_id="+user_id);  
 			}else{
 				response.sendRedirect("input.jsp?user_id="+user_id);  
-			}
+			} */
     	}else{
 			response.sendRedirect("login.jsp");
     	}

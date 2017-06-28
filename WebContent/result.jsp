@@ -1,11 +1,20 @@
 <%@ page language="java" import="BlueKey.connDb,java.util.*" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%  
+	String role_id = request.getParameter("role_id");
+	String	email =	(String)session.getAttribute("email");
+	/* int role_id ;
+	if(role_id_str.equals("")||role_id_str==null){
+		out.println("<javascript> alter(\"function is empyt\")</javascript>");
+		response.sendRedirect("error.jsp");
+	}else{
+		role_id =Integer.parseInt(role_id_str);
+	} */
 	Map<String,String> general_access= null;
 	Map<String,String> function_access= null;
 	Map<String,String> other_access= null;
 	
-	if(session.getAttribute("email")==null){
+	/* if(session.getAttribute("email")==null){
 		response.sendRedirect("login.jsp");
 	}else{
 		String user_id = request.getParameter("user_id");
@@ -20,7 +29,16 @@
 			function_access= list.get(1);
 			other_access= list.get(2);
 		}
+	} */
+	if(role_id==null||role_id.equals("")){
+		
+	}else{
+		
 	}
+	ArrayList<Map<String,String>> list = connDb.result(role_id); //get access list 
+	general_access= list.get(0);
+	function_access= list.get(1);
+	other_access= list.get(2);
 
 %> 
 <!DOCTYPE html>
@@ -120,7 +138,7 @@ $(document).ready(function(){
 	            <h2 id="section-1">General Access</h2>
 	             <ul >
 		             <%
-		             	if(function_access!=null){
+		             	if(general_access!=null){
 			             	for(String key :general_access.keySet()){
 			             		out.println("<li><a href=\"detail.jsp?access_id="+key+"\">"+general_access.get(key)+"</a></li>");
 			             	}	

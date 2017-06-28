@@ -34,6 +34,19 @@
 		        		} 
 		        	%>
 		         ><a href="contact.jsp?user_id=<%=user_id %>">Contact</a></li>
+		        <%if("brucel@cn.ibm.com".equals(email)) {%>
+		        <li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						Setting
+						<b class="caret"></b>
+					</a>
+					<ul class="dropdown-menu">
+						<li><a href="userList.jsp">User Manage</a></li>
+						<li><a href="roleList.jsp">Role Manage</a></li>
+						<li><a href="accessList.jsp">Access Manage</a></li>
+					</ul>
+				</li>
+				<%} %>>
 		     </ul>
 		     <span class="login" style="float:right;color:white;padding:15px"> 
 		     <%

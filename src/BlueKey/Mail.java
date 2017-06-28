@@ -1,7 +1,7 @@
 package BlueKey;
 import javax.mail.Session;
 import javax.mail.Transport;
-import javax.mail.Message;
+//import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -17,16 +17,47 @@ import java.util.Properties;
 
 
 public class Mail {
+	private static  String  subjectTitle;  					//邮箱服务器名
+	private static  String  content;  					        //
+	
+	
+
 	private static String  mailServer = "d23hubm8";  			//邮箱服务器名
 	private static String  mailProt = "smtp";						//邮箱服务协议
 	
-	private static String  mailAccount = "kylexu@cn.ibm.com";		//邮箱服务器名
+	private static String  mailAccount = "brucel@cn.ibm.com";		//邮箱服务器名
 	private static String  mailPassword = " ";
 	private static String  receiveMailAccount = "brucel@cn.ibm.com";
 	
-	public void sendMail(String context, String receiveMailAccount,String temp_id) throws Exception{
-//	public static void main(String[] args) throws Exception {
-		try{// 1. 创建一封邮件
+	public String getSubjectTitle() {
+		return subjectTitle;
+	}
+
+	public void setSubjectTitle(String subjectTitle) {
+		this.subjectTitle = subjectTitle;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+	
+	public void setReceiveAccount(String receiveMailAccount){
+		this.receiveMailAccount = receiveMailAccount;
+	}
+	
+	public void setMailAccount(String mailAccount){
+		this.mailAccount = mailAccount;
+	}
+	
+	public  boolean sendMail() throws Exception{
+		boolean flag =false;  
+		try{
+			
+			// 1. 创建一封邮件
 		    Properties props = new Properties();               
 		    props.setProperty("mail.debug", "true");			   	//开启debug调试模式
 		    props.setProperty("mail.host", mailServer);   		   	//设置邮件服务器的主机名
@@ -50,20 +81,23 @@ public class Mail {
 		    
 		    Session session= Session.getDefaultInstance(props); // 根据参数配置，创建会话对象（为了发送邮件准备的）
 		    
-		    MimeMessage message = createMimeMessage(session, mailAccount, receiveMailAccount,temp_id);
+		    MimeMessage message = createMimeMessage(session, mailAccount, receiveMailAccount);
 
 		    Transport transport = session.getTransport();
 		    transport.connect(mailServer,mailPassword);
 		    transport.sendMessage(message, message.getAllRecipients());
 		    
 		    transport.close();
+		    flag = true;
+		   
 		}
 		catch (Exception e) {
 		      System.err.println("邮件发送失败的原因是：" + e.getMessage());
 		      System.err.println("具体错误原因：");
 		      e.printStackTrace(System.err);
-		    }
-	}
+		 }
+		return flag;
+}
 	
 	/**
      * 创建一封只包含文本的简单邮件
@@ -74,11 +108,9 @@ public class Mail {
      * @return
      * @throws Exception
      */
-    public static MimeMessage createMimeMessage(Session session, String sendMail, String receiveMail,String temp_id) throws Exception {
+    public static  MimeMessage createMimeMessage(Session session, String sendMail, String receiveMail) throws Exception {
     	
-    	Map<String,String> mailMap = connDb.getMailTemplate(temp_id); //get send mail template
-    	
-    	
+    
         // 1. 创建一封邮件
         MimeMessage message = new MimeMessage(session);
 
@@ -89,10 +121,10 @@ public class Mail {
         message.setRecipient(MimeMessage.RecipientType.TO, new InternetAddress(receiveMail, "XX用户", "UTF-8"));
 
         // 4. Subject: 邮件主题
-        message.setSubject(mailMap.get("subject_title"), "UTF-8");
+        message.setSubject(subjectTitle, "UTF-8");
 
         // 5. Content: 邮件正文（可以使用html标签）
-        message.setContent(mailMap.get("subject_title"), "text/html;charset=UTF-8");
+        message.setContent(content, "text/html;charset=UTF-8");
 
         // 6. 设置发件时间
         message.setSentDate(new Date());

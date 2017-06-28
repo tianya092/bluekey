@@ -89,6 +89,9 @@ $(document).ready(function(){
 	            </div>
 	   </div>
 	</div>
+	<div class="container">
+	
+	</div>
 	<jsp:include page= "bottom.jsp" flush ="true"/>
 </body>
 </html>
