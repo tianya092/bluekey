@@ -20,13 +20,7 @@
 		 <div id="navbar" class="navbar-collapse collapse">
 		     <ul class="nav navbar-nav">
 		         <li ><a href="input.jsp?user_id=<%=user_id %>"><span class="glyphicon glyphicon-home" aria-hidden="true" ></span> Home</a></li>
-		         <li 
-		         	<% 
-		        		if(servletPath.indexOf("result")!=-1){
-		        			out.println("class=\"active\"");
-		        		} 
-		        	%>
-		        	><a href="result.jsp?user_id=<%=user_id %>">Access</a></li>
+		         
 		        <li
 		        	<% 
 		        		if(servletPath.indexOf("contact")!=-1){
@@ -46,7 +40,7 @@
 						<li><a href="accessList.jsp">Access Manage</a></li>
 					</ul>
 				</li>
-				<%} %>>
+				<%} %>
 		     </ul>
 		     <span class="login" style="float:right;color:white;padding:15px"> 
 		     <%

@@ -66,37 +66,7 @@ public class connDb {
 			stmt = null;
 		}
 	}
-	//query role_id
-	public static  int queryRole(Role role) throws SQLException{
-		int role_id = 0 ;
-	    int function = role.getFunction();
-	    int team = role.getTeam();
-	    int job_role =role.getJobRole();
-	    int commodity = role.getCommodity();
-	    String sql = "";
-	    try{
-	    	startConn();
-		    stmt = con.createStatement();
-		    if(commodity==0){
-		    	sql = "select * from role where deleted = 0 and  function = "+function+" and team ="+team+" and job_role ="+job_role ;
-		    }else{
-		    	sql = "select * from role where deleted = 0 and  function = "+function+" and team ="+team+" and job_role ="+job_role +" and commodity =" +commodity;
-		    }
-		    
-		    rs = stmt.executeQuery(sql);
-		    while(rs.next()){
-		    	role_id = rs.getInt("role_id");
-		    	
-		    }
-	    }catch(SQLException e) {   
-            e.printStackTrace();   
-	    }finally {
-		    endConn();
-		}
-	    
-		return role_id;
-	}
-	
+/***************************************Access*********************************************/
 	
 	//resultList
 		public static  ArrayList result(String role_id) throws SQLException{
@@ -236,8 +206,96 @@ public class connDb {
 		}
 		return flag;
 	}
-			
+	
+	
+	//query accesss list
+	public static  ArrayList getAccessList() throws SQLException{
+		ArrayList<Access> Accesslist = new ArrayList();
+		startConn();
+	    stmt = con.createStatement();
+	    rs = stmt.executeQuery("select * from access where deleted = 0 order by parent_part ASC");
+	    while(rs.next()){
+	    	Access access = new Access();
+	    	access.setAccessId(rs.getInt("access_id"));
+	    	access.setTitle(rs.getString("title"));
+	    	access.setShortTitle(rs.getString("short_title"));
+	    	access.setFunction(rs.getString("function"));
+	    	access.setPlatform(rs.getString("platform"));
+	    	access.setApplyEmail(rs.getString("apply_email"));
+	    	access.setUrl(rs.getString("url"));
+	    	access.setApplyStep(rs.getString("apply_step"));
+	    	access.setLeadTime(rs.getInt("lead_time"));
+	    	access.setParentPart(rs.getInt("parent_part"));
+	    	
+	    	Accesslist.add(access);
+	    }
+
+	    endConn();
+		return Accesslist;
+	}
+	
+	public static  Map getAccessList1() throws SQLException{
+		Map<String,ArrayList<String[]>> accessMap = new HashMap();
+	    startConn();
+	    stmt = con.createStatement();
+	    rs = stmt.executeQuery("select * from access where deleted = 0 and parent_part= 1 ");
+	    ArrayList<String[]> generalList = new ArrayList();
+	    while(rs.next()){
+	    	String[] temp={rs.getString("access_id"),rs.getString("title"),rs.getString("short_title")};
+	    	generalList.add(temp);
+	    }
+	    
+	    rs = stmt.executeQuery("select * from access where deleted = 0 and parent_part= 2 ");
+	    ArrayList<String[]> functionList = new ArrayList();
+	    while(rs.next()){
+	    	String[] temp={rs.getString("access_id"),rs.getString("title"),rs.getString("short_title")};
+	    	functionList.add(temp);
+	    }
+	    
+	    rs = stmt.executeQuery("select * from access where deleted = 0 and parent_part= 3 ");
+	    ArrayList<String[]> otherList = new ArrayList();
+	    while(rs.next()){
+	    	String[] temp={rs.getString("access_id"),rs.getString("title"),rs.getString("short_title")};
+	    	otherList.add(temp);
+	    }
+	    
+    	accessMap.put("generalList",generalList);
+    	accessMap.put("functionList",functionList);
+    	accessMap.put("otherList",otherList);
+    
+	    endConn();
+		return accessMap;
+	}
+	
+	
+	//check user's access list
+	public static boolean checkUserAccess(String user_id,String access_id) throws SQLException{
+		boolean accessRight = false;
+		String[] generalArr = null ;
+		String[] functionArr = null;
+		String[] othersArr = null;
 		
+	    startConn();
+	    stmt = con.createStatement();
+	    rs = stmt.executeQuery("select * from role where role_id = (select role_id from user where user_id= '"+user_id+"' )");
+	    if(rs.next()){
+	    	generalArr = rs.getString("general_access").split(",");
+	    	functionArr = rs.getString("function_access").split(",");
+	    	othersArr = rs.getString("others_access").split(",");
+	    }
+	    
+	    String[] accessArr = concat(generalArr,functionArr);
+	    accessArr = concat(accessArr,othersArr);
+	    Arrays.sort(accessArr);
+	    
+	    if(Arrays.binarySearch(accessArr, access_id)>=0){
+	    	accessRight = true;
+	    }
+	    endConn();
+		return accessRight;
+	}
+			
+/***************************************User*********************************************/		
 	//update user 
 	public static  boolean updataUser(String email) throws SQLException{
 		boolean flag = false;
@@ -293,48 +351,26 @@ public class connDb {
 		return userRight;
 	}
 	
-	//check user's access list
-	public static boolean checkUserAccess(String user_id,String access_id) throws SQLException{
-		boolean accessRight = false;
-		String[] generalArr = null ;
-		String[] functionArr = null;
-		String[] othersArr = null;
-		
-	    startConn();
-	    stmt = con.createStatement();
-	    rs = stmt.executeQuery("select * from role where role_id = (select role_id from user where user_id= '"+user_id+"' )");
-	    if(rs.next()){
-	    	generalArr = rs.getString("general_access").split(",");
-	    	functionArr = rs.getString("function_access").split(",");
-	    	othersArr = rs.getString("others_access").split(",");
-	    }
-	    
-	    String[] accessArr = concat(generalArr,functionArr);
-	    accessArr = concat(accessArr,othersArr);
-	    Arrays.sort(accessArr);
-	    
-	    if(Arrays.binarySearch(accessArr, access_id)>=0){
-	    	accessRight = true;
-	    }
-	    endConn();
-		return accessRight;
-	}
 	
-	//query mail_template data
-	public static  Map getMailTemplate(String temp_id) throws SQLException{
-		Map<String,String> MailMap = new HashMap<>();
-	    startConn();
+	
+	//query user list
+	public static  ArrayList getUserList() throws SQLException{
+		ArrayList<String[]> Userlist = new ArrayList();
+		startConn();
 	    stmt = con.createStatement();
-	    rs = stmt.executeQuery("select subject_title,content from mail_template where temp_id ='"+temp_id+"' and deleted = 0");
+	    rs = stmt.executeQuery("select * from user where deleted = 0");
 	    while(rs.next()){
-	    	MailMap.put("subject_title",rs.getString("subject_title"));
-	    	MailMap.put("content",rs.getString("content"));
+	    	String[] temp={rs.getString("user_id"),rs.getString("Email"),rs.getString("create_time")};
+	    	Userlist.add(temp);
 	    }
-	    
+
 	    endConn();
-		return MailMap;
+		return Userlist;
 	}
 	
+	
+/***************************************Role*********************************************/
+		
 	//query role detail info
 	public static  Role getRole(String role_id) throws SQLException{
 		Role role = new Role();
@@ -354,6 +390,36 @@ public class connDb {
 		return role;
 	}
 	
+	//query role_id
+	public static  int queryRole(Role role) throws SQLException{
+		int role_id = 0 ;
+	    int function = role.getFunction();
+	    int team = role.getTeam();
+	    int job_role =role.getJobRole();
+	    int commodity = role.getCommodity();
+	    String sql = "";
+	    try{
+	    	startConn();
+		    stmt = con.createStatement();
+		    if(commodity==0){
+		    	sql = "select * from role where deleted = 0 and  function = "+function+" and team ="+team+" and job_role ="+job_role ;
+		    }else{
+		    	sql = "select * from role where deleted = 0 and  function = "+function+" and team ="+team+" and job_role ="+job_role +" and commodity =" +commodity;
+		    }
+		    
+		    rs = stmt.executeQuery(sql);
+		    while(rs.next()){
+		    	role_id = rs.getInt("role_id");
+		    	
+		    }
+	    }catch(SQLException e) {   
+            e.printStackTrace();   
+	    }finally {
+		    endConn();
+		}
+	    
+		return role_id;
+	}
 	
 	//update role detail info
 	public static  boolean updateRole(Role role) throws SQLException{
@@ -401,30 +467,6 @@ public class connDb {
 		return flag;
 	}
 	
-	//delete role 
-	public static  boolean checkRole(Role role) throws SQLException{
-		boolean flag = true;
-		String query_sql="";
-		try{
-			 startConn();
-		    stmt = con.createStatement();
-			
-	    	if(role.getCommodity()==0){
-	    		query_sql="select * from role where deleted = 0 and function="+role.getFunction()+" and  team="+role.getTeam()+" and  job_role="+role.getJobRole();
-	    	}else{
-	    		query_sql="select * from role where deleted = 0 and function="+role.getFunction()+" and  team="+role.getTeam()+" and  job_role="+role.getJobRole()+" and  commodity="+role.getCommodity();
-	    	}
-		    rs = stmt.executeQuery(query_sql);
-		    while(rs.next()){
-		    	flag = false;
-		    }
-    	}catch(SQLException e) {   
-            e.printStackTrace();   
-	    }finally {
-		    endConn();
-		}
-		return flag;
-	}
 	
 	//delete role 
 	public static  boolean deleteRole(String role_id) throws SQLException{
@@ -449,54 +491,7 @@ public class connDb {
 		return flag;
 	}
 		
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////	
-	//query accesss list
-	public static  ArrayList getAccessList() throws SQLException{
-		ArrayList<String[]> Accesslist = new ArrayList();
-		startConn();
-	    stmt = con.createStatement();
-	    rs = stmt.executeQuery("select * from access where deleted = 0 order by parent_part ASC");
-	    while(rs.next()){
-	    	String[] temp={rs.getString("access_id"),rs.getString("title"),rs.getString("short_title"),rs.getString("parent_part")};
-	    	Accesslist.add(temp);
-	    }
-
-	    endConn();
-		return Accesslist;
-	}
 	
-	public static  Map getAccessList1() throws SQLException{
-		Map<String,ArrayList<String[]>> accessMap = new HashMap();
-	    startConn();
-	    stmt = con.createStatement();
-	    rs = stmt.executeQuery("select * from access where deleted = 0 and parent_part= 1 ");
-	    ArrayList<String[]> generalList = new ArrayList();
-	    while(rs.next()){
-	    	String[] temp={rs.getString("access_id"),rs.getString("title"),rs.getString("short_title")};
-	    	generalList.add(temp);
-	    }
-	    
-	    rs = stmt.executeQuery("select * from access where deleted = 0 and parent_part= 2 ");
-	    ArrayList<String[]> functionList = new ArrayList();
-	    while(rs.next()){
-	    	String[] temp={rs.getString("access_id"),rs.getString("title"),rs.getString("short_title")};
-	    	functionList.add(temp);
-	    }
-	    
-	    rs = stmt.executeQuery("select * from access where deleted = 0 and parent_part= 3 ");
-	    ArrayList<String[]> otherList = new ArrayList();
-	    while(rs.next()){
-	    	String[] temp={rs.getString("access_id"),rs.getString("title"),rs.getString("short_title")};
-	    	otherList.add(temp);
-	    }
-	    
-    	accessMap.put("generalList",generalList);
-    	accessMap.put("functionList",functionList);
-    	accessMap.put("otherList",otherList);
-    
-	    endConn();
-		return accessMap;
-	}
 	
 	//query accesss list
 	public static  ArrayList<Role> getRoleList() throws SQLException{
@@ -519,21 +514,25 @@ public class connDb {
 	}
 	
 	
-	//query user list
-	public static  ArrayList getUserList() throws SQLException{
-		ArrayList<String[]> Userlist = new ArrayList();
-		startConn();
+	
+	
+/***************************************email template*********************************************/	
+	//query mail_template data
+	public static  Map getMailTemplate(String temp_id) throws SQLException{
+		Map<String,String> MailMap = new HashMap<>();
+	    startConn();
 	    stmt = con.createStatement();
-	    rs = stmt.executeQuery("select * from user where deleted = 0");
+	    rs = stmt.executeQuery("select subject_title,content from mail_template where temp_id ='"+temp_id+"' and deleted = 0");
 	    while(rs.next()){
-	    	String[] temp={rs.getString("user_id"),rs.getString("Email"),rs.getString("create_time")};
-	    	Userlist.add(temp);
+	    	MailMap.put("subject_title",rs.getString("subject_title"));
+	    	MailMap.put("content",rs.getString("content"));
 	    }
-
+	    
 	    endConn();
-		return Userlist;
+		return MailMap;
 	}
 	
+/***************************************other*********************************************/
 	//two array to be one 
 	public static String[] concat(String[] a, String[] b) {  
 	   String[] c= new String[a.length+b.length];  
