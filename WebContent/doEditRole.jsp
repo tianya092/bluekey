@@ -1,4 +1,4 @@
-<%@ page language="java" import="BlueKey.connDb,BlueKey.Access,BlueKey.Role,java.util.*" contentType="text/html; charset=UTF-8"
+<%@ page language="java" import="com.bluekey.connDb,com.bluekey.Access,com.bluekey.Role,java.util.*" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%  
 	StringBuilder belong_part_SB = new StringBuilder();

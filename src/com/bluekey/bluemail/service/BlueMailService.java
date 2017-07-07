@@ -1,4 +1,4 @@
-package bluemail.service;
+package com.bluekey.bluemail.service;
 
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;

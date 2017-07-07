@@ -1,4 +1,4 @@
-package bluemail.service;
+package com.bluekey.bluemail.service;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
 "recipient"
 })
-public class Bcc {
+public class Recipient {
 
 @JsonProperty("recipient")
 private String recipient;

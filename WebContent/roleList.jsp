@@ -1,4 +1,4 @@
-<%@ page language="java" import="BlueKey.connDb,BlueKey.Role,java.util.*,java.io.*" contentType="text/html; charset=UTF-8"
+<%@ page language="java" import="com.bluekey.connDb,com.bluekey.Role,java.util.*,java.io.*" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%  
 	String email = (String)session.getAttribute("email");

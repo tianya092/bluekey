@@ -1,4 +1,4 @@
-package bluemail.service;
+package com.bluekey.bluemail.service;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-<%@ page language="java" import="BlueKey.connDb,BlueKey.Role,java.util.*" contentType="text/html; charset=UTF-8"
+<%@ page language="java" import="com.bluekey.connDb,com.bluekey.Role,java.util.*" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%  
     String function_str=request.getParameter("function");

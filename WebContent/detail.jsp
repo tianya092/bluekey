@@ -1,4 +1,4 @@
-<%@ page language="java" import="BlueKey.connDb,BlueKey.Access,BlueKey.Mail,java.util.*,java.io.*" contentType="text/html; charset=UTF-8"
+<%@ page language="java" import="com.bluekey.connDb,com.bluekey.Access,com.bluekey.Mail,java.util.*,java.io.*" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%  
 	String email = (String)session.getAttribute("email");
@@ -176,8 +176,9 @@ function sendEmail(access_id){
 														<div class="form-group">
 															 <label for="inputRecevieAddress" class="col-sm-2 control-label">Receive Address</label>
 															<div class="col-sm-9">
-																<input type="text" class="form-control"  disabled name="Receive_email" style="width:410px;" value="<%=email %>"/>
+																<input type="text" class="form-control"  disabled name="Receive_email" style="width:410px;" value="<%=email %>"/><span class="label label-warning">Alert</span>
 															</div>
+															
 														</div>
 														
 														<div class="form-group">

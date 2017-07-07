@@ -1,4 +1,4 @@
-package bluemail.service;
+package com.bluekey.bluemail.service;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,79 +13,33 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
-"rel",
-"href",
-"method"
+"attachment"
 })
-public class Link {
+public class Attachment {
 
-@JsonProperty("rel")
-private String rel;
-@JsonProperty("href")
-private String href;
-@JsonProperty("method")
-private String method;
+@JsonProperty("attachment")
+private Attachment_ attachment;
 @JsonIgnore
 private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
 /**
 *
 * @return
-* The rel
+* The attachment
 */
-@JsonProperty("rel")
-public String getRel() {
-return rel;
+@JsonProperty("attachment")
+public Attachment_ getAttachment() {
+return attachment;
 }
 
 /**
 *
-* @param rel
-* The rel
+* @param attachment
+* The attachment
 */
-@JsonProperty("rel")
-public void setRel(String rel) {
-this.rel = rel;
-}
-
-/**
-*
-* @return
-* The href
-*/
-@JsonProperty("href")
-public String getHref() {
-return href;
-}
-
-/**
-*
-* @param href
-* The href
-*/
-@JsonProperty("href")
-public void setHref(String href) {
-this.href = href;
-}
-
-/**
-*
-* @return
-* The method
-*/
-@JsonProperty("method")
-public String getMethod() {
-return method;
-}
-
-/**
-*
-* @param method
-* The method
-*/
-@JsonProperty("method")
-public void setMethod(String method) {
-this.method = method;
+@JsonProperty("attachment")
+public void setAttachment(Attachment_ attachment) {
+this.attachment = attachment;
 }
 
 @JsonAnyGetter

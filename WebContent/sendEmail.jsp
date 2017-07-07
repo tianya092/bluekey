@@ -1,7 +1,7 @@
 <%@page import="org.json.JSONArray"%>
 <%@ page language="java"
-	import="BlueKey.Mail,BlueKey.connDb,BlueKey.Mail,java.util.*" 
-	import="bluemail.service.BlueMailService"
+	import="com.bluekey.Mail,com.bluekey.connDb,com.bluekey.Mail,java.util.*" 
+	import="com.bluekey.bluemail.service.BlueMailService"
 	import ="org.json.JSONObject"
 	contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"

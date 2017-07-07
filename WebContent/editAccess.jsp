@@ -1,4 +1,4 @@
-<%@ page language="java" import="BlueKey.connDb,BlueKey.Access,java.util.*" contentType="text/html; charset=UTF-8"
+<%@ page language="java" import="com.bluekey.connDb,com.bluekey.Access,java.util.*" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%  
 	String access_id = request.getParameter("access_id");

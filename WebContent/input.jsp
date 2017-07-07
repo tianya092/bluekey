@@ -1,4 +1,4 @@
-<%@ page language="java" import="BlueKey.connDb,java.util.*" contentType="text/html; charset=UTF-8"
+<%@ page language="java" import="com.bluekey.connDb,java.util.*" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%  
 
@@ -102,7 +102,8 @@
 <body style=" padding-top: 0px;">
 	
 	<div id="bg">
-	
+		<div id="container_test">
+		</div>
 		<div id="container">
 		    <div class="nav">
 		  		<div class="ui grid">
