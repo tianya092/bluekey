@@ -93,7 +93,7 @@ $(document).ready(function(){
 	<div class="container">
 		<h>System setting</h>
 		<ul class="">
-		    <li ><a href="userList.jsp">manage user</a></li>
+		    <li ><a href="userList.jsp">manage121 user</a></li>
 		    <li ><a href="roleList.jsp">manage role</a></li>
 		    <li ><a href="accessList.jsp">manage access</a></li>
 		</ul>
