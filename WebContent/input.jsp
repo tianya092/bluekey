@@ -1,20 +1,26 @@
-<%@ page language="java" import="com.bluekey.connDb,java.util.*" contentType="text/html; charset=UTF-8"
+<%@ page language="java" import="com.bluekey.connDb,com.bluekey.User,java.util.*" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%  
 
 	String email = (String)session.getAttribute("email");
 	String  activedStatus =null;
-	String  user_id =null;
+	int  user_id =0;
+	String[] remember_arr = null;
+	
 	if(session.getAttribute("email")==null){
 		response.sendRedirect("login.jsp");
 	}else{
-		Map<String,String> user = connDb.checkUserActived(email);
-		activedStatus = user.get("actived");
-		user_id = user.get("user_id");
+		User user = connDb.getUser(email);
+		String remember= user.getRemember();
 		
-		/* if(activedStatus.equals("1")){
-			response.sendRedirect("result.jsp?user_id="+user_id);  
-		} */
+		if(remember!=null&&!remember.equals("")){ 
+			remember_arr = remember.split(",");
+		}else{
+			remember_arr =new String[] {"0","0","0","0"}; 
+		}
+		
+		user_id = user.getUserId();
+		
     }
 %> 
 <!DOCTYPE html>
@@ -117,40 +123,39 @@
 			</div>
 			
 			<div class="ui grid" >
-			 	<form class="form-horizontal" role="form" name="form" action = "dosubmit.jsp"  method="post" >
+			 	<form class="form-horizontal" role="form" name="form" action = "doSubmit1.jsp"  method="post" >
 			 		<div id="select_role">
 					    <div class="form-group">
-					    	<label for="functionid"  class="col-sm-3 control-label">Function</label>
+					    	<label for="functionid"  class="col-sm-3 control-label"><span style="color:red">*</span>Function</label>
 					    	 <div class="col-sm-8">
-						    	<select class="function form-control"  name="function" ></select>
+						    	<select class="function form-control" data-value="<%=remember_arr[0] %>" data-required="true" name="function" ></select>
 					    	</div>
 				    	</div>
 				    	<div class="form-group">
-					    	<label for="functionid"  class="col-sm-3 control-label">team</label>
+					    	<label for="functionid"  class="col-sm-3 control-label"><span style="color:red">*</span>team</label>
 					    	 <div class="col-sm-8">
-						    	<select class="team form-control"  name="team" ></select>
+						    	<select class="team form-control" data-value="<%=remember_arr[1] %>"  data-required="true" name="team" ></select>
 					    	</div>
 				    	</div>
 				    	
 				    	<div class="form-group">
-					    	<label for="functionid"  class="col-sm-3 control-label">job_role</label>
+					    	<label for="functionid"  class="col-sm-3 control-label"><span style="color:red">*</span>job_role</label>
 					    	 <div class="col-sm-8">
-						    	<select class="job_role form-control"  name="job_role" ></select>
+						    	<select class="job_role form-control" data-value="<%=remember_arr[2] %>" data-required="true" name="job_role" ></select>
 					    	</div>
 				    	</div>
 				    	<div class="form-group">
 					    	<label for="functionid"  class="col-sm-3 control-label">commodity</label>
 					    	 <div class="col-sm-8">
-						    	<select class="commodity form-control"  name="commodity" ></select>
+						    	<select class="commodity form-control" data-value="<%=remember_arr[3] %>"  name="commodity" ></select>
 					    	</div>
 				    	</div>
 					</div>
-				    
 				    <div class="form-group">
 					    <div class="col-sm-offset-4 col-sm-6">
 					      <div class="checkbox">
 					        <label>
-					          <input type="checkbox" name="remember_type"> please remember me
+					          <input type="checkbox" name="remember_type">remember me
 					        </label>
 					      </div>
 					    </div>
@@ -203,10 +208,10 @@
 		          {'v': '13', 'n': 'BPE'},
 		          {'v': '14', 'n': 'ESW NPM'},
 		          {'v': '15', 'n': 'ESW BNPM'},
-		          {'v': '16', 'n': 'Code Mangerment Team'},
-		          {'v': '17', 'n': 'SAP team'},
-		          {'v': '18', 'n': 'Pring team'},
-		          {'v': '19', 'n': 'CP team'}
+		          {'v': '16', 'n': 'Code Mangerment'},
+		          {'v': '17', 'n': 'SAP'},
+		          {'v': '18', 'n': 'Pring'},
+		          {'v': '19', 'n': 'CP'}
 	        ]},
 	        {'v': '6', 'n': 'kenny Kong', 's': [
 		          {'v': '11', 'n': 'DSW NPM'},
@@ -214,10 +219,10 @@
 		          {'v': '13', 'n': 'BPE'},
 		          {'v': '14', 'n': 'ESW NPM'},
 		          {'v': '15', 'n': 'ESW BNPM'},
-		          {'v': '16', 'n': 'Code Mangerment Team'},
-		          {'v': '17', 'n': 'SAP team'},
-		          {'v': '18', 'n': 'Pring team'},
-		          {'v': '19', 'n': 'CP team'}
+		          {'v': '16', 'n': 'Code Mangerment'},
+		          {'v': '17', 'n': 'SAP'},
+		          {'v': '18', 'n': 'Pring'},
+		          {'v': '19', 'n': 'CP'}
 	        ]},
 	        {'v': '7', 'n': 'Anne lei', 's': [
 		          {'v': '11', 'n': 'DSW NPM'},
@@ -225,10 +230,10 @@
 		          {'v': '13', 'n': 'BPE'},
 		          {'v': '14', 'n': 'ESW NPM'},
 		          {'v': '15', 'n': 'ESW BNPM'},
-		          {'v': '16', 'n': 'Code Mangerment Team'},
-		          {'v': '17', 'n': 'SAP team'},
-		          {'v': '18', 'n': 'Pring team'},
-		          {'v': '19', 'n': 'CP team'}
+		          {'v': '16', 'n': 'Code Mangerment'},
+		          {'v': '17', 'n': 'SAP'},
+		          {'v': '18', 'n': 'Pring'},
+		          {'v': '19', 'n': 'CP'}
 	        ]}
 	   ]},
 	   {'v': '3', 'n': 'Finance', 's': [
@@ -248,6 +253,24 @@
 	   {'v': '5', 'n': 'COSSM', 's': [
 	        {'v': '10', 'n': 'Jessica Wei', 's': [
 		          {'v': '26', 'n': 'Hardware Order to Delivery management'}		         
+	        ]}
+	   ]},
+	   {'v': '6', 'n': 'Eng', 's': [
+	        {'v': '11', 'n': 'Logan Huang', 's': [
+		          {'v': '27', 'n': 'QE'},
+		          {'v': '28', 'n': 'TE'},
+		          {'v': '29', 'n': 'OPE'}
+	        ]},
+	        {'v': '12', 'n': 'Ziv Zhao', 's': [
+		          {'v': '30', 'n': 'PQE'},
+		          {'v': '31', 'n': 'TQE'},
+		          {'v': '32', 'n': 'Test'}
+	        ]},
+	        {'v': '13', 'n': 'Jason Guo', 's': [
+		          {'v': '33', 'n': 'ENG'}
+	        ]},
+	        {'v': '14', 'n': 'Mary Ma', 's': [
+		          {'v': '30', 'n': 'PQE'}
 	        ]}
 	   ]}
   ];

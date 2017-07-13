@@ -321,20 +321,21 @@ public class connDb {
 		return flag;
 	}
 	
-	//check user's is actived or not
-	public static  Map checkUserActived(String email) throws SQLException{
-		Map<String,String> userMap = new HashMap<>();
+	//query user information
+	public static User getUser(String email) throws SQLException{
+		User user = new User();
 	    startConn();
 	    stmt = con.createStatement();
-	    rs = stmt.executeQuery("select user_id,actived,role_id from user where email ='"+email+"' and deleted = 0");
-	    while(rs.next()){
-	    	userMap.put("user_id",rs.getString("user_id"));
-	    	userMap.put("actived",rs.getString("actived"));
-	    	userMap.put("role_id",rs.getString("role_id"));
+	    rs = stmt.executeQuery("select * from user where Email ='"+email+"' and deleted = 0");
+	    if(rs.next()){
+	    	user.setUserId(rs.getInt("user_id"));
+	    	user.setBelongDep(rs.getInt("actived"));
+	    	user.setEmail(rs.getString("role_id"));
+	    	user.setRemember(rs.getString("remember"));
 	    }
 	    
 	    endConn();
-		return userMap;
+		return user;
 	}
 	
 	//check user_id is right or not
@@ -493,7 +494,7 @@ public class connDb {
 		
 	
 	
-	//query accesss list
+	//get accesss list
 	public static  ArrayList<Role> getRoleList() throws SQLException{
 		ArrayList<Role> Rolelist = new ArrayList<Role>();
 		startConn();
@@ -530,6 +531,85 @@ public class connDb {
 	    
 	    endConn();
 		return MailMap;
+	}
+	
+	
+	/**
+	*  更新邮件模板
+	* @return boolean
+	* @param  mail, username
+	*/
+	public static boolean updateMailTemplate(Mail mail,String username) throws SQLException{
+		boolean flag = false;
+		int access_id = mail.getAccessId();
+		String sql ;
+		
+		PreparedStatement ps;
+		try{
+			Date dNow = new Date( );
+		    SimpleDateFormat ft =  new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss");
+		    startConn();
+		    stmt = con.createStatement();
+		    rs = stmt.executeQuery("select * from access where access_id ="+access_id+" and deleted = 0");
+		    if(rs.next()){
+		    	//update mail template
+		    	sql = "update mail_template set subject_title =?,content=?,update_time=?,update_operator=? where access_id = "+access_id;
+		    	ps = con.prepareStatement(sql);
+		    	ps.setString(1, mail.getSubjectTitle());
+		    	ps.setString(2, mail.getContent());
+		    	ps.setString(3, ft.format(dNow));
+		    	ps.setString(4, username);
+		    	ps.executeUpdate();
+		    	ps.close();
+		    	flag = true;
+		    }else{
+		    	
+		    	sql = "insert into mail_template(subject_title,content,create_time,create_operator)values(?,?,?,?)";
+		    	ps = con.prepareStatement(sql);
+		    	ps.setString(1, mail.getSubjectTitle());
+		    	ps.setString(2, mail.getContent());
+		    	ps.setString(3, ft.format(dNow));
+		    	ps.setString(4, username);
+		    	ps.setInt(5, access_id);
+		    	
+		    	ps.executeUpdate();
+		    	ps.close();
+		    	flag = true;
+			    
+		    }
+	    }catch(SQLException e) {   
+            e.printStackTrace();   
+	    }finally {
+		    endConn();
+		}
+		return flag;
+	}
+/***************************************remember*********************************************/	
+	/**
+	*  记住提交的job role
+	* @return boolean
+	* @param  mail, username
+	*/
+	public static  boolean remember(User user) throws SQLException{
+		boolean flag = false;
+		PreparedStatement ps;
+		Date dNow = new Date( );
+	    SimpleDateFormat ft =  new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss");
+		try{
+			startConn();
+		    String sql = "update user set remember =?,update_time=? where user_id = "+user.getUserId();
+	    	ps = con.prepareStatement(sql);
+	    	ps.setString(1, user.getRemember());
+	    	ps.setString(2, ft.format(dNow));
+	    	ps.executeUpdate();
+	    	ps.close();
+		    flag = true;
+    	}catch(SQLException e) {   
+            e.printStackTrace();   
+	    }finally {
+		    endConn();
+		}
+		return flag;
 	}
 	
 /***************************************other*********************************************/

@@ -206,7 +206,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					 <label for="inputParent_part" class="col-sm-2 control-label"><span style="color:red">*</span>Comodity:</label>
+					 <label for="inputParent_part" class="col-sm-2 control-label">Comodity:</label>
 					<div class="col-sm-4">
 						<%if(role_id==null){ %>
 							<select class="commodity form-control"  name="commodity" ></select>
@@ -303,21 +303,21 @@
 		          {'v': '13', 'n': 'BPE'},
 		          {'v': '14', 'n': 'ESW NPM'},
 		          {'v': '15', 'n': 'ESW BNPM'},
-		          {'v': '16', 'n': 'Code Mangerment Team'},
-		          {'v': '17', 'n': 'SAP team'},
-		          {'v': '18', 'n': 'Pring team'},
-		          {'v': '19', 'n': 'CP team'}
+		          {'v': '16', 'n': 'Code Mangerment'},
+		          {'v': '17', 'n': 'SAP'},
+		          {'v': '18', 'n': 'Pring'},
+		          {'v': '19', 'n': 'CP'}
 	        ]},
-	        {'v': '6', 'n': 'kenny', 's': [
+	        {'v': '6', 'n': 'kenny Kong', 's': [
 		          {'v': '11', 'n': 'DSW NPM'},
 		          {'v': '12', 'n': 'DSW BNPM'},
 		          {'v': '13', 'n': 'BPE'},
 		          {'v': '14', 'n': 'ESW NPM'},
 		          {'v': '15', 'n': 'ESW BNPM'},
-		          {'v': '16', 'n': 'Code Mangerment Team'},
-		          {'v': '17', 'n': 'SAP team'},
-		          {'v': '18', 'n': 'Pring team'},
-		          {'v': '19', 'n': 'CP team'}
+		          {'v': '16', 'n': 'Code Mangerment'},
+		          {'v': '17', 'n': 'SAP'},
+		          {'v': '18', 'n': 'Pring'},
+		          {'v': '19', 'n': 'CP'}
 	        ]},
 	        {'v': '7', 'n': 'Anne lei', 's': [
 		          {'v': '11', 'n': 'DSW NPM'},
@@ -325,10 +325,10 @@
 		          {'v': '13', 'n': 'BPE'},
 		          {'v': '14', 'n': 'ESW NPM'},
 		          {'v': '15', 'n': 'ESW BNPM'},
-		          {'v': '16', 'n': 'Code Mangerment Team'},
-		          {'v': '17', 'n': 'SAP team'},
-		          {'v': '18', 'n': 'Pring team'},
-		          {'v': '19', 'n': 'CP team'}
+		          {'v': '16', 'n': 'Code Mangerment'},
+		          {'v': '17', 'n': 'SAP'},
+		          {'v': '18', 'n': 'Pring'},
+		          {'v': '19', 'n': 'CP'}
 	        ]}
 	   ]},
 	   {'v': '3', 'n': 'Finance', 's': [
@@ -348,6 +348,24 @@
 	   {'v': '5', 'n': 'COSSM', 's': [
 	        {'v': '10', 'n': 'Jessica Wei', 's': [
 		          {'v': '26', 'n': 'Hardware Order to Delivery management'}		         
+	        ]}
+	   ]},
+	   {'v': '6', 'n': 'Eng', 's': [
+	        {'v': '11', 'n': 'Logan Huang', 's': [
+		          {'v': '27', 'n': 'QE'},
+		          {'v': '28', 'n': 'TE'},
+		          {'v': '29', 'n': 'OPE'}
+	        ]},
+	        {'v': '12', 'n': 'Ziv Zhao', 's': [
+		          {'v': '30', 'n': 'PQE'},
+		          {'v': '31', 'n': 'TQE'},
+		          {'v': '32', 'n': 'Test'}
+	        ]},
+	        {'v': '13', 'n': 'Jason Guo', 's': [
+		          {'v': '33', 'n': 'ENG'}
+	        ]},
+	        {'v': '14', 'n': 'Mary Ma', 's': [
+		          {'v': '30', 'n': 'PQE'}
 	        ]}
 	   ]}
   ];

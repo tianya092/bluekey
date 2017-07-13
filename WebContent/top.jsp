@@ -1,9 +1,10 @@
-<%@ page language="java" import="com.bluekey.connDb,java.util.*" contentType="text/html; charset=UTF-8"
+<%@ page language="java" import="com.bluekey.connDb,com.bluekey.User,java.util.*" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%  
 	String servletPath=request.getServletPath();
 	String	email =	(String)session.getAttribute("email");
-	String	user_id =	(String)session.getAttribute("user_id");
+	User user = connDb.getUser(email);
+	int  user_id = user.getUserId();
 	
 %>
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">

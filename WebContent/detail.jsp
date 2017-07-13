@@ -2,25 +2,18 @@
     pageEncoding="UTF-8"%>
 <%  
 	String email = (String)session.getAttribute("email");
-	Map<String,String> detail; 
-	
+	String access_id = request.getParameter("access_id");
 	Access access = new Access();
-	if(email==null){
-		//request.getRequestDispatcher("login.jsp").forward(request,response);
-		response.sendRedirect("login.jsp");
+	if(access_id==null||access_id.equals("")){
+		response.sendRedirect("error.jsp");
 	}else{
-		String access_id = request.getParameter("access_id");
-		String	user_id = (String)session.getAttribute("user_id");
-		
-		access = connDb.accessDetail(access_id); //get access detail
-		/* boolean right = connDb.checkUserAccess(user_id, access_id); //check access_id is in user'access or not
-		if(right==false){
-			out.println("<script>alert(\"You have't access to visit the page! Please contact Administrator\");window.location.href=\"result.jsp?user_id="+user_id+"\";</script>");
+		if(email==null||email.equals("")){
+			response.sendRedirect("login.jsp");
 		}else{
-			access = connDb.accessDetail(access_id); //get access detail
-			
-		} */
+			access  = connDb.accessDetail(access_id); //get access detail
+		}
 	}
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -150,6 +143,7 @@ function sendEmail(access_id){
 	            <p>
 	            	<a href=<%=access.getUrl() %> target="view_window"><%=access.getUrl()%></a>
 	            </p>
+	            <%if(access.getApplyEmail()!= null &&!"".equals(access.getApplyEmail())){%>
 	            <hr>
 	            <p>If you want to send an email to apply for the access, please click the button!</p>
 	            <!-- <button onclick="sendEmail(1)">send Email</button> -->
@@ -203,7 +197,7 @@ function sendEmail(access_id){
 												</div>
 											</div>
 											<div class="modal-footer">
-												<input type="hidden" name="access_id" value="1">
+												<input type="hidden" name="access_id" value="<%=access_id %>>">
 												 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button> <button type="submit" class="btn btn-primary">Send</button>
 											</div>
 										</form>
@@ -213,6 +207,7 @@ function sendEmail(access_id){
 						</div>
 					</div>
 				</div>
+				<%} %>
 	        </div>
 	    </div>
 	    

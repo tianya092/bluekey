@@ -13,6 +13,9 @@ public class Access {
 	private int 	parentPart;
 	private String  creatTime;
 	private String 	updateTime;
+	private String  Email_subject_title;
+	private String 	Email_content;
+	
 	
 	public int getAccessId() {
 		return accessId;
@@ -86,7 +89,18 @@ public class Access {
 	public void setUpdateTime(String updateTime) {
 		this.updateTime = updateTime;
 	}
-	
+	public String getEmail_subject_title() {
+		return Email_subject_title;
+	}
+	public void setEmail_subject_title(String email_subject_title) {
+		Email_subject_title = email_subject_title;
+	}
+	public String getEmail_content() {
+		return Email_content;
+	}
+	public void setEmail_content(String email_content) {
+		Email_content = email_content;
+	}
 	
 	
 }

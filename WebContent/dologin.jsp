@@ -1,4 +1,4 @@
-<%@ page language="java" import="com.bluekey.connDb,com.bluekey.LDAP,java.util.*" contentType="text/html; charset=UTF-8"
+<%@ page language="java" import="com.bluekey.connDb,com.bluekey.User,com.bluekey.LDAP,java.util.*" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%  
     String email=request.getParameter("email");  
@@ -11,19 +11,14 @@
             request.getSession().setAttribute("email",email);     //save email
             boolean status = connDb.updataUser(email);
             
-			Map<String,String> user = connDb.checkUserActived(email);
-			activedStatus = user.get("actived");
-			String  user_id = user.get("user_id");
+			User user = connDb.getUser(email);
+			int  user_id = user.getUserId();
 			
-			request.getSession().setAttribute("user_id",user_id);        //save user_id
+			//request.getSession().setAttribute("user_id",user_id);        //save user_id
 			session.setMaxInactiveInterval(12*3600);  //sessiion timeout 12h
 			
 			response.sendRedirect("input.jsp?user_id="+user_id);  
-			/* if(activedStatus.equals("1")){
-				response.sendRedirect("result.jsp?user_id="+user_id);  
-			}else{
-				response.sendRedirect("input.jsp?user_id="+user_id);  
-			} */
+			
     	}else{
     		out.println("<script>alert(\"Email or password is wrong! Please try again\");window.location.href=\"login.jsp\";</script>");
 			//response.sendRedirect("login.jsp");

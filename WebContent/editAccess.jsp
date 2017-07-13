@@ -241,7 +241,7 @@
 							
 							<div class="row clearfix">
 								<div class="col-md-13 column">
-									<form class="form-horizontal" method="post" role="form" action="doEditAccess.jsp">
+									<form class="form-horizontal" method="post" role="form" action="doEditEmail.jsp">
 										
 										<div class="form-group">
 											 <label for="inputTitle" class="col-sm-2 control-label"><span style="color:red">*</span>Mail Title</label>

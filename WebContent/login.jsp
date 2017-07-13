@@ -112,7 +112,7 @@
 </div>
 <div class="cont" id="cont">
   <div class="form sign-in" style="padding-top: 110px;">
-    <form class="loginform" name="loginform"  action="dologin.jsp" method="post"  onsubmit="return on_submit()">
+    <form class="loginform" name="loginform"  action="doLogin1.jsp" method="post"  onsubmit="return on_submit()">
 	    <h2>Welcome IBMer</h2>
 	    <label>
 	      <span>email</span>

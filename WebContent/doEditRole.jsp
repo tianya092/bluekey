@@ -57,7 +57,7 @@
 	}
 	
 	if(checkFlag!=0){
-		out.print("<script>alert(\"Role had been created! Please come back to edite it \");window.location.href=\"roleList.jsp\";</script>");
+		out.print("<script>alert(\"The role had been created! Please come back to edite it \");window.location.href=\"roleList.jsp\";</script>");
 	}else{
 		boolean flag = connDb.updateRole(role);
 		
