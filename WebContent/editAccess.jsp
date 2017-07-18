@@ -147,7 +147,7 @@
 	</div>
 	
 	<div class="container">
-		<legend>Edit access</legend>
+		Edit access<hr>
 		<div class="row clearfix">
 			<div class="col-md-12 column">
 				<div class="tabbable" id="tabs-368872">
@@ -178,20 +178,20 @@
 										<div class="form-group">
 											 <label for="inputTitle" class="col-sm-2 control-label"><span style="color:red">*</span>Access Title</label>
 											<div class="col-sm-8">
-												<input type="text" class="form-control input-sm" name="title" check-type="required" required-message="密码不能为空！"   value="<%=title%>"/>
+												<input type="text" class="form-control input" name="title" check-type="required" required-message="密码不能为空！"   value="<%=title%>"/>
 											</div>
 										</div>
 										<div class="form-group">
 											 <label for="inputShortTitle" class="col-sm-2 control-label"><span style="color:red">*</span>Short Title</label>
 											<div class="col-sm-8">
-												<input type="text" class="form-control input-sm" name="short_title" value="<%=short_title%>"/>
+												<input type="text" class="form-control input" name="short_title" value="<%=short_title%>"/>
 											</div>
 										</div>
 										
 										<div class="form-group">
 											 <label for="inputFunction" class="col-sm-2 control-label"><span style="color:red">*</span>Function</label>
 											<div class="col-sm-8">
-												<input type="text" class="form-control input-sm" name="function" value="<%=function%>"/>
+												<input type="text" class="form-control input" name="function" value="<%=function%>"/>
 											</div>
 										</div>
 										<div class="form-group">
@@ -204,19 +204,19 @@
 										<div class="form-group">
 											 <label for="inputURL" class="col-sm-2 control-label">URL</label>
 											<div class="col-sm-8">
-												<input type="url" class="form-control input-sm" name="url" value="<%=url%>"/>
+												<input type="url" class="form-control input" name="url" value="<%=url%>"/>
 											</div>
 										</div>
 										<div class="form-group">
 											 <label for="inputURL" class="col-sm-2 control-label">Apply email</label>
 											<div class="col-sm-8">
-												<input type="email" class="form-control input-sm" name="apply_email" value="<%=apply_email%>"/>
+												<input type="email" class="form-control input" name="apply_email" value="<%=apply_email%>"/>
 											</div>
 										</div>
 										<div class="form-group">
 											 <label for="inputURL" class="col-sm-2 control-label">Lead time</label>
 											<div class="col-sm-2">
-												<input type="number" class="form-control input-sm" name="lead_time"  value="<%=lead_time%>"/>
+												<input type="number" class="form-control input" name="lead_time"  value="<%=lead_time%>"/>
 											</div>
 											<div class="col-sm-1"><p class="form-control-static">days</p></div>
 										</div>
@@ -224,7 +224,7 @@
 										<div class="form-group">
 											 <label for="inputApply_step" class="col-sm-2 control-label"><span style="color:red">*</span>Apply step</label>
 											<div class="col-sm-8">
-												<textarea class="form-control  input-sm" name="apply_step" rows="8"><%=apply_step%></textarea>
+												<textarea class="form-control  input" name="apply_step" rows="8"><%=apply_step%></textarea>
 											</div>
 										</div>
 										<div class="form-group">

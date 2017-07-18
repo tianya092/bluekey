@@ -68,7 +68,7 @@
 		margin-left: 130px;
     }
     .error_container {
-    	background-image:url("css/img/wolf.png")!important;
+    	background-image:url("img/wolf.png")!important;
     	background-repeat: no-repeat;
 	    background-size: cover;
 	    min-width: 1140px;
@@ -92,9 +92,9 @@ $(document).ready(function(){
     <jsp:include page= "top.jsp" flush ="true"/>
 	<div class="container" style="min-height:600px">
 	   
-	   <div class="error_container" style="background-image:url("css/img/wolf.png");">
+	   <div class="error_container" style="background-image:url("img/wolf.png");">
 			<div>
-				<a href="input.jsp"><img src="css/img/gohome.png"/></a>
+				<a href="input.jsp"><img src="img/gohome.png"/></a>
 			</div>
    			
 	   </div>

@@ -17,7 +17,7 @@
 			//request.getSession().setAttribute("user_id",user_id);        //save user_id
 			session.setMaxInactiveInterval(12*3600);  //sessiion timeout 12h
 			
-			response.sendRedirect("input.jsp?user_id="+user_id);  
+			response.sendRedirect("query.jsp?user_id="+user_id);  
 			
     	}else{
     		out.println("<script>alert(\"Email or password is wrong! Please try again\");window.location.href=\"login.jsp\";</script>");

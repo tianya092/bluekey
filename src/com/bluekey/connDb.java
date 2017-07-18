@@ -78,12 +78,7 @@ public class connDb {
 		    while(rs.next()){
 		    	AccessMap.put(rs.getString("access_id"),rs.getString("short_title"));
 		    }
-		    /*if(role_id==null||role_id.equals("")){
-		    	sql = "select * from role where deleted = '0' and role_id = "+role_id;
-		    }else{
-		    	//sql = "select * from role where role_id = (select role_id from user where Email= '"+email+"' )";
-		    	sql = "select * from role where deleted = '0' and role_id = 1";
-		    }*/
+		   
 		    sql = "select * from role where deleted = '0' and role_id = "+role_id;
 		    rs = stmt.executeQuery(sql);
 		    while(rs.next()){
@@ -610,6 +605,39 @@ public class connDb {
 		    endConn();
 		}
 		return flag;
+	}
+
+/***************************************remember*********************************************/	
+	/**
+	*  查询功能
+	* @return ArrayList
+	* @param  mail, username
+	*/
+	public static  ArrayList<Access> search(String search) throws SQLException{
+		
+		ArrayList<Access> AccessList= new ArrayList();
+		startConn();
+	    stmt = con.createStatement();
+	   
+	    rs = stmt.executeQuery("select * from access where  deleted = 0 and (title like '%"+search+"%' or apply_step like '%"+search+"%' or function like '%"+search+"%')");
+	    
+	    while(rs.next()){
+	    	Access access = new Access();
+	    	access.setAccessId(rs.getInt("access_id"));
+	    	access.setTitle(rs.getString("title"));
+	    	access.setShortTitle(rs.getString("short_title"));
+	    	access.setFunction(rs.getString("function"));
+	    	access.setPlatform(rs.getString("platform"));
+	    	access.setApplyEmail(rs.getString("apply_email"));
+	    	access.setUrl(rs.getString("url"));
+	    	access.setApplyStep(rs.getString("apply_step"));
+	    	access.setLeadTime(rs.getInt("lead_time"));
+	    	access.setParentPart(rs.getInt("parent_part"));
+	    	
+	    	AccessList.add(access);
+	    }
+	    
+	    return AccessList;
 	}
 	
 /***************************************other*********************************************/

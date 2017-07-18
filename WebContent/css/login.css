@@ -25,16 +25,16 @@ input, button {
 .cont {
   overflow: hidden;
   position: relative;
-  width: 900px;
-  height: 550px;
+  max-width: 900px;
+  max-height: 550px;
   margin: 0 auto 100px;
   background: #fff;
 }
 
 .form {
   position: relative;
-  width: 640px;
-  height: 100%;
+  max-width: 71%;
+  max-height: 100%;
   -webkit-transition: -webkit-transform 1.2s ease-in-out;
   transition: -webkit-transform 1.2s ease-in-out;
   transition: transform 1.2s ease-in-out;
@@ -45,11 +45,13 @@ input, button {
 .sub-cont {
   overflow: hidden;
   position: absolute;
-  left: 640px;
+ /* left: 640px;*/
+ left:70%;
   top: 0;
-  width: 900px;
-  height: 100%;
-  padding-left: 260px;
+  max-width: 100%;
+ max-height: 100%;
+ /* padding-left: 260px;*/
+ padding-left: 28%;
   background: #fff;
   -webkit-transition: -webkit-transform 1.2s ease-in-out;
   transition: -webkit-transform 1.2s ease-in-out;

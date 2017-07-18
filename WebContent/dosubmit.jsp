@@ -63,7 +63,7 @@
 	}
 	
 	if(role_id!=0){
-		response.sendRedirect("result.jsp?role_id="+role_id);  
+		response.sendRedirect("access.jsp?role_id="+role_id);  
 	}else{
 		out.print("<script>alert(\"The role haven't created. Please connect Administrator for help! \");window.history.go(-1);</script>");
 	} 
