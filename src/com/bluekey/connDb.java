@@ -514,18 +514,19 @@ public class connDb {
 	
 /***************************************email template*********************************************/	
 	//query mail_template data
-	public static  Map getMailTemplate(String temp_id) throws SQLException{
-		Map<String,String> MailMap = new HashMap<>();
+	public static  Mail getMailTemplate(String access_id) throws SQLException{
+		Mail mail= new Mail();
 	    startConn();
 	    stmt = con.createStatement();
-	    rs = stmt.executeQuery("select subject_title,content from mail_template where temp_id ='"+temp_id+"' and deleted = 0");
+	    rs = stmt.executeQuery("select temp_id, subject_title,content from mail_template where access_id ='"+access_id+"' and deleted = 0");
 	    while(rs.next()){
-	    	MailMap.put("subject_title",rs.getString("subject_title"));
-	    	MailMap.put("content",rs.getString("content"));
+	    	mail.setTempId(rs.getInt("temp_id"));
+	    	mail.setSubjectTitle(rs.getString("subject_title"));
+	    	mail.setContent(rs.getString("content"));
 	    }
 	    
 	    endConn();
-		return MailMap;
+		return mail;
 	}
 	
 	
@@ -536,7 +537,7 @@ public class connDb {
 	*/
 	public static boolean updateMailTemplate(Mail mail,String username) throws SQLException{
 		boolean flag = false;
-		int access_id = mail.getAccessId();
+		int temp_id = mail.getTempId();
 		String sql ;
 		
 		PreparedStatement ps;
@@ -544,11 +545,10 @@ public class connDb {
 			Date dNow = new Date( );
 		    SimpleDateFormat ft =  new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss");
 		    startConn();
-		    stmt = con.createStatement();
-		    rs = stmt.executeQuery("select * from access where access_id ="+access_id+" and deleted = 0");
-		    if(rs.next()){
+		    
+		    if(temp_id!=0){
 		    	//update mail template
-		    	sql = "update mail_template set subject_title =?,content=?,update_time=?,update_operator=? where access_id = "+access_id;
+		    	sql = "update mail_template set subject_title =?,content=?,update_time=?,update_operator=? where temp_id = "+temp_id;
 		    	ps = con.prepareStatement(sql);
 		    	ps.setString(1, mail.getSubjectTitle());
 		    	ps.setString(2, mail.getContent());
@@ -559,13 +559,13 @@ public class connDb {
 		    	flag = true;
 		    }else{
 		    	
-		    	sql = "insert into mail_template(subject_title,content,create_time,create_operator)values(?,?,?,?)";
+		    	sql = "insert into mail_template(subject_title,content,create_time,create_operator,access_id)values(?,?,?,?,?)";
 		    	ps = con.prepareStatement(sql);
 		    	ps.setString(1, mail.getSubjectTitle());
 		    	ps.setString(2, mail.getContent());
 		    	ps.setString(3, ft.format(dNow));
 		    	ps.setString(4, username);
-		    	ps.setInt(5, access_id);
+		    	ps.setInt(5, mail.getAccessId());
 		    	
 		    	ps.executeUpdate();
 		    	ps.close();

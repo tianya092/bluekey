@@ -59,6 +59,7 @@
 </head>
 
 <body style="margin-bottom: 100px;">
+	<div class="container">
 	<jsp:include page= "top.jsp" flush ="true"/>
 
 	<div class="top-content" style="margin-top: 100px;">
@@ -70,7 +71,7 @@
 					</div>
 					
 					<div class="form-bottom" id="select_role" style="background-color: #E7ECF5;">
-						<form role="form" action="doSubmit.jsp" method="post" class="login-form">
+						<form role="form" action="doSubmit1.jsp" method="post" class="login-form">
 							
 							<div class="row" style="margin-bottom: 15px;">
 								<div class="form-group" style="margin-bottom: 15px;">
@@ -129,6 +130,7 @@
 				</div>
 			</div>
 		</div>
+	</div>
 	</div>
 	<jsp:include page= "bottom.jsp" flush ="true"/>
 

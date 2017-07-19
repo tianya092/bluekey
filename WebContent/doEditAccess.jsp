@@ -15,7 +15,7 @@
     access.setPlatform(request.getParameter("platform"));  
     access.setUrl(request.getParameter("url").trim());  
     access.setApplyEmail(request.getParameter("apply_email"));  
-    access.setLeadTime(Integer.parseInt(request.getParameter("lead_time")));  
+    access.setLeadTime((request.getParameter("lead_time")==null||request.getParameter("lead_time").equals(""))?0:Integer.parseInt(request.getParameter("lead_time")));  
     access.setApplyStep(request.getParameter("apply_step").trim());  
    
     boolean flag = connDb.updateAccessDetail(access);

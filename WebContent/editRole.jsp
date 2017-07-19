@@ -221,7 +221,7 @@
 				<div class="form-group">
 					 <label for="inputPlatform" class="col-sm-2 control-label"><span style="color:red">*</span>Access:</label>
 					<div class="col-sm-8">
-						<hr>generalAccess</br>
+						<hr>General access</br>
 						<%
 							if(generalList!=null){
 				             	for(String[] generalAccess :generalList){
@@ -234,7 +234,7 @@
 			             		}	
 		             		} 
 						%>
-						<hr>functionAccess</br>
+						<hr>Function access</br>
 						<%
 							if(functionList!=null){
 								for(String[] functionAccess :functionList){

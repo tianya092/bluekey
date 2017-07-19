@@ -26,28 +26,30 @@
 <link href="css/bootstrap-social.css" rel="stylesheet">
 
 </head>
-<body style="margin-top: 150px;margin-bottom: 100px;">
+<body >
 
 	<jsp:include page="top.jsp" flush="true" />
 	<div class="container">
-		<div >
-			<ol class="breadcrumb">
-				<li><a href="search.jsp">Home</a></li>
-				<li><a href="access.jsp?user_id=">Setting</a></li>
-				<li class="active">Access manage</li>
+		<div class="row"></div>
+		<div class="row" style="font-size: 16px;margin-top:20px">
+			<div class="col-xs-12 col-sm-12 col-sm-push-0">
+				<ol class="breadcrumb">
+					<li><a href="query.jsp">Home</a></li>
+					<li><a href="#">Setting</a></li>
+					<li class="active">Access manage</li>
 
-			</ol>
+				</ol>
+			</div>
 		</div>
-	</div>
-	<div class="container">
 		Access List
 		<hr>
-		
-		<a href="editAccess.jsp" class="btn btn-info btn"> <span
-				class="glyphicon glyphicon-plus"></span> add an access
-		</a>
+		<div class="page-header">
+			<a href="editAccess.jsp" class="btn btn-primary btn"> 
+				<span class="glyphicon glyphicon-plus"></span> add an access
+			</a>
+		</div>
 		<div class="table-responsive">
-			<table class="table table-condensed table-hover">
+			<table class="table  table-hover">
 				<thead>
 					<tr class="active">
 						<th>No</th>

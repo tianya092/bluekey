@@ -6,6 +6,6 @@
 	if(session.getAttribute("email")==null){
 		response.sendRedirect("login.jsp");
 	}else{
-		response.sendRedirect("input.jsp?user_id="+user_id);
+		response.sendRedirect("query.jsp");
     }  
 %>

@@ -160,14 +160,14 @@
 												</div>
 												<form class="form-horizontal" role="form" action="sendEmail.jsp">
 													<%
-														Map mailMap = connDb.getMailTemplate("1"); //get send mail template
+														Mail mail = connDb.getMailTemplate("1"); //get send mail template
 													%>
 													<div class="modal-body" style="width:610px;">
 														<div >
 																<div class="form-group">
 																	 <label for="inputRecevieAddress" class="col-sm-2 control-label">Receive Address</label>
 																	<div class="col-sm-9">
-																		<input type="text" class="form-control"  disabled name="Receive_email" style="width:410px;" value="<%=email %>"/><span class="label label-warning" data-toggle="tooltip" data-placement="right" title="If the email address is wrong,please feedback to us!">Alert</span>
+																		<input type="text" class="form-control"  disabled name="Receive_email" style="width:410px;" value="<%=access.getApplyEmail() %>"/><span class="label label-warning" data-toggle="tooltip" data-placement="right" title="If the email address is wrong,please feedback to us!">Alert</span>
 																	</div>
 																	
 																</div>
@@ -181,13 +181,13 @@
 																<div class="form-group">
 																	 <label for="inputEmailTitle" class="col-sm-2 control-label">Subject</label>
 																	<div class="col-sm-9">
-																		<input type="text" class="form-control" name="email_title" style="width:410px;" value="<%=mailMap.get("subject_title") %>"/>
+																		<input type="text" class="form-control" name="email_title" style="width:410px;" value="<%=mail.getSubjectTitle() %>"/>
 																	</div>
 																</div>
 																<div class="form-group">
 																	 <label for="inputEmailContent" class="col-sm-2 control-label">Content</label>
 																	<div class="col-sm-9">
-																		<textarea class="form-control" name="email_content" rows="15"> <%=mailMap.get("content")%></textarea>
+																		<textarea class="form-control" name="email_content" rows="15"> <%=mail.getContent()%></textarea>
 																		
 																	</div>
 																</div>

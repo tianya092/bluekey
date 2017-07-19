@@ -1,13 +1,13 @@
-<%@ page language="java" import="com.bluekey.connDb,com.bluekey.Access,java.util.*" contentType="text/html; charset=UTF-8"
+<%@ page language="java" import="com.bluekey.connDb,com.bluekey.Access,com.bluekey.Mail,java.util.*" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%  
 	String access_id = request.getParameter("access_id");
 
 	Access access = new Access(); 
-	Map<String,String> mailMap = null;
-	if(access_id!=null){
+	Mail mail = new Mail();
+	if(access_id!=null&&!access_id.equals("")){ 
 		access = connDb.accessDetail(access_id); //get access list
-		mailMap = connDb.getMailTemplate(access_id); //get send mail template
+		mail = connDb.getMailTemplate(access_id); //get send mail template
 	}
 	String  title = "";
 	String  short_title = "";
@@ -26,10 +26,10 @@
 <head>
 <meta charset="UTF-8">
 <title>BLUE KEY</title>
-<script src="js/jquery-3.1.0.js"></script>
+<script src="js/jquery-1.10.2.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/bootstrapValidator.js"></script>
-<script src="js/language/zh_CN.js"></script>
+
 
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/bootstrap-theme.min.css" rel="stylesheet">
@@ -37,87 +37,16 @@
 <link href="css/font-awesome.css" rel="stylesheet">
 <link href="css/bootstrap-social.css" rel="stylesheet">
 <link href="css/bootstrapValidator.css" rel="stylesheet">
-<style>
-/* Custom Styles */
-    ul.nav-tabs{
-       /* width: 140px;*/
-        margin-top: 20px;
-        border-radius: 4px;
-        border: 1px solid #ddd;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
-    }
-    ul.nav-tabs li{
-        margin: 0;
-        border-top: 1px solid #ddd;
-    }
-    ul.nav-tabs li:first-child{
-        border-top: none;
-    }
-    ul.nav-tabs li a{
-        margin: 0;
-        padding: 8px 16px;
-        border-radius: 0;
-    }
-    ul.nav-tabs li.active a, ul.nav-tabs li.active a:hover{
-        color: #fff;
-        background: #0088cc;
-        border: 1px solid #0088cc;
-    }
-    ul.nav-tabs li:first-child a{
-        border-radius: 4px 4px 0 0;
-    }
-    ul.nav-tabs li:last-child a{
-        border-radius: 0 0 4px 4px;
-    }
-    ul.nav-tabs.affix{
-        top: 200px; /* Set the top position of pinned element */
-    }
-       
-    img{
-         height: 120px;
-    
-    }
-</style>
+
 <script>
-	$(document).ready(function(){
-	    $("#myNav").affix({
-	        offset: { 
-	            top: 125 
-	      }
-	    });
-	});
-	$(function () {
-		alert("dsfdsf");
-        $('#detail_form').bootstrapValidator({
-        	
-        	message: 'This value is not valid',
-            feedbackIcons: {
-                valid: 'glyphicon glyphicon-ok',
-                invalid: 'glyphicon glyphicon-remove',
-                validating: 'glyphicon glyphicon-refresh'
-            },
-            fields: {
-            	
-                short_title: {
-                    validators: {
-                        notEmpty: {
-                            message: '邮箱不能为空'
-                        }
-                    }
-                }
-            }
-        });
-    });
-	$('#validateBtn').click(function() {
-		$('#defaultForm').bootstrapValidator('validate');
-	});
+	
 </script>
 </head>
 <body data-spy="scroll" data-target="#myScrollspy">
 
     <jsp:include page= "top.jsp" flush ="true"/>
     <%
-    	if(access_id!=null){
+    	if(access_id!=null&&!access_id.equals("")){ 
     		title = access.getTitle();
     	    short_title = access.getShortTitle();
     		function = access.getFunction();
@@ -128,25 +57,26 @@
     		apply_step = access.getApplyStep().trim();
     		parent_part = access.getParentPart();
     		
-    		email_title = mailMap.get("subject_title");
-    		content =mailMap.get("content");
+    		if(mail.getTempId()!=0){ 
+	    		email_title = mail.getSubjectTitle();
+	    		content =mail.getContent();
+    		}
     	}
     	
     %>
 	<div class="container" >
 	   
-	    <div class="row">
-	            <div class="col-xs-12 col-sm-12">
-	               <ol class="breadcrumb">
-	                    <li><a href="input.jsp">Home</a></li>
-	                    <li class="active"><a href="#">Contact</a></li>
-	                 
-	                </ol>
-	            </div>
-	   </div>
-	</div>
-	
-	<div class="container">
+	  <div class="row"></div>
+		<div class="row" style="font-size: 16px;margin-top:20px">
+			<div class="col-xs-12 col-sm-12 col-sm-push-0">
+				<ol class="breadcrumb">
+					<li><a href="query.jsp">Home</a></li>
+					<li><a href="#">Setting</a></li>
+					<li class="active">Access manage</li>
+
+				</ol>
+			</div>
+		</div>
 		Edit access<hr>
 		<div class="row clearfix">
 			<div class="col-md-12 column">
@@ -156,7 +86,7 @@
 							 <a href="#panel-detail" data-toggle="tab"> Detail information</a>
 						</li>
 						<li>
-							 <a href="#panel-mail-template" data-toggle="tab">Mail template</a>
+							 <a href="#panel-mail-template" data-toggle="tab" >Mail template</a>
 						</li>
 					</ul>
 					<div class="tab-content">
@@ -168,7 +98,6 @@
 											 <label for="inputParent_part" class="col-sm-2 control-label"><span style="color:red">*</span>Parent part</label>
 											<div class="col-sm-4">
 												<select class="form-control " name="parent_part">
-													<option value="0" >>please check an access</option>
 													<option value="1" <%if(parent_part==1) {out.print("selected");}%>>general access</option>
 													<option value="2" <% if(parent_part==2) {out.print("selected");}%>>function access</option>
 												</select>
@@ -204,7 +133,7 @@
 										<div class="form-group">
 											 <label for="inputURL" class="col-sm-2 control-label">URL</label>
 											<div class="col-sm-8">
-												<input type="url" class="form-control input" name="url" value="<%=url%>"/>
+												<input type="url" class="form-control input" name="url" value="<%=url%>" placeholder="http://"/>
 											</div>
 										</div>
 										<div class="form-group">
@@ -241,24 +170,27 @@
 							
 							<div class="row clearfix">
 								<div class="col-md-13 column">
-									<form class="form-horizontal" method="post" role="form" action="doEditEmail.jsp">
+									<form  id="email_template" class="form-horizontal" method="post" role="form" action="doEditEmail.jsp">
 										
 										<div class="form-group">
 											 <label for="inputTitle" class="col-sm-2 control-label"><span style="color:red">*</span>Mail Title</label>
 											<div class="col-sm-8">
-												<input type="text" class="form-control" name="title"   value="<%=email_title%>"/>
+												<input type="text" class="form-control" name="email_title"   value="<%=email_title%>"/>
 											</div>
 										</div>
 										
 										<div class="form-group">
 											 <label for="inputContent" class="col-sm-2 control-label"><span style="color:red">*</span>Content</label>
 											<div class="col-sm-8">
-												<textarea class="form-control" name="apply_step" rows="18"><%=content%></textarea>
+												<textarea class="form-control" name="content" rows="18"><%=content%></textarea>
 											</div>
 										</div>
 										<div class="form-group">
 											<div class="col-sm-offset-2 col-sm-10">
 												 <input type="hidden"name="access_id" value="<%if(access_id!=null){out.print(access_id);}%>">
+												 <input type="hidden"name="temp_id" value="<%if(access_id!=null&&!access_id.equals("")){ 
+													 	out.print(mail.getTempId());
+													 }%>">
 												 <button type="submit" class="btn btn-primary">submit</button>
 											</div>
 										</div>
@@ -272,5 +204,143 @@
 		</div>
 	</div>
 	<jsp:include page= "bottom.jsp" flush ="true"/>
+	<script type="text/javascript">
+		$(document).ready(function() {
+		    $('#detail_form').bootstrapValidator({
+		            message: 'This value is not valid',
+		            feedbackIcons: {/*输入框不同状态，显示图片的样式*/
+		                valid: 'glyphicon glyphicon-ok',
+		                invalid: 'glyphicon glyphicon-remove',
+		                validating: 'glyphicon glyphicon-refresh'
+		            },
+		            fields: {/*验证*/
+		            	parent_part: {
+		            		
+		                    validators: {
+		                        notEmpty: {
+		                            message: 'The parent_part is required'
+		                        }
+		                    }
+		                },
+		            	title: {
+		                    validators: {
+		                        notEmpty: {
+		                            message: 'The Access Title is required and cannot be empty'
+		                        },
+		                        stringLength: {
+		                            min: 1,
+		                            max: 100,
+		                            message: 'The Access title must be more than 1 and less than 100 characters long'
+		                        },
+		                    }
+		                },
+		                short_title: {
+		                    validators: {
+		                        notEmpty: {
+		                            message: 'The Short Title is required and cannot be empty'
+		                        },
+		                        stringLength: {
+		                            min: 1,
+		                            max: 100,
+		                            message: 'The Short title must be more than 1 and less than 100 characters long'
+		                        },
+		                    }
+		                },
+		                'function': {
+		                    validators: {
+		                        notEmpty: {
+		                            message: 'The function is required and cannot be empty'
+		                        },
+		                        stringLength: {
+		                            min: 6,
+		                            message: 'The function must be more than 6 characters long'
+		                        },
+		                    }
+		                },
+		                url: {
+		                	validators: {
+		                        uri: {
+		                            message: 'The input is not a valid URL'
+		                        }
+		                    }
+		                },
+		            	platform : {
+		                    feedbackIcons: false,
+		                    validators: {
+		                        notEmpty: {
+		                            message: 'The platform is required'
+		                        }
+		                    }
+		                },
+		                email: {
+		                    validators: {
+		                        notEmpty: {
+		                            message: 'The email address is required and can\'t be empty'
+		                        },
+		                        emailAddress: {
+		                            message: 'The input is not a valid email address'
+		                        }
+		                    }
+		                },
+		                lead_time: {
+		                    validators: {
+		                        digits: {
+		                            message: 'The value can contain only digits'
+		                        }
+		                    }
+		                },
+		                apply_step: {
+		                    validators: {
+		                        notEmpty: {
+		                            message: 'The Apply step is required and cannot be empty'
+		                        },
+		                        stringLength: {
+		                            min: 10,
+		                            message: 'The Apply step must be more than 10 characters long'
+		                        },
+		                    }
+		                },
+		               
+		            }
+		        });
+		    $('#email_template').bootstrapValidator({
+	            message: 'This value is not valid',
+	            feedbackIcons: {/*输入框不同状态，显示图片的样式*/
+	                valid: 'glyphicon glyphicon-ok',
+	                invalid: 'glyphicon glyphicon-remove',
+	                validating: 'glyphicon glyphicon-refresh'
+	            },
+	            fields: {/*验证*/
+	            	
+	            	email_title: {
+	                    validators: {
+	                        notEmpty: {
+	                            message: 'The Email Title is required and cannot be empty'
+	                        },
+	                        stringLength: {
+	                            min: 6,
+	                            max: 100,
+	                            message: 'The Email title must be more than 6 and less than 100 characters long'
+	                        },
+	                    }
+	                },
+	             
+	                content: {
+	                    validators: {
+	                        notEmpty: {
+	                            message: 'The content step is required and cannot be empty'
+	                        },
+	                        stringLength: {
+	                            min: 10,
+	                            message: 'The content step must be more than 10 characters long'
+	                        },
+	                    }
+	                },
+	               
+	            }
+	        });
+		});
+		
+		</script>
 </body>
 </html>

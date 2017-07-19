@@ -49,19 +49,20 @@
 						<span class="fa fa-envelope-o" aria-hidden="true"></span> Contact
 					</a>
 				</li>
-				<%if("brucel@cn.ibm.com".equals(email)) {%>
-			        <li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-							Setting
-							<b class="caret"></b>
-						</a>
-						<ul class="dropdown-menu">
-							<li><a href="userList.jsp">User Manage</a></li>
-							<li><a href="roleList.jsp">Role Manage</a></li>
-							<li><a href="accessList.jsp">Access Manage</a></li>
-						</ul>
-					</li>
-				<%} %>
+		        <li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						Setting
+						<b class="caret"></b>
+					</a>
+					<ul class="dropdown-menu">
+					<%if("brucel@cn.ibm.com".equals(email)) {%>
+						<li><a href="userList.jsp">User Manage</a></li>
+						<li><a href="roleList.jsp">Role Manage</a></li>
+					<%} %>
+						<li><a href="accessList.jsp">Access Manage</a></li>
+					</ul>
+				</li>
+				
 			</ul>
 			<div>
 				 
