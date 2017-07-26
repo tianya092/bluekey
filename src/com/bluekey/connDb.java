@@ -140,33 +140,50 @@ public class connDb {
 	}
 	
 	//update access detail info
-	public static  Boolean updateAccessDetail(Access access) throws SQLException{
+	public static  Boolean updateAccessDetail(Access access,String email) throws SQLException{
 		boolean flag = false;
 		int access_id = access.getAccessId();
 		String sql ;
 		PreparedStatement ps;
 		try{
+			
 			Date dNow = new Date( );
-		    SimpleDateFormat ft =  new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss");
+		    SimpleDateFormat ft =  new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
+		    ft.setTimeZone(TimeZone.getTimeZone("GMT+8"));
 		    startConn();
 		    if(access_id!=0){
 		    	//update access
-		    	sql = "update access set title=?,short_title=?,function=?,platform=?,url=?,apply_email=?,lead_time=?,apply_step=?,update_time=?,parent_part=? where access_id="+access_id;
+		    	sql = "update access set title=?,short_title=?,function=?,platform=?,url=?,apply_email=?,lead_time=?,apply_step=?,update_time=?,update_operator=?,parent_part=? where access_id="+access_id;
+		    	ps = con.prepareStatement(sql);
+		    	ps.setString(1, access.getTitle());
+		    	ps.setString(2, access.getShortTitle());
+		    	ps.setString(3, access.getFunction());
+		    	ps.setString(4, access.getPlatform());
+		    	ps.setString(5, access.getUrl());
+		    	ps.setString(6, access.getApplyEmail());
+		    	ps.setInt(7, access.getLeadTime());
+		    	ps.setString(8, access.getApplyStep());
+		    	ps.setString(9, ft.format(dNow));
+		    	ps.setString(10, email);
+		    	ps.setInt(11, access.getParentPart());
 		    }else{
-		    	sql = "insert into access(title,short_title,function,platform,url,apply_email,lead_time,apply_step,create_time,parent_part)values(?,?,?,?,?,?,?,?,?,?)";
+		    	sql = "insert into access(title,short_title,function,platform,url,apply_email,lead_time,apply_step,create_time,create_operator,parent_part,update_time,update_operator)values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		    	ps = con.prepareStatement(sql);
+		    	ps.setString(1, access.getTitle());
+		    	ps.setString(2, access.getShortTitle());
+		    	ps.setString(3, access.getFunction());
+		    	ps.setString(4, access.getPlatform());
+		    	ps.setString(5, access.getUrl());
+		    	ps.setString(6, access.getApplyEmail());
+		    	ps.setInt(7, access.getLeadTime());
+		    	ps.setString(8, access.getApplyStep());
+		    	ps.setString(9, ft.format(dNow));
+		    	ps.setString(10, email);
+		    	ps.setInt(11, access.getParentPart());
+		    	ps.setString(12, ft.format(dNow));
+		    	ps.setString(13, email);
 		    }
 		    
-		    ps = con.prepareStatement(sql);
-	    	ps.setString(1, access.getTitle());
-	    	ps.setString(2, access.getShortTitle());
-	    	ps.setString(3, access.getFunction());
-	    	ps.setString(4, access.getPlatform());
-	    	ps.setString(5, access.getUrl());
-	    	ps.setString(6, access.getApplyEmail());
-	    	ps.setInt(7, access.getLeadTime());
-	    	ps.setString(8, access.getApplyStep());
-	    	ps.setString(9, ft.format(dNow));
-	    	ps.setInt(10, access.getParentPart());
 			ps.executeUpdate();
 	    	ps.close();
 		    flag = true;
@@ -184,7 +201,7 @@ public class connDb {
 		PreparedStatement ps;
 		int access_id = access.getAccessId();
 		Date dNow = new Date( );
-	    SimpleDateFormat ft =  new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss");
+		SimpleDateFormat ft =  new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
 		try{
 			startConn();
 		    String sql = "update access set deleted =?,update_time=? where access_id = "+access_id;
@@ -221,7 +238,8 @@ public class connDb {
 	    	access.setApplyStep(rs.getString("apply_step"));
 	    	access.setLeadTime(rs.getInt("lead_time"));
 	    	access.setParentPart(rs.getInt("parent_part"));
-	    	
+	    	access.setUpdateTime(rs.getTimestamp("update_time"));
+	    	access.setUpdateOperator(rs.getString("update_operator"));
 	    	Accesslist.add(access);
 	    }
 
@@ -295,8 +313,9 @@ public class connDb {
 	public static  boolean updataUser(String email) throws SQLException{
 		boolean flag = false;
 		Date dNow = new Date( );
-	    SimpleDateFormat ft = 
-	    new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss");
+		Calendar calendar = Calendar.getInstance();
+	    calendar.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+	    SimpleDateFormat ft =  new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
 	    startConn();
 	    stmt = con.createStatement();
 	    result = stmt.executeQuery("select * from user where Email ='"+email+"' and deleted = 0");
@@ -418,7 +437,7 @@ public class connDb {
 	}
 	
 	//update role detail info
-	public static  boolean updateRole(Role role) throws SQLException{
+	public static  boolean updateRole(Role role,String email) throws SQLException{
 		boolean flag = false;
 		int role_id = role.getRoleId();
 		
@@ -426,21 +445,22 @@ public class connDb {
 		PreparedStatement ps;
 		try{
 			Date dNow = new Date( );
-		    SimpleDateFormat ft =  new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss");
+			SimpleDateFormat ft =  new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
 		    startConn();
 		    if(role_id!=0){
 		    	//update access
-		    	sql = "update role set general_access=?,function_access=?,update_time=? where role_id="+role_id;
+		    	sql = "update role set general_access=?,function_access=?,update_time=?,update_operator=? where role_id="+role_id;
 		    	ps = con.prepareStatement(sql);
 		    	ps.setString(1, role.getGeneralAccess());
 		    	ps.setString(2, role.getFunctionAccess());
 		    	ps.setString(3, ft.format(dNow));
+		    	ps.setString(4, email);
 		    	ps.executeUpdate();
 		    	ps.close();
 		    	flag = true;
 		    }else{
 		    	
-		    	sql = "insert into role(general_access,function_access,others_access,function,team,job_role,commodity,create_time)values(?,?,?,?,?,?,?,?)";
+		    	sql = "insert into role(general_access,function_access,others_access,function,team,job_role,commodity,create_time,create_operator,update_time,update_operator)values(?,?,?,?,?,?,?,?,?,?,?)";
 		    	ps = con.prepareStatement(sql);
 		    	ps.setString(1, role.getGeneralAccess());
 		    	ps.setString(2, role.getFunctionAccess());
@@ -450,6 +470,9 @@ public class connDb {
 		    	ps.setInt(6, role.getJobRole());
 		    	ps.setInt(7, role.getCommodity());
 		    	ps.setString(8, ft.format(dNow));
+		    	ps.setString(9, email);
+		    	ps.setString(10, ft.format(dNow));
+		    	ps.setString(11, email);
 		    	ps.executeUpdate();
 		    	ps.close();
 		    	flag = true;
@@ -469,7 +492,7 @@ public class connDb {
 		boolean flag = false;
 		PreparedStatement ps;
 		Date dNow = new Date( );
-	    SimpleDateFormat ft =  new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss");
+		SimpleDateFormat ft =  new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
 		try{
 			startConn();
 		    String sql = "update role set deleted =?,update_time=? where role_id = "+role_id;
@@ -501,6 +524,9 @@ public class connDb {
 	    	role.setFunction(rs.getInt("function"));
 	    	role.setTeam(rs.getInt("team"));
 	    	role.setJobRole(rs.getInt("job_role"));
+	    	role.setCommodity(rs.getInt("commodity"));
+	    	role.setUpdateTime(rs.getString("update_time"));
+	    	role.setUpdateOperator(rs.getString("update_operator"));
 	    	role.setCommodity(rs.getInt("commodity"));
 	    	Rolelist.add(role);
 	    }
@@ -543,7 +569,7 @@ public class connDb {
 		PreparedStatement ps;
 		try{
 			Date dNow = new Date( );
-		    SimpleDateFormat ft =  new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss");
+			SimpleDateFormat ft =  new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
 		    startConn();
 		    
 		    if(temp_id!=0){
@@ -589,7 +615,7 @@ public class connDb {
 		boolean flag = false;
 		PreparedStatement ps;
 		Date dNow = new Date( );
-	    SimpleDateFormat ft =  new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss");
+		SimpleDateFormat ft =  new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
 		try{
 			startConn();
 		    String sql = "update user set remember =?,update_time=? where user_id = "+user.getUserId();

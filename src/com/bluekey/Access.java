@@ -1,5 +1,8 @@
 package com.bluekey;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
 public class Access {
 	private int  accessId;
 	private String  title;
@@ -12,13 +15,28 @@ public class Access {
 	private String  applyStep;
 	private int 	parentPart;
 	private String  creatTime;
-	private String 	updateTime;
+	private Timestamp  	updateTime;
+	private String  createOperator;
+	private String 	updateOperator;
+	
 	private String  Email_subject_title;
 	private String 	Email_content;
 	
 	
 	public int getAccessId() {
 		return accessId;
+	}
+	public String getCreateOperator() {
+		return createOperator;
+	}
+	public void setCreateOperator(String createOperator) {
+		this.createOperator = createOperator;
+	}
+	public String getUpdateOperator() {
+		return updateOperator;
+	}
+	public void setUpdateOperator(String updateOperator) {
+		this.updateOperator = updateOperator;
 	}
 	public void setAccessId(int accessId) {
 		this.accessId = accessId;
@@ -83,10 +101,10 @@ public class Access {
 	public void setCreatTime(String creatTime) {
 		this.creatTime = creatTime;
 	}
-	public String getUpdateTime() {
+	public Date getUpdateTime() {
 		return updateTime;
 	}
-	public void setUpdateTime(String updateTime) {
+	public void setUpdateTime(Timestamp updateTime) {
 		this.updateTime = updateTime;
 	}
 	public String getEmail_subject_title() {

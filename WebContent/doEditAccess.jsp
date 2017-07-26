@@ -2,8 +2,9 @@
     pageEncoding="UTF-8"%>
 <%  
 	String access_id =request.getParameter("access_id");
-	
+	String email = (String)session.getAttribute("email");
 	Access access = new Access();
+	
 	if(access_id!=null&&!access_id.equals("")){ 
 		access.setAccessId(Integer.parseInt(access_id));
 	}
@@ -18,7 +19,7 @@
     access.setLeadTime((request.getParameter("lead_time")==null||request.getParameter("lead_time").equals(""))?0:Integer.parseInt(request.getParameter("lead_time")));  
     access.setApplyStep(request.getParameter("apply_step").trim());  
    
-    boolean flag = connDb.updateAccessDetail(access);
+    boolean flag = connDb.updateAccessDetail(access,email);
    
     if(flag==true){
     	out.print("<script>alert(\"Submited successfully! \");window.location.href=\"accessList.jsp\";</script>");

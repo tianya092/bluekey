@@ -64,7 +64,7 @@
     	}
     	
     %>
-	<div class="container" >
+	<div class="container" style="margin-bottom: 70px;">
 	   
 	  <div class="row"></div>
 		<div class="row" style="font-size: 16px;margin-top:20px">
@@ -118,7 +118,7 @@
 										</div>
 										
 										<div class="form-group">
-											 <label for="inputFunction" class="col-sm-2 control-label"><span style="color:red">*</span>Function</label>
+											 <label for="inputFunction" class="col-sm-2 control-label"><span style="color:red">*</span>Description</label>
 											<div class="col-sm-8">
 												<input type="text" class="form-control input" name="function" value="<%=function%>"/>
 											</div>
@@ -137,9 +137,9 @@
 											</div>
 										</div>
 										<div class="form-group">
-											 <label for="inputURL" class="col-sm-2 control-label">Apply email</label>
+											 <label for="inputURL" class="col-sm-2 control-label">Receive email</label>
 											<div class="col-sm-8">
-												<input type="email" class="form-control input" name="apply_email" value="<%=apply_email%>"/>
+												<input type="email" class="form-control input" name="apply_email" value="<%=apply_email%>" placeholder="XXXXX@cn.ibm.com"/>
 											</div>
 										</div>
 										<div class="form-group">

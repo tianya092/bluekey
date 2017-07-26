@@ -10,6 +10,21 @@ public class Role {
 	private String  functionAccess;
 	private String  othersAccess;
 	private String  creatTime;
+	private String  updateOperator;
+	private String  create_operator;
+	
+	public String getUpdateOperator() {
+		return updateOperator;
+	}
+	public void setUpdateOperator(String updateOperator) {
+		this.updateOperator = updateOperator;
+	}
+	public String getCreate_operator() {
+		return create_operator;
+	}
+	public void setCreate_operator(String create_operator) {
+		this.create_operator = create_operator;
+	}
 	private String 	updateTime;
 	private int  deleted;
 	public int getRoleId() {

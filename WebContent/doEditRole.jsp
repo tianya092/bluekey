@@ -9,11 +9,16 @@
 	String function_access = "";
 	String others_access = "";
 	int checkFlag =0;
+	String email = (String)session.getAttribute("email");
 	
+	if(email==null){
+		response.sendRedirect("login.jsp");
+	}
 	String role_id =request.getParameter("role_id");
 	String[] general_access_arr = request.getParameterValues("general_access");
 	String[] function_access_arr = request.getParameterValues("function_access");
 	String[] others_access_arr = request.getParameterValues("function_access");
+	
 	
 	if((general_access_arr !=null && general_access_arr.length != 0)){
 		for(String i:general_access_arr){
@@ -59,7 +64,7 @@
 	if(checkFlag!=0){
 		out.print("<script>alert(\"The role had been created! Please come back to edite it \");window.location.href=\"roleList.jsp\";</script>");
 	}else{
-		boolean flag = connDb.updateRole(role);
+		boolean flag = connDb.updateRole(role,email);
 		
 	    if(flag==true){
 	    	out.print("<script>alert(\"Submited successfully! \");window.location.href=\"roleList.jsp\";</script>");

@@ -7,6 +7,7 @@
 	String  activedStatus =null;
 	int  user_id =0;
 	String[] remember_arr = null;
+	remember_arr =new String[] {"0","0","0","0"}; 
 	
 	if(session.getAttribute("email")==null){
 		response.sendRedirect("login.jsp");
@@ -16,8 +17,6 @@
 		
 		if(remember!=null&&!remember.equals("")){ 
 			remember_arr = remember.split(",");
-		}else{
-			remember_arr =new String[] {"0","0","0","0"}; 
 		}
 		
 		user_id = user.getUserId();
@@ -167,74 +166,74 @@
 	   ]},
 	   {'v': '2', 'n': 'PI', 's': [
 	        {'v': '5', 'n': 'Hugo cai', 's': [
-		          {'v': '11', 'n': 'DSW NPM'},
-		          {'v': '12', 'n': 'DSW BNPM'},
-		          {'v': '13', 'n': 'BPE'},
-		          {'v': '14', 'n': 'ESW NPM'},
-		          {'v': '15', 'n': 'ESW BNPM'},
-		          {'v': '16', 'n': 'Code Mangerment'},
-		          {'v': '17', 'n': 'SAP'},
-		          {'v': '18', 'n': 'Pring'},
-		          {'v': '19', 'n': 'CP'}
+		          {'v': '12', 'n': 'DSW NPM'},
+		          {'v': '13', 'n': 'DSW BNPM'},
+		          {'v': '14', 'n': 'BPE'},
+		          {'v': '15', 'n': 'ESW NPM'},
+		          {'v': '16', 'n': 'ESW BNPM'},
+		          {'v': '17', 'n': 'Code Mangerment'},
+		          {'v': '18', 'n': 'SAP'},
+		          {'v': '19', 'n': 'Pring'},
+		          {'v': '20', 'n': 'CP'}
 	        ]},
 	        {'v': '6', 'n': 'kenny Kong', 's': [
-		          {'v': '11', 'n': 'DSW NPM'},
-		          {'v': '12', 'n': 'DSW BNPM'},
-		          {'v': '13', 'n': 'BPE'},
-		          {'v': '14', 'n': 'ESW NPM'},
-		          {'v': '15', 'n': 'ESW BNPM'},
-		          {'v': '16', 'n': 'Code Mangerment'},
-		          {'v': '17', 'n': 'SAP'},
-		          {'v': '18', 'n': 'Pring'},
-		          {'v': '19', 'n': 'CP'}
+	        	 {'v': '12', 'n': 'DSW NPM'},
+		          {'v': '13', 'n': 'DSW BNPM'},
+		          {'v': '14', 'n': 'BPE'},
+		          {'v': '15', 'n': 'ESW NPM'},
+		          {'v': '16', 'n': 'ESW BNPM'},
+		          {'v': '17', 'n': 'Code Mangerment'},
+		          {'v': '18', 'n': 'SAP'},
+		          {'v': '19', 'n': 'Pring'},
+		          {'v': '20', 'n': 'CP'}
 	        ]},
 	        {'v': '7', 'n': 'Anne lei', 's': [
-		          {'v': '11', 'n': 'DSW NPM'},
-		          {'v': '12', 'n': 'DSW BNPM'},
-		          {'v': '13', 'n': 'BPE'},
-		          {'v': '14', 'n': 'ESW NPM'},
-		          {'v': '15', 'n': 'ESW BNPM'},
-		          {'v': '16', 'n': 'Code Mangerment'},
-		          {'v': '17', 'n': 'SAP'},
-		          {'v': '18', 'n': 'Pring'},
-		          {'v': '19', 'n': 'CP'}
+	        	 {'v': '12', 'n': 'DSW NPM'},
+		          {'v': '13', 'n': 'DSW BNPM'},
+		          {'v': '14', 'n': 'BPE'},
+		          {'v': '15', 'n': 'ESW NPM'},
+		          {'v': '16', 'n': 'ESW BNPM'},
+		          {'v': '17', 'n': 'Code Mangerment'},
+		          {'v': '18', 'n': 'SAP'},
+		          {'v': '19', 'n': 'Pring'},
+		          {'v': '20', 'n': 'CP'}
 	        ]}
 	   ]},
 	   {'v': '3', 'n': 'Finance', 's': [
 	        {'v': '8', 'n': 'Li Ping', 's': [
-		          {'v': '20', 'n': 'CPC FIN Control'},
-		          {'v': '21', 'n': 'Staff Financial Analyst'}
+		          {'v': '21', 'n': 'CPC FIN Control'},
+		          {'v': '22', 'n': 'Staff Financial Analyst'}
 	        ]}
 	   ]},
 	   {'v': '4', 'n': 'DSA', 's': [
 	        {'v': '9', 'n': 'Mike Huang', 's': [
-		          {'v': '22', 'n': 'Demand planning'},
-		          {'v': '23', 'n': 'Inventory '},
-		          {'v': '24', 'n': 'Supply Assurance'},
-		          {'v': '25', 'n': 'GCSA '},
+		          {'v': '23', 'n': 'Demand planning'},
+		          {'v': '24', 'n': 'Inventory '},
+		          {'v': '25', 'n': 'Supply Assurance'},
+		          {'v': '26', 'n': 'GCSA '},
 	        ]}
 	   ]},
 	   {'v': '5', 'n': 'COSSM', 's': [
 	        {'v': '10', 'n': 'Jessica Wei', 's': [
-		          {'v': '26', 'n': 'Hardware Order to Delivery management'}		         
+		          {'v': '27', 'n': 'Hardware Order to Delivery management'}		         
 	        ]}
 	   ]},
 	   {'v': '6', 'n': 'Eng', 's': [
 	        {'v': '11', 'n': 'Logan Huang', 's': [
-		          {'v': '27', 'n': 'QE'},
-		          {'v': '28', 'n': 'TE'},
-		          {'v': '29', 'n': 'OPE'}
+		          {'v': '28', 'n': 'QE'},
+		          {'v': '29', 'n': 'TE'},
+		          {'v': '30', 'n': 'OPE'}
 	        ]},
 	        {'v': '12', 'n': 'Ziv Zhao', 's': [
-		          {'v': '30', 'n': 'PQE'},
-		          {'v': '31', 'n': 'TQE'},
-		          {'v': '32', 'n': 'Test'}
+		          {'v': '31', 'n': 'PQE'},
+		          {'v': '32', 'n': 'TQE'},
+		          {'v': '33', 'n': 'Test'}
 	        ]},
 	        {'v': '13', 'n': 'Jason Guo', 's': [
-		          {'v': '33', 'n': 'ENG'}
+		          {'v': '34', 'n': 'ENG'}
 	        ]},
 	        {'v': '14', 'n': 'Mary Ma', 's': [
-		          {'v': '30', 'n': 'PQE'}
+		          {'v': '35', 'n': 'PQE'}
 	        ]}
 	   ]}
   ];

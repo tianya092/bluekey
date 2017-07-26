@@ -139,6 +139,11 @@
 						<p style="font-size: 14px; padding-bottom: 20px; padding-top: 20px;">
 							<%=access.getApplyStep() %>
 						</p>
+						<hr>
+						<p style="font-size: 14px; padding-bottom: 20px; padding-top: 20px;">
+						Link:
+							<a href=<%=access.getUrl() %> target="view_window"><%=access.getUrl()%></a>
+						</p>
 						<%if(access.getApplyEmail()!= null &&!"".equals(access.getApplyEmail())){%>
 							<hr>
 							<p style="font-size: 14px; padding-bottom: 20px; padding-top: 20px;">
@@ -213,11 +218,7 @@
 					<div class="col-xs-12 col-sm-12 access-item-detail"
 						style="left: 26px; top: 19px;">
 						<h3>Resource</h3>
-						<p style="font-size: 14px; padding-bottom: 20px; padding-top: 20px;">
-						Link:
-							<a href=<%=access.getUrl() %> target="view_window"><%=access.getUrl()%></a>
-						</p>
-
+						
 					</div>
 				</div>
 			</div>
