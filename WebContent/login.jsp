@@ -37,7 +37,7 @@
 						</h1>
 						<div class="description">
 							<p style="font-size: 18px;">
-								<strong>please login in with your w3id</strong>
+								<strong>please login in with your w3idAAAAA</strong>
 							</p>
 						</div>
 					</div>
