@@ -61,7 +61,7 @@
 	<div class="container">
 	<jsp:include page= "top.jsp" flush ="true"/>
 
-	<div class="top-content" style="margin-top: 100px;">
+	<div class="top-content" style="margin-top: 60px;">
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-6 col-sm-offset-3 form-box">
@@ -115,7 +115,7 @@
 								<div class="form-group">
 									<div class="col-sm-offset-4 col-sm-6">
 										<div class="checkbox">
-											<label> <input type="checkbox" style="height: 22px;">
+											<label> <input type="checkbox" name="remember_type" style="height: 22px;">
 												Remember me
 											</label>
 										</div>
@@ -123,7 +123,7 @@
 								</div>
 							</div>
 							<input type="hidden" name="user_id" value = "<%=user_id %>">
-							<button type="submit" class="btn">Submit</button>
+							<button type="submit" class="btn">Query</button>
 						</form>
 					</div>
 				</div>

@@ -1,11 +1,11 @@
-<%@ page language="java" import="com.bluekey.connDb,java.util.*,java.io.*" contentType="text/html; charset=UTF-8"
+<%@ page language="java" import="com.bluekey.connDb,com.bluekey.User,java.util.*,java.io.*" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%  
 	String email = (String)session.getAttribute("email");
 	/* String page = request.getParameter("page"); */
 	Map<String,String> detail = null; 
 	
-	ArrayList<String[]>  userList = connDb.getUserList(); //get access list
+	ArrayList<User>  userList = connDb.getUserList(); //get access list
 	
 %>
 <!DOCTYPE html>
@@ -110,9 +110,12 @@ $(document).ready(function(){
 					</thead>
 		        	<tbody>
 			        	<%
-			        		for(String[] user : userList){
-			        			out.print("<tr><td>"+user[0]+"</td><td>"+user[1]+"</td><td>"+user[2]+"</td><td><a href=\"editAccess.jsp?access_id="+user[0]+"\"><span class=\"glyphicon glyphicon-pencil\"></span></a>&nbsp;&nbsp;&nbsp;&nbsp <a href=\"deleteAccess.jsp?access_id="+user[0]+"\"><span class=\"glyphicon glyphicon-trash\"></span></a></td></tr>");
+			        		int i=1;
+			        		for(User user : userList){
+			        			out.print("<tr><td>"+i+"</td><td>"+user.getEmail()+"</td><td>"+user.getEmail()+"</td><td><a href=\"editAccess.jsp?access_id="+user.getUserId()+"\"><span class=\"glyphicon glyphicon-pencil\"></span></a>&nbsp;&nbsp;&nbsp;&nbsp <a href=\"deleteAccess.jsp?access_id="+user.getUserId()+"\"><span class=\"glyphicon glyphicon-trash\"></span></a></td></tr>");
+			        			i++;
 			        		}
+			        		
 			        	%>
 					</tbody>
 				</table>

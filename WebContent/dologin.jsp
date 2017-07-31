@@ -12,6 +12,8 @@
             boolean status = connDb.updataUser(email);
             
 			User user = connDb.getUser(email);
+			request.getSession().setAttribute("user",user);     //save email
+			
 			int  user_id = user.getUserId();
 			
 			//request.getSession().setAttribute("user_id",user_id);        //save user_id

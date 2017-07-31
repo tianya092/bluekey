@@ -335,53 +335,47 @@ public class connDb {
 		return flag;
 	}
 	
-	//query user information
-	public static User getUser(String email) throws SQLException{
-		User user = new User();
-	    startConn();
-	    stmt = con.createStatement();
-	    rs = stmt.executeQuery("select * from user where Email ='"+email+"' and deleted = 0");
-	    if(rs.next()){
-	    	user.setUserId(rs.getInt("user_id"));
-	    	user.setBelongDep(rs.getInt("actived"));
-	    	user.setEmail(rs.getString("role_id"));
-	    	user.setRemember(rs.getString("remember"));
-	    }
-	    
-	    endConn();
-		return user;
-	}
-	
-	//check user_id is right or not
-	public static boolean checkUserRight(String email,String user_id) throws SQLException{
-		boolean userRight = false;
-	    startConn();
-	    stmt = con.createStatement();
-	    rs = stmt.executeQuery("select user_id,actived,role_id from user where email ='"+email+"'and user_id = '"+user_id+"' and deleted = 0");
-	    if(rs.next()){
-	    	userRight = true;
-	    }
-	    
-	    endConn();
-		return userRight;
-	}
-	
 	
 	
 	//query user list
 	public static  ArrayList getUserList() throws SQLException{
-		ArrayList<String[]> Userlist = new ArrayList();
+		ArrayList<User> userlist = new ArrayList();
 		startConn();
 	    stmt = con.createStatement();
-	    rs = stmt.executeQuery("select * from user where deleted = 0");
+	    rs = stmt.executeQuery("select * from user where deleted = 0 and authorization_role >0");
 	    while(rs.next()){
-	    	String[] temp={rs.getString("user_id"),rs.getString("Email"),rs.getString("create_time")};
-	    	Userlist.add(temp);
+	    	User user = new User();
+	    	user.setUserId(rs.getInt("user_id"));
+	    	user.setEmail(rs.getString("Email"));
+	    	user.setAuthorizationRole(rs.getInt("authorization_role"));
+	    	user.setRemember(rs.getString("remember"));
+	    	user.setCreateTime(rs.getTimestamp("create_time"));
+	    	user.setUpdateTime(rs.getTimestamp("update_time"));
+	    	userlist.add(user);
 	    }
 
 	    endConn();
-		return Userlist;
+		return userlist;
 	}
+	//query user information
+		public static User getUser(String email) throws SQLException{
+			User user = new User();
+		    startConn();
+		    stmt = con.createStatement();
+		    rs = stmt.executeQuery("select * from user where Email ='"+email+"' and deleted = 0");
+		    if(rs.next()){
+		    	user.setUserId(rs.getInt("user_id"));
+		    	user.setEmail(rs.getString("Email"));
+		    	user.setAuthorizationRole(rs.getInt("authorization_role"));
+		    	user.setRemember(rs.getString("remember"));
+		    	
+		    	user.setCreateTime(rs.getTimestamp("create_time"));
+		    	user.setUpdateTime(rs.getTimestamp("update_time"));
+		    }
+		    
+		    endConn();
+			return user;
+		}
 	
 	
 /***************************************Role*********************************************/
