@@ -6,7 +6,7 @@ jQuery(document).ready(function() {
     */
     $.backstretch([
                     "./img/u2.jpg"
-	              , "./img/u4.jpg"
+	              , "./img/u3.png"
 	              , "./img/u1.png"
 	             ], {duration: 3000, fade: 750});
     

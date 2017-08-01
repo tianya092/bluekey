@@ -12,8 +12,9 @@
 	int  user_id = user.getUserId();
 	
 %>
-
-<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"
+<!--  navbar-fixed-top -->
+<div id="header">
+<nav class="navbar navbar-inverse" role="navigation"
 	style="background-color: #5c7ebd; font-size: 14px;">
 	<div class="container">
 		<div class="navbar-header">
@@ -90,7 +91,7 @@
 						<input type="text" name="search" class="form-control" placeholder="Search" style="height: 34px" value="<%=search %>">
 						 	<span class="">
 						 		<button type="submit" class="btn btn-default"  style="height: 34px">
-						 			<img src="img/u11.png" style="height: 20px; width: 20px;">
+						 			<img src="img/u11.png" style="height: 20px; width: 20px;margin-bottom:10px;">
 						 		</button>
 					 		</span>
 					</div>
@@ -98,3 +99,4 @@
 			</div>
 		</div>
 </nav>
+</div>

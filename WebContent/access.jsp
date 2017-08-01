@@ -81,8 +81,9 @@
 </style>
 
 </head>
-
-<body style="margin-bottom: 100px;">
+<!--  margin-bottom: 100px;-->
+<body >
+<div id="wrapper">
 	<jsp:include page="top.jsp" flush="true" />
 	<header>
 		<!-- Main component for a primary marketing message or call to action -->
@@ -201,7 +202,7 @@
 			</div>
 		</div>
 	</div>
-	
+	</div>
 
 	<jsp:include page="bottom.jsp" flush="true" />
 

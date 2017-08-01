@@ -57,8 +57,9 @@
 
 </head>
 
-<body style="margin-bottom: 100px;">
-	<div class="container">
+<body >
+
+	<div id="wrapper">
 	<jsp:include page= "top.jsp" flush ="true"/>
 
 	<div class="top-content" style="margin-top: 100px;">
@@ -131,6 +132,7 @@
 		</div>
 	</div>
 	</div>
+	
 	<jsp:include page= "bottom.jsp" flush ="true"/>
 
 <script src="js/jquery-3.1.0.js"></script>

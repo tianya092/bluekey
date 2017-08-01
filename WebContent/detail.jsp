@@ -41,8 +41,9 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-
-<body style="margin-bottom: 150px;overflow:scroll;overflow-x:hidden">
+<!-- margin-bottom: 150px; -->
+<body style="overflow:scroll;overflow-x:hidden">
+<div id="wrapper">
 	<jsp:include page="top.jsp" flush="true" />
 	
 	<header>
@@ -227,7 +228,7 @@
 
 	</div>
 
-
+</div>
 	<jsp:include page="bottom.jsp" flush="true" />
 
 	

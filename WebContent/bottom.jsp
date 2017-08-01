@@ -1,4 +1,6 @@
-<footer class="row-footer navbar-fixed-bottom" style="height: 50px; font-size: 14px;">
+<div id="footer">
+<!--   navbar-fixed-bottom -->
+<footer class="row-footer" style=" font-size: 14px;">
 <div class="container">
 	<div class="row">
 
@@ -10,3 +12,4 @@
 		</div>
 	</div>
 </footer>
+</div>

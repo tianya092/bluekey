@@ -31,7 +31,7 @@
 
 </head>
 <body >
-
+<div id="wrapper">
 	<jsp:include page="top.jsp" flush="true" />
 	<div class="container" style="margin-bottom: 70px;">
 		<div class="row"></div>
@@ -86,6 +86,7 @@
 		</div>
 		
 	</div>
+</div>
 	<jsp:include page="bottom.jsp" flush="true" />
 </body>
 </html>
