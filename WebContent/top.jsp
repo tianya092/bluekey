@@ -13,8 +13,7 @@
 	
 %>
 
-<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"
-	style="background-color: #5c7ebd; font-size: 14px;">
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="background-color: #5c7ebd; font-size: 14px;">
 	<div class="container">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle collapsed"
@@ -26,6 +25,7 @@
 			</button>
 			<!--   <a class="navbar-brand" href="#"><img src="img/logo.png" height=30 width=41></a> -->
 		</div>
+		
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
 				<li >
@@ -45,8 +45,8 @@
 				</li>
 
 				<li>
-					<a href="#">
-						<span class="fa fa-envelope-o" aria-hidden="true"></span> Contact
+					<a href="feedback.jsp">
+						<span class="fa fa-envelope-o" aria-hidden="true"></span> Feedback
 					</a>
 				</li>
 		        <li class="dropdown">
@@ -56,31 +56,34 @@
 					</a>
 					<ul class="dropdown-menu">
 					<%if("brucel@cn.ibm.com".equals(email)) {%>
-						<li><a href="userList.jsp">User Manage</a></li>
-						<li><a href="roleList.jsp">Role Manage</a></li>
+						<li><a href="userList.jsp">authority Manage</a></li>
+						
 					<%} %>
-						<li><a href="accessList.jsp">Access Manage</a></li>
+						<li><a href="roleList.jsp">role Manage</a></li>
+						<li><a href="accessList.jsp">access Manage</a></li>
 					</ul>
 				</li>
 				
 			</ul>
+			
 			<div>
-				 
 				<ul class="nav navbar-nav navbar-right">
-					
-					
 						<%
 						    if(session.getAttribute("email")==null){
 					     %>
-					     	<li><a href ="login.jsp" style="color:#D8D8D8">sign in</a></li>
+					     	<li><a href="login.jsp"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li>
 				     	<%}else{ %>
-					     	<li style="color:white"><b><%=email%></b>&nbsp;&nbsp;&nbsp;
-					     		<span class="glyphicon glyphicon-user" style="margin-top: 18px;"></span>
-							</li>
-							<li>
-								<a href ="logout.jsp" >
-								  Log out
+				     		<li class="dropdown">
+				     		
+								<a href="#" class="dropdown-toggle"  data-toggle="dropdown">
+									<span class="glyphicon glyphicon-user" "></span>&nbsp;&nbsp;
+									<%=email%>&nbsp;&nbsp;&nbsp;
+									<b class="caret"></b>
 								</a>
+								<ul class="dropdown-menu">
+									<li><a href="#">apply history </a></li>
+									<li><a href ="logout.jsp" >sign out</a></li>
+								</ul>
 							</li>
 						<%}%>
 				</ul>

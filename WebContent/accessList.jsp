@@ -35,7 +35,7 @@
 	<jsp:include page="top.jsp" flush="true" />
 	<div class="container" style="margin-bottom: 70px;">
 		<div class="row"></div>
-		<div class="row" style="font-size: 16px;margin-top:20px">
+		<div class="row" style="font-size: 14px;margin-top:20px">
 			<div class="col-xs-12 col-sm-12 col-sm-push-0">
 				<ol class="breadcrumb">
 					<li><a href="query.jsp">Home</a></li>
@@ -51,20 +51,11 @@
 			<a href="editAccess.jsp" class="btn btn-primary btn"> 
 				<span class="glyphicon glyphicon-plus"></span> add an access
 			</a>
-			<!-- <ul class="pagination">
-				<li><a href="#">Prev</a></li>
-				<li><a href="#">1</a></li>
-				<li><a href="#">2</a></li>
-				<li><a href="#">3</a></li>
-				<li><a href="#">4</a></li>
-				<li><a href="#">5</a></li>
-				<li><a href="#">Next</a></li>
-			</ul> -->
 		</div>
 		<div class="table-responsive">
 			<table class="table  table-hover">
 				<thead>
-					<tr class="active">
+					<tr  class="active" >
 						<th>No</th>
 						<th>Access name</th>
 						<th>Belong to</th>

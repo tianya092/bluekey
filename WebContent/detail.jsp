@@ -1,5 +1,7 @@
 <%@ page language="java" import="com.bluekey.connDb,com.bluekey.Access,com.bluekey.Mail,java.util.*,java.io.*" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%  
 	String email = (String)session.getAttribute("email");
 	if(email==null||email.equals("")){
@@ -144,6 +146,12 @@
 						Link:
 							<a href=<%=access.getUrl() %> target="view_window"><%=access.getUrl()%></a>
 						</p>
+						<%if(access.getOtherUrl()!= null &&!"".equals(access.getOtherUrl())){%>
+							<p style="font-size: 14px; padding-bottom: 20px; padding-top: 20px;">
+							Link2:
+								<a href=<%=access.getOtherUrl() %> target="view_window"><%=access.getOtherUrl()%></a>
+							</p>
+						<%} %>
 						<%if(access.getApplyEmail()!= null &&!"".equals(access.getApplyEmail())){%>
 							<hr>
 							<p style="font-size: 14px; padding-bottom: 20px; padding-top: 20px;">
@@ -165,7 +173,7 @@
 												</div>
 												<form class="form-horizontal" role="form" action="sendEmail.jsp">
 													<%
-														Mail mail = connDb.getMailTemplate("1"); //get send mail template
+														Mail mail = connDb.getMailTemplate(access_id); //get send mail template
 													%>
 													<div class="modal-body" style="width:610px;">
 														<div >
@@ -199,7 +207,7 @@
 														</div>
 													</div>
 													<div class="modal-footer">
-														<input type="hidden" name="access_id" value="<%=access_id %>>">
+														<input type="hidden" name="access_id" value="<%=access_id %>">
 														 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button> <button type="submit" class="btn btn-primary">Send</button>
 													</div>
 												</form>

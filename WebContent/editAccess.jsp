@@ -14,6 +14,7 @@
 	String  function = "";
 	String  platform = "";
 	String  url = "";
+	String  other_url = "";
 	String  apply_email = "";
 	int  	lead_time = 0;
 	String  apply_step = "";
@@ -36,7 +37,7 @@
 <link href="css/mystyles.css" rel="stylesheet">
 <link href="css/font-awesome.css" rel="stylesheet">
 <link href="css/bootstrap-social.css" rel="stylesheet">
-<link href="css/bootstrapValidator.css" rel="stylesheet">
+<link href="css/bootstrapValidator.css" rel="stylesheet"> 
 
 <script>
 	
@@ -67,7 +68,7 @@
 	<div class="container" style="margin-bottom: 70px;">
 	   
 	  <div class="row"></div>
-		<div class="row" style="font-size: 16px;margin-top:20px">
+		<div class="row" style="font-size: 14px;margin-top:20px">
 			<div class="col-xs-12 col-sm-12 col-sm-push-0">
 				<ol class="breadcrumb">
 					<li><a href="query.jsp">Home</a></li>
@@ -81,7 +82,7 @@
 		<div class="row clearfix">
 			<div class="col-md-12 column">
 				<div class="tabbable" id="tabs-368872">
-					<ul class="nav nav-pills" style="margin-bottom: 20px;">
+					<ul class="nav nav-tabs" >
 						<li class="active">
 							 <a href="#panel-detail" data-toggle="tab"> Detail information</a>
 						</li>
@@ -137,7 +138,13 @@
 											</div>
 										</div>
 										<div class="form-group">
-											 <label for="inputURL" class="col-sm-2 control-label">Receive email</label>
+											 <label for="inputURL" class="col-sm-2 control-label">Other URL</label>
+											<div class="col-sm-8">
+												<input type="url" class="form-control input" name="other_url" value="<%=other_url%>" placeholder="http://"/>
+											</div>
+										</div>
+										<div class="form-group">
+											 <label for="inputURL" class="col-sm-2 control-label">Access email</label>
 											<div class="col-sm-8">
 												<input type="email" class="form-control input" name="apply_email" value="<%=apply_email%>" placeholder="XXXXX@cn.ibm.com"/>
 											</div>
@@ -258,6 +265,13 @@
 		                    }
 		                },
 		                url: {
+		                	validators: {
+		                        uri: {
+		                            message: 'The input is not a valid URL'
+		                        }
+		                    }
+		                },
+		                other_url: {
 		                	validators: {
 		                        uri: {
 		                            message: 'The input is not a valid URL'

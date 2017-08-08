@@ -147,7 +147,19 @@ padding-top: 10px;*/
 	color:red;
 	font-weight:500;
 }
-
+.check-role input{
+	margin-left: 10px;
+	margin-right: 10px;
+}
+#detail_form {
+	margin-top: 20px;
+}
+#email_template {
+	margin-top: 20px;
+}
+.role-select-label{
+	padding-left: 5px;padding-right: 5px;
+}
 .navbar-inverse .navbar-nav>li>a {
 	color: white;
 }

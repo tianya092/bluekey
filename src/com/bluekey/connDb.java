@@ -1,3 +1,4 @@
+
 package com.bluekey;
 import java.sql.*;
 import java.text.SimpleDateFormat;
@@ -6,6 +7,15 @@ import java.util.Date;
 
 import org.json.JSONObject;
 
+/**   
+*    
+* 项目名称：BlueKey   
+* 类名称：connDb   
+* 类描述：   
+* 创建人：tony-wu   
+* 创建时间：2017年8月7日 上午10:52:37   
+* @version        
+*/
 public class connDb {
 	private static String username;
 	private static String password;
@@ -19,7 +29,6 @@ public class connDb {
 	private static ResultSet rs = null;
 	private static ResultSet result = null;
 	
-	static Map<String,String> AccessMap =  new HashMap<String,String>();
 	
 	//杩炴帴鏁版嵁搴撴柟娉�
 	public static void startConn(){
@@ -68,54 +77,56 @@ public class connDb {
 	}
 /***************************************Access*********************************************/
 	
-	//resultList
+	/**
+	 * @param role_id
+	 * @return resultList
+	 * @throws SQLException
+	 */
 		public static  ArrayList result(String role_id) throws SQLException{
 			ArrayList<Map<String,String>> list = new ArrayList();
+			Map<String,String> GeneralAccessMap =  new HashMap<String,String>();
+			Map<String,String> FunctionAccessMap =  new HashMap<String,String>();
+			Map<String,String> generalMap = new HashMap<String,String>();
+	    	Map<String,String> functionMap = new HashMap<String,String>();
 			String sql;
 		    startConn();
 		    stmt = con.createStatement();
-		    rs = stmt.executeQuery("select access_id,short_title from access where deleted = 0");
+		    rs = stmt.executeQuery("select access_id,short_title,parent_part from access where deleted = 0 ");
 		    while(rs.next()){
-		    	AccessMap.put(rs.getString("access_id"),rs.getString("short_title"));
+		    	if(rs.getInt("parent_part")==1){
+		    		GeneralAccessMap.put(rs.getString("access_id"),rs.getString("short_title"));
+		    	}else if(rs.getInt("parent_part")==2){
+		    		FunctionAccessMap.put(rs.getString("access_id"),rs.getString("short_title"));
+		    	}
 		    }
 		   
 		    sql = "select * from role where deleted = '0' and role_id = "+role_id;
 		    rs = stmt.executeQuery(sql);
 		    while(rs.next()){
-		    	String[] generalArr = rs.getString("general_access").split(",");
-		    	Map<String,String> generalMap = new HashMap<String,String>();
-		    	for(int i=0;i<generalArr.length; i++){
-		    		if(AccessMap.containsKey (generalArr[i])){
-		    			generalMap.put(generalArr[i], AccessMap.get(generalArr[i]));
-		    		}
-			    	
-		    	}
+		    	String[] accessArr = rs.getString("access_list").split(",");
 		    	
-		    	String[] functionArr = rs.getString("function_access").split(",");
-		    	Map<String,String> functionMap = new HashMap<String,String>();
-		    	for(int i=0;i<functionArr.length; i++){
-		    		if(AccessMap.containsKey (functionArr[i])){
-		    			functionMap.put(functionArr[i], AccessMap.get(functionArr[i]));
-		    		}
-		    	}
-		    	
-		    	String[] othersArr = rs.getString("others_access").split(",");
-		    	Map<String,String> othersMap = new HashMap<String,String>();
-		    	for(int i=0;i<othersArr.length; i++){
-		    		if(AccessMap.containsKey (functionArr[i])){
-		    			othersMap.put(othersArr[i], AccessMap.get(othersArr[i]));
+		    	for(int i=0;i<accessArr.length; i++){
+		    		if(GeneralAccessMap.containsKey (accessArr[i])){
+		    			generalMap.put(accessArr[i], GeneralAccessMap.get(accessArr[i]));
+		    		}else if(FunctionAccessMap.containsKey (accessArr[i])){
+		    			functionMap.put(accessArr[i], FunctionAccessMap.get(accessArr[i]));
 		    		}
 		    	}
 		    	
 		    	list.add(generalMap);
 		    	list.add(functionMap);
-		    	list.add(othersMap);
 		    }
 		    endConn();
 			return list;
 		}
 	
-	//query access detail info
+		
+	/**
+	 * query access detail info
+	 * @param access_id
+	 * @return Access
+	 * @throws SQLException
+	 */
 	public static  Access accessDetail(String access_id) throws SQLException{
 		Map<String,Access> detailMap = new HashMap<>();
 		Access access = new Access();
@@ -130,6 +141,7 @@ public class connDb {
 	    	access.setPlatform(rs.getString("platform"));
 	    	access.setApplyEmail(rs.getString("apply_email"));
 	    	access.setUrl(rs.getString("url"));
+	    	access.setOtherUrl(rs.getString("other_url"));
 	    	access.setApplyStep(rs.getString("apply_step"));
 	    	access.setLeadTime(rs.getInt("lead_time"));
 	    	access.setParentPart(rs.getInt("parent_part"));
@@ -153,7 +165,7 @@ public class connDb {
 		    startConn();
 		    if(access_id!=0){
 		    	//update access
-		    	sql = "update access set title=?,short_title=?,function=?,platform=?,url=?,apply_email=?,lead_time=?,apply_step=?,update_time=?,update_operator=?,parent_part=? where access_id="+access_id;
+		    	sql = "update access set title=?,short_title=?,function=?,platform=?,url=?,apply_email=?,lead_time=?,apply_step=?,update_time=?,update_operator=?,parent_part=?,other_url=? where access_id="+access_id;
 		    	ps = con.prepareStatement(sql);
 		    	ps.setString(1, access.getTitle());
 		    	ps.setString(2, access.getShortTitle());
@@ -166,8 +178,9 @@ public class connDb {
 		    	ps.setString(9, ft.format(dNow));
 		    	ps.setString(10, email);
 		    	ps.setInt(11, access.getParentPart());
+		    	ps.setString(12, access.getOtherUrl());
 		    }else{
-		    	sql = "insert into access(title,short_title,function,platform,url,apply_email,lead_time,apply_step,create_time,create_operator,parent_part,update_time,update_operator)values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		    	sql = "insert into access(title,short_title,function,platform,url,apply_email,lead_time,apply_step,create_time,create_operator,parent_part,update_time,update_operator,other_url)values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		    	ps = con.prepareStatement(sql);
 		    	ps.setString(1, access.getTitle());
 		    	ps.setString(2, access.getShortTitle());
@@ -182,6 +195,7 @@ public class connDb {
 		    	ps.setInt(11, access.getParentPart());
 		    	ps.setString(12, ft.format(dNow));
 		    	ps.setString(13, email);
+		    	ps.setString(14, access.getOtherUrl());
 		    }
 		    
 			ps.executeUpdate();
@@ -220,7 +234,12 @@ public class connDb {
 	}
 	
 	
-	//query accesss list
+	/**
+	 * query accesss list
+	 * @return ArrayList
+	 * @throws SQLException
+	 */
+	
 	public static  ArrayList getAccessList() throws SQLException{
 		ArrayList<Access> Accesslist = new ArrayList();
 		startConn();
@@ -247,6 +266,11 @@ public class connDb {
 		return Accesslist;
 	}
 	
+	/**
+	 * query accesss list  for setting
+	 * @return Map
+	 * @throws SQLException
+	 */
 	public static  Map getAccessList1() throws SQLException{
 		Map<String,ArrayList<String[]>> accessMap = new HashMap();
 	    startConn();
@@ -267,49 +291,23 @@ public class connDb {
 	    
 	    rs = stmt.executeQuery("select * from access where deleted = 0 and parent_part= 3 ");
 	    ArrayList<String[]> otherList = new ArrayList();
-	    while(rs.next()){
-	    	String[] temp={rs.getString("access_id"),rs.getString("title"),rs.getString("short_title")};
-	    	otherList.add(temp);
-	    }
 	    
     	accessMap.put("generalList",generalList);
     	accessMap.put("functionList",functionList);
-    	accessMap.put("otherList",otherList);
-    
+    	
 	    endConn();
 		return accessMap;
 	}
 	
-	
-	//check user's access list
-	public static boolean checkUserAccess(String user_id,String access_id) throws SQLException{
-		boolean accessRight = false;
-		String[] generalArr = null ;
-		String[] functionArr = null;
-		String[] othersArr = null;
 		
-	    startConn();
-	    stmt = con.createStatement();
-	    rs = stmt.executeQuery("select * from role where role_id = (select role_id from user where user_id= '"+user_id+"' )");
-	    if(rs.next()){
-	    	generalArr = rs.getString("general_access").split(",");
-	    	functionArr = rs.getString("function_access").split(",");
-	    	othersArr = rs.getString("others_access").split(",");
-	    }
-	    
-	    String[] accessArr = concat(generalArr,functionArr);
-	    accessArr = concat(accessArr,othersArr);
-	    Arrays.sort(accessArr);
-	    
-	    if(Arrays.binarySearch(accessArr, access_id)>=0){
-	    	accessRight = true;
-	    }
-	    endConn();
-		return accessRight;
-	}
-			
 /***************************************User*********************************************/		
-	//update user 
+	
+	/**
+	 * update user
+	 * @param email
+	 * @return
+	 * @throws SQLException
+	 */
 	public static  boolean updataUser(String email) throws SQLException{
 		boolean flag = false;
 		Date dNow = new Date( );
@@ -320,13 +318,11 @@ public class connDb {
 	    stmt = con.createStatement();
 	    result = stmt.executeQuery("select * from user where Email ='"+email+"' and deleted = 0");
 	    if(result.next()==false){
-	    	String sql = "insert into user(Email,w3_no,actived,create_time,role_id)values(?,?,?,?,?)";
+	    	String sql = "insert into user(Email,actived,create_time)values(?,?,?)";
 	    	PreparedStatement ps = con.prepareStatement(sql);
 	    	ps.setString(1, email);
-	    	ps.setString(2, email);
-	    	ps.setInt(3, 1);
-	    	ps.setString(4, ft.format(dNow));
-	    	ps.setInt(5, 1);
+	    	ps.setInt(2, 1);
+	    	ps.setString(3, ft.format(dNow));
 	    	ps.executeUpdate();
 	    	ps.close();
 	    	
@@ -335,18 +331,38 @@ public class connDb {
 		return flag;
 	}
 	
-	
+	//query user information
+	public static User getUser(String email) throws SQLException{
+		User user = new User();
+	    startConn();
+	    stmt = con.createStatement();
+	    rs = stmt.executeQuery("select * from user where Email ='"+email+"' and deleted = 0  order by Email");
+	    if(rs.next()){
+	    	user.setUserId(rs.getInt("user_id"));
+	    	user.setEmail(rs.getString("Email"));
+	    	user.setAuthorizationRole(rs.getInt("authorization_role"));
+	    	user.setRemember(rs.getString("remember"));
+	    	
+	    	user.setCreateTime(rs.getTimestamp("create_time"));
+	    	user.setUpdateTime(rs.getTimestamp("update_time"));
+	    }
+	    
+	    endConn();
+		return user;
+	}
 	
 	//query user list
 	public static  ArrayList getUserList() throws SQLException{
 		ArrayList<User> userlist = new ArrayList();
 		startConn();
 	    stmt = con.createStatement();
-	    rs = stmt.executeQuery("select * from user where deleted = 0 and authorization_role >0");
+	    rs = stmt.executeQuery("select * from user where deleted = 0 and (function >0 or team >0) ");
 	    while(rs.next()){
 	    	User user = new User();
 	    	user.setUserId(rs.getInt("user_id"));
 	    	user.setEmail(rs.getString("Email"));
+	    	user.setFunction(rs.getInt("function"));
+	    	user.setTeam(rs.getInt("team"));
 	    	user.setAuthorizationRole(rs.getInt("authorization_role"));
 	    	user.setRemember(rs.getString("remember"));
 	    	user.setCreateTime(rs.getTimestamp("create_time"));
@@ -357,39 +373,23 @@ public class connDb {
 	    endConn();
 		return userlist;
 	}
-	//query user information
-		public static User getUser(String email) throws SQLException{
-			User user = new User();
-		    startConn();
-		    stmt = con.createStatement();
-		    rs = stmt.executeQuery("select * from user where Email ='"+email+"' and deleted = 0");
-		    if(rs.next()){
-		    	user.setUserId(rs.getInt("user_id"));
-		    	user.setEmail(rs.getString("Email"));
-		    	user.setAuthorizationRole(rs.getInt("authorization_role"));
-		    	user.setRemember(rs.getString("remember"));
-		    	
-		    	user.setCreateTime(rs.getTimestamp("create_time"));
-		    	user.setUpdateTime(rs.getTimestamp("update_time"));
-		    }
-		    
-		    endConn();
-			return user;
-		}
 	
 	
 /***************************************Role*********************************************/
 		
-	//query role detail info
+	/**
+	 * query role detail info
+	 * @param role_id
+	 * @return Role
+	 * @throws SQLException
+	 */
 	public static  Role getRole(String role_id) throws SQLException{
 		Role role = new Role();
 	    startConn();
 	    stmt = con.createStatement();
-	    rs = stmt.executeQuery("select * from role where role_id = "+role_id);
+	    rs = stmt.executeQuery("select * from role where deleted=0 and  role_id = "+role_id);
 	    while(rs.next()){
-	    	role.setGeneralAccess(rs.getString("general_access"));
-	    	role.setFunctionAccess(rs.getString("function_access"));
-	    	role.setOthersAccess(rs.getString("others_access"));
+	    	role.setAccessList(rs.getString("access_list"));
 	    	role.setFunction(rs.getInt("function"));
 	    	role.setTeam(rs.getInt("team"));
 	    	role.setJobRole(rs.getInt("job_role"));
@@ -430,7 +430,14 @@ public class connDb {
 		return role_id;
 	}
 	
-	//update role detail info
+	
+	/**
+	 * update role detail info
+	 * @param role
+	 * @param email
+	 * @return
+	 * @throws SQLException
+	 */
 	public static  boolean updateRole(Role role,String email) throws SQLException{
 		boolean flag = false;
 		int role_id = role.getRoleId();
@@ -443,30 +450,27 @@ public class connDb {
 		    startConn();
 		    if(role_id!=0){
 		    	//update access
-		    	sql = "update role set general_access=?,function_access=?,update_time=?,update_operator=? where role_id="+role_id;
+		    	sql = "update role set access_list=?,update_time=?,update_operator=? where role_id="+role_id;
 		    	ps = con.prepareStatement(sql);
-		    	ps.setString(1, role.getGeneralAccess());
-		    	ps.setString(2, role.getFunctionAccess());
-		    	ps.setString(3, ft.format(dNow));
-		    	ps.setString(4, email);
+		    	ps.setString(1, role.getAccessList());
+		    	ps.setString(2, ft.format(dNow));
+		    	ps.setString(3, email);
 		    	ps.executeUpdate();
 		    	ps.close();
 		    	flag = true;
 		    }else{
 		    	
-		    	sql = "insert into role(general_access,function_access,others_access,function,team,job_role,commodity,create_time,create_operator,update_time,update_operator)values(?,?,?,?,?,?,?,?,?,?,?)";
+		    	sql = "insert into role(access_list,function,team,job_role,commodity,create_time,create_operator,update_time,update_operator)values(?,?,?,?,?,?,?,?,?)";
 		    	ps = con.prepareStatement(sql);
-		    	ps.setString(1, role.getGeneralAccess());
-		    	ps.setString(2, role.getFunctionAccess());
-		    	ps.setString(3, "");
-		    	ps.setInt(4, role.getFunction());
-		    	ps.setInt(5, role.getTeam());
-		    	ps.setInt(6, role.getJobRole());
-		    	ps.setInt(7, role.getCommodity());
+		    	ps.setString(1, role.getAccessList());
+		    	ps.setInt(2, role.getFunction());
+		    	ps.setInt(3, role.getTeam());
+		    	ps.setInt(4, role.getJobRole());
+		    	ps.setInt(5, role.getCommodity());
+		    	ps.setString(6, ft.format(dNow));
+		    	ps.setString(7, email);
 		    	ps.setString(8, ft.format(dNow));
 		    	ps.setString(9, email);
-		    	ps.setString(10, ft.format(dNow));
-		    	ps.setString(11, email);
 		    	ps.executeUpdate();
 		    	ps.close();
 		    	flag = true;
@@ -507,11 +511,28 @@ public class connDb {
 	
 	
 	//get accesss list
-	public static  ArrayList<Role> getRoleList() throws SQLException{
+	public static  ArrayList<Role> getRoleList(String funciton,String team,String job_role,String commodity) throws SQLException{
 		ArrayList<Role> Rolelist = new ArrayList<Role>();
 		startConn();
 	    stmt = con.createStatement();
-	    rs = stmt.executeQuery("select * from role where deleted = 0 order by function,team,job_role,commodity ASC");
+	    String sql = "select * from role where deleted = 0  ";
+	    if((funciton !=null && funciton.length() != 0)){
+	    
+	    	sql+=" and function= "+funciton;
+	    }
+	    
+    	if((team !=null && team.length() != 0)){
+	    	sql+=" and team= "+team;
+	    }
+    	
+    	if((job_role !=null && job_role.length() != 0)){
+	    	sql+=" and job_role= "+job_role;
+	    }
+	    
+    	if((commodity !=null && commodity.length() != 0)){
+	    	sql+=" and commodity= "+commodity;
+	    }
+	    rs = stmt.executeQuery(sql+" order by function,team,job_role,commodity ASC");
 	    while(rs.next()){
 	    	Role role = new Role();
 	    	role.setRoleId(rs.getInt("role_id"));

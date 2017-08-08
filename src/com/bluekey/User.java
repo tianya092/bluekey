@@ -12,8 +12,22 @@ public class User {
 	private Timestamp createTime;
 	private Timestamp updateTime;
 	private int authorizationRole;
+	private int function;
+	private int team;
 	
 	
+	public int getFunction() {
+		return function;
+	}
+	public void setFunction(int function) {
+		this.function = function;
+	}
+	public int getTeam() {
+		return team;
+	}
+	public void setTeam(int team) {
+		this.team = team;
+	}
 	public int getUserId() {
 		return userId;
 	}

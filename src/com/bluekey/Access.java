@@ -10,6 +10,7 @@ public class Access {
 	private String  function;
 	private String  platform;
 	private String  url;
+	private String  otherUrl;
 	private String  applyEmail;
 	private int  leadTime;
 	private String  applyStep;
@@ -70,6 +71,12 @@ public class Access {
 	}
 	public void setUrl(String url) {
 		this.url = url;
+	}
+	public String getOtherUrl() {
+		return otherUrl;
+	}
+	public void setOtherUrl(String otherUrl) {
+		this.otherUrl = otherUrl;
 	}
 	public String getApplyEmail() {
 		return applyEmail;

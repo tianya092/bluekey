@@ -8,6 +8,7 @@ public class Role {
 	private int  commodity;
 	private String  generalAccess;
 	private String  functionAccess;
+	private String  accessList;
 	private String  othersAccess;
 	private String  creatTime;
 	private String  updateOperator;
@@ -93,6 +94,15 @@ public class Role {
 	public void setDeleted(int deleted) {
 		this.deleted = deleted;
 	}
+	public String getAccessList() {
+		return accessList;
+	}
+	public void setAccessList(String accessList) {
+		this.accessList = accessList;
+	}
+	
+	
+	
 	
 	
 	

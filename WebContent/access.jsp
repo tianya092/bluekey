@@ -41,7 +41,6 @@
 		ArrayList<Map<String,String>> list = connDb.result(role_id); //get access list 
 		general_access= list.get(0);
 		function_access= list.get(1);
-		other_access= list.get(2);
 	}
 	
 %> 
