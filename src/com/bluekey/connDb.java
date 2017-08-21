@@ -127,7 +127,7 @@ public class connDb {
 	 * @return Access
 	 * @throws SQLException
 	 */
-	public static  Access accessDetail(String access_id) throws SQLException{
+	public static  Access getAccessByID(String access_id) throws SQLException{
 		Map<String,Access> detailMap = new HashMap<>();
 		Access access = new Access();
 	    startConn();
@@ -241,7 +241,7 @@ public class connDb {
 	 */
 	
 	public static  ArrayList getAccessList() throws SQLException{
-		ArrayList<Access> Accesslist = new ArrayList();
+		ArrayList<Access> accesslist = new ArrayList();
 		startConn();
 	    stmt = con.createStatement();
 	    rs = stmt.executeQuery("select * from access where deleted = 0 order by parent_part ASC");
@@ -259,11 +259,11 @@ public class connDb {
 	    	access.setParentPart(rs.getInt("parent_part"));
 	    	access.setUpdateTime(rs.getTimestamp("update_time"));
 	    	access.setUpdateOperator(rs.getString("update_operator"));
-	    	Accesslist.add(access);
+	    	accesslist.add(access);
 	    }
 
 	    endConn();
-		return Accesslist;
+		return accesslist;
 	}
 	
 	/**
@@ -331,6 +331,86 @@ public class connDb {
 		return flag;
 	}
 	
+	/**
+	 * update user right
+	 * @param user  email
+	 * @return boolean
+	 * @throws SQLException
+	 */
+	public static  boolean updateUserRight(User user,String email) throws SQLException{
+		boolean flag = false;
+		Date dNow = new Date( );
+		Calendar calendar = Calendar.getInstance();
+	    calendar.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+	    SimpleDateFormat ft =  new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
+	    String userEmail = user.getEmail();
+	    startConn();
+	    stmt = con.createStatement();
+	    result = stmt.executeQuery("select * from user where Email ='"+userEmail+"' and deleted = 0");
+	    
+    	try{
+    		if(result.next()==false){
+	    		String sql = "insert into user(Email,function,team,actived,create_time,update_time,update_operator)values(?,?,?,?,?,?,?)";
+		    	PreparedStatement ps = con.prepareStatement(sql);
+		    	ps.setString(1, userEmail);
+		    	ps.setInt(2, user.getFunction());
+		    	ps.setInt(3, user.getTeam());
+		    	ps.setInt(4, 1);
+		    	ps.setString(5, ft.format(dNow));
+		    	ps.setString(6, ft.format(dNow));
+		    	ps.setString(7, email);
+		    	ps.executeUpdate();
+		    	ps.close();
+		    	flag = true;
+    		}else{
+    			String sql = "update user set function=?,team=?,update_time=?,update_operator=? where Email='"+userEmail+"'";
+		    	PreparedStatement ps = con.prepareStatement(sql);
+		    	ps.setInt(1, user.getFunction());
+		    	ps.setInt(2, user.getTeam());
+		    	ps.setString(3, ft.format(dNow));
+		    	ps.setString(4, email);
+		    	ps.executeUpdate();
+		    	ps.close();
+		    	flag = true;
+    		}
+    	 }catch(SQLException e) {   
+             e.printStackTrace();   
+ 	    }finally {
+ 		    endConn();
+ 		}
+	    
+		return flag;
+	}
+	
+	/**
+	 * delete user right
+	 * @param user  operatorEmail
+	 * @return boolean
+	 * @throws SQLException
+	 */
+	public static  boolean deleteUserRightByID(String user_id,String operatorEmail) throws SQLException{
+		boolean flag = false;
+		PreparedStatement ps;
+		Date dNow = new Date( );
+		SimpleDateFormat ft =  new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
+		try{
+			startConn();
+		    String sql = "update user set deleted =?,update_time=?,update_operator=? where user_id = "+user_id;
+	    	ps = con.prepareStatement(sql);
+	    	ps.setInt(1, 1);
+	    	ps.setString(2, ft.format(dNow));
+	    	ps.setString(3, operatorEmail);
+	    	ps.executeUpdate();
+	    	ps.close();
+		    flag = true;
+    	}catch(SQLException e) {   
+            e.printStackTrace();   
+	    }finally {
+		    endConn();
+		}
+		return flag;
+	}
+	
 	//query user information
 	public static User getUser(String email) throws SQLException{
 		User user = new User();
@@ -342,9 +422,38 @@ public class connDb {
 	    	user.setEmail(rs.getString("Email"));
 	    	user.setAuthorizationRole(rs.getInt("authorization_role"));
 	    	user.setRemember(rs.getString("remember"));
-	    	
+	    	user.setFunction(rs.getInt("function"));
+	    	user.setTeam(rs.getInt("team"));
 	    	user.setCreateTime(rs.getTimestamp("create_time"));
 	    	user.setUpdateTime(rs.getTimestamp("update_time"));
+	    	user.setUpdateOperator(rs.getString("update_operator"));
+	    }
+	    
+	    endConn();
+		return user;
+	}
+	
+	
+	/**
+	 * query user information by user_id
+	 * @param user_id
+	 * @return
+	 * @throws SQLException
+	 */
+	public static User getUserByID(String user_id) throws SQLException{
+		User user = new User();
+	    startConn();
+	    stmt = con.createStatement();
+	    rs = stmt.executeQuery("select * from user where user_id ='"+user_id+"' and deleted = 0  order by Email");
+	    if(rs.next()){
+	    	user.setEmail(rs.getString("Email"));
+	    	user.setAuthorizationRole(rs.getInt("authorization_role"));
+	    	user.setRemember(rs.getString("remember"));
+	    	user.setFunction(rs.getInt("function"));
+	    	user.setTeam(rs.getInt("team"));
+	    	user.setCreateTime(rs.getTimestamp("create_time"));
+	    	user.setUpdateTime(rs.getTimestamp("update_time"));
+	    	user.setUpdateOperator(rs.getString("update_operator"));
 	    }
 	    
 	    endConn();
@@ -367,6 +476,7 @@ public class connDb {
 	    	user.setRemember(rs.getString("remember"));
 	    	user.setCreateTime(rs.getTimestamp("create_time"));
 	    	user.setUpdateTime(rs.getTimestamp("update_time"));
+	    	user.setUpdateOperator(rs.getString("update_operator"));
 	    	userlist.add(user);
 	    }
 
@@ -399,7 +509,13 @@ public class connDb {
 		return role;
 	}
 	
-	//query role_id
+	
+	/**
+	 *  query role_id by condition
+	 * @param role
+	 * @return
+	 * @throws SQLException
+	 */
 	public static  int queryRole(Role role) throws SQLException{
 		int role_id = 0 ;
 	    int function = role.getFunction();
@@ -431,58 +547,6 @@ public class connDb {
 	}
 	
 	
-	/**
-	 * update role detail info
-	 * @param role
-	 * @param email
-	 * @return
-	 * @throws SQLException
-	 */
-	public static  boolean updateRole(Role role,String email) throws SQLException{
-		boolean flag = false;
-		int role_id = role.getRoleId();
-		
-		String sql ;
-		PreparedStatement ps;
-		try{
-			Date dNow = new Date( );
-			SimpleDateFormat ft =  new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
-		    startConn();
-		    if(role_id!=0){
-		    	//update access
-		    	sql = "update role set access_list=?,update_time=?,update_operator=? where role_id="+role_id;
-		    	ps = con.prepareStatement(sql);
-		    	ps.setString(1, role.getAccessList());
-		    	ps.setString(2, ft.format(dNow));
-		    	ps.setString(3, email);
-		    	ps.executeUpdate();
-		    	ps.close();
-		    	flag = true;
-		    }else{
-		    	
-		    	sql = "insert into role(access_list,function,team,job_role,commodity,create_time,create_operator,update_time,update_operator)values(?,?,?,?,?,?,?,?,?)";
-		    	ps = con.prepareStatement(sql);
-		    	ps.setString(1, role.getAccessList());
-		    	ps.setInt(2, role.getFunction());
-		    	ps.setInt(3, role.getTeam());
-		    	ps.setInt(4, role.getJobRole());
-		    	ps.setInt(5, role.getCommodity());
-		    	ps.setString(6, ft.format(dNow));
-		    	ps.setString(7, email);
-		    	ps.setString(8, ft.format(dNow));
-		    	ps.setString(9, email);
-		    	ps.executeUpdate();
-		    	ps.close();
-		    	flag = true;
-			    
-		    }
-	    }catch(SQLException e) {   
-            e.printStackTrace();   
-	    }finally {
-		    endConn();
-		}
-		return flag;
-	}
 	
 	
 	//delete role 
@@ -550,6 +614,59 @@ public class connDb {
 		return Rolelist;
 	}
 	
+	/**
+	 * update role detail info
+	 * @param role
+	 * @param email
+	 * @return
+	 * @throws SQLException
+	 */
+	public static  boolean updateRole(Role role,String email) throws SQLException{
+		boolean flag = false;
+		int role_id = role.getRoleId();
+		
+		String sql ;
+		PreparedStatement ps;
+		try{
+			Date dNow = new Date( );
+			SimpleDateFormat ft =  new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
+		    ft.setTimeZone(TimeZone.getTimeZone("GMT+8"));
+		    startConn();
+		    if(role_id!=0){
+		    	//update access
+		    	sql = "update role set access_list=?,update_time=?,update_operator=? where role_id="+role_id;
+		    	ps = con.prepareStatement(sql);
+		    	ps.setString(1, role.getAccessList());
+		    	ps.setString(2, ft.format(dNow));
+		    	ps.setString(3, email);
+		    	ps.executeUpdate();
+		    	ps.close();
+		    	flag = true;
+		    }else{
+		    	
+		    	sql = "insert into role(access_list,function,team,job_role,commodity,create_time,create_operator,update_time,update_operator)values(?,?,?,?,?,?,?,?,?)";
+		    	ps = con.prepareStatement(sql);
+		    	ps.setString(1, role.getAccessList());
+		    	ps.setInt(2, role.getFunction());
+		    	ps.setInt(3, role.getTeam());
+		    	ps.setInt(4, role.getJobRole());
+		    	ps.setInt(5, role.getCommodity());
+		    	ps.setString(6, ft.format(dNow));
+		    	ps.setString(7, email);
+		    	ps.setString(8, ft.format(dNow));
+		    	ps.setString(9, email);
+		    	ps.executeUpdate();
+		    	ps.close();
+		    	flag = true;
+			    
+		    }
+	    }catch(SQLException e) {   
+            e.printStackTrace();   
+	    }finally {
+		    endConn();
+		}
+		return flag;
+	}
 	
 	
 	
@@ -620,6 +737,66 @@ public class connDb {
 		}
 		return flag;
 	}
+	
+	/**
+	*  发送邮件记录
+	* @return boolean
+	* @param   user_id, email,  receive_email,  title, content,  access_id
+	*/
+	public static boolean sendRecord(int user_id,String email, String receive_email, String title,String content, int access_id) throws SQLException{
+		boolean flag = false;
+		
+		PreparedStatement ps;
+		try{
+			Date dNow = new Date( );
+			SimpleDateFormat ft =  new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
+		    startConn();
+		    String sql = "insert into send_record(user_id,email,receive_email,email_subject,content,create_time,access_id)values(?,?,?,?,?,?,?)";
+	    	ps = con.prepareStatement(sql);
+	    	ps.setInt(1, user_id);
+	    	ps.setString(2, email);
+	    	ps.setString(3, receive_email);
+	    	ps.setString(4, title);
+	    	ps.setString(5, content);
+	    	ps.setString(6, ft.format(dNow));
+	    	ps.setInt(7, access_id);
+	    	ps.executeUpdate();
+	    	ps.close();
+	    	flag = true;
+	    }catch(SQLException e) {   
+            e.printStackTrace();   
+	    }finally {
+		    endConn();
+		}
+		return flag;
+	}
+	
+	/**
+	*  查询邮件记录
+	* @return Record
+	* @param   user_id, email,  receive_email,  title, content,  access_id
+	*/
+	public static ArrayList getSendRecordList(int user_id) throws SQLException{
+		ArrayList<SendRecord> recordList= new ArrayList();
+	    startConn();
+	    stmt = con.createStatement();
+	    rs = stmt.executeQuery("select * from send_record where user_id ='"+user_id+"' and deleted = 0");
+	    while(rs.next()){
+	    	SendRecord record = new SendRecord();
+	    	record.setRecordId(rs.getInt("record_id"));
+	    	record.setUserId(rs.getInt("user_id"));
+	    	record.setEmail(rs.getString("email"));
+	    	record.setReceiveEmail(rs.getString("receive_email"));
+	    	record.setEmailSubject(rs.getString("email_subject"));
+	    	record.setContent(rs.getString("content"));
+	    	record.setCreatTime(rs.getTimestamp("create_time"));
+	    	record.setAccessId(rs.getInt("record_id"));
+	    	recordList.add(record);
+	    }
+	    
+	    endConn();
+		return recordList;
+	}
 /***************************************remember*********************************************/	
 	/**
 	*  记住提交的job role
@@ -629,14 +806,11 @@ public class connDb {
 	public static  boolean remember(User user) throws SQLException{
 		boolean flag = false;
 		PreparedStatement ps;
-		Date dNow = new Date( );
-		SimpleDateFormat ft =  new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
 		try{
 			startConn();
-		    String sql = "update user set remember =?,update_time=? where user_id = "+user.getUserId();
+		    String sql = "update user set remember =? where user_id = "+user.getUserId();
 	    	ps = con.prepareStatement(sql);
 	    	ps.setString(1, user.getRemember());
-	    	ps.setString(2, ft.format(dNow));
 	    	ps.executeUpdate();
 	    	ps.close();
 		    flag = true;

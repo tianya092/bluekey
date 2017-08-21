@@ -11,6 +11,7 @@ public class User {
 	private String remember;
 	private Timestamp createTime;
 	private Timestamp updateTime;
+	private String UpdateOperator;
 	private int authorizationRole;
 	private int function;
 	private int team;
@@ -65,6 +66,11 @@ public class User {
 	public void setAuthorizationRole(int authorizationRole) {
 		this.authorizationRole = authorizationRole;
 	}
-	
+	public String getUpdateOperator() {
+		return UpdateOperator;
+	}
+	public void setUpdateOperator(String updateOperator) {
+		UpdateOperator = updateOperator;
+	}
 	
 }

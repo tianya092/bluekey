@@ -3,7 +3,7 @@
 
 <%  
     if(session.getAttribute("email")!=null){
-		response.sendRedirect("search.jsp");
+		response.sendRedirect("query.jsp");
 	}
 %>
 <!DOCTYPE html>
@@ -31,7 +31,7 @@
 		<div class="inner-bg">
 			<div class="container">
 				<div class="row">
-					<div class="col-sm-8 col-sm-offset-2 text">
+					<div class="col-sm-8 col-sm-offset-2 text"  style="text-align: center">
 						<h1>
 							<strong>Welcome to Blue key</strong>
 						</h1>

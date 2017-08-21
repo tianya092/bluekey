@@ -22,14 +22,16 @@
 <link href="css/mystyles.css" rel="stylesheet">
 <link href="css/font-awesome.css" rel="stylesheet">
 <link href="css/bootstrap-social.css" rel="stylesheet">
+<link href="css/style.css" rel="stylesheet">
+<style>
 
+</style>
 </head>
-<body data-spy="scroll" data-target="#myScrollspy">
-
+<body >
+	<div class="wrapper">
 	<jsp:include page="top.jsp" flush="true" />
 	
-	<div class="container">
-	
+	<div class="container" style=" padding-bottom: 90px;">
 		<div class="col-xs-12 col-sm-12" style="margin:20px 0 20px 0;padding-left:0 ">
 				<ol class="breadcrumb">
 					<li><a href="query.jsp">Home</a></li>
@@ -37,7 +39,7 @@
 				</ol>
 			</div>
 		<div>
-			Find <%= accessList.size()%> results for you
+			Find <%= accessList.size()%> results about "<%= search%>" 
 		</div>
 		<hr>
 		<%
@@ -70,6 +72,9 @@
 			</div>
        	<%}%>	
 	</div>
+	
 	<jsp:include page="bottom.jsp" flush="true" />
+	</div>
+
 </body>
 </html>

@@ -11,9 +11,9 @@
 }
 
 .row-footer {
-	background-color: #5c7ebd;
+	/* background-color: #5c7ebd; */
 	margin: 0px auto;
-	padding: 20px 0px 20px 0px;
+	padding: 10px 0px 10px 0px;
 }
 
 .jumbotron {
@@ -29,13 +29,52 @@ address {
 	color: #0f0f0f;
 }
 
-body {
-	padding: 50px 0px 0px 0px;
-	z-index: 0;
+html, body {
+	margin: 0;
+	padding: 0;
+	height: 100%; 
+	/* overflow:scroll;overflow-x:hidden;overflow-y:hidden */
+}
+
+.wrapper {
+	min-height: 100%;
+	height: auto !important;
+	height: 100%; /*IE6不识别min-height*/
+}
+
+.footer {
+	
+	position: relative;
+	margin-top: -91.11;/*等于footer的高度*/ 
+	height: 91.11px; 
+	clear:both; 
+	
+}
+
+.header {
+	
+}
+.page {
+	margin: 0 auto;
+	padding-bottom: 60px; /*等于footer的高度*/
+}
+
+.navLogo{
+	margin: 5px;
+}
+.breadcrumb-nav {
+	font-size: 14px;
+	margin-top: 80px
 }
 
 .navbar-inverse {
 	background: #5c7ebd;
+	top: 0;
+	border-width: 0 0 1px;
+	/*   position: fixed; */
+	right: 0;
+	left: 0;
+	z-index: 1030;
 }
 
 .navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:hover,
@@ -91,11 +130,13 @@ body {
 	font-size: 16px;
 	color: red;
 	margin: 0 auto;
-	padding: 10px; text-align : center;
+	padding: 5px 10px 5px 10px ;
+	text-align: center;
 	cursor: pointer;
 	text-align: center;
 	overflow: hidden;
-	white-space: nowrap; 
+	white-space: nowrap;
+	height: 50px;
 }
 
 .access-item:hover {
@@ -123,43 +164,52 @@ padding-top: 10px;*/
 	cursor: pointer;
 	margin: 0 auto;
 }
-.result-item{
-	padding:5px;
-	margin:10px 20px 10px 0px;
+
+.result-item {
+	padding: 5px;
+	margin: 10px 20px 10px 0px;
 }
-.result-item-label{
+
+.result-item-label {
 	position: relative;
-    overflow: hidden;
-    width: auto;
-    height: 55px;
-    line-height: 30px;
-    
+	overflow: hidden;
+	width: auto;
+	height: 55px;
+	line-height: 30px;
 }
-.result-item-label:after{
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    padding:0 5px 1px 45px;
-    content: '...';            
-    background:url(ellipsis_bg.png) repeat-y;
+
+.result-item-label:after {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	padding: 0 5px 1px 45px;
+	content: '...';
+	background: url(ellipsis_bg.png) repeat-y;
 }
-.hightlight{
-	color:red;
-	font-weight:500;
+
+.hightlight {
+	color: red;
+	font-weight: 500;
 }
-.check-role input{
+
+.check-role input {
 	margin-left: 10px;
 	margin-right: 10px;
 }
+
 #detail_form {
 	margin-top: 20px;
 }
+
 #email_template {
 	margin-top: 20px;
 }
-.role-select-label{
-	padding-left: 5px;padding-right: 5px;
+
+.role-select-label {
+	padding-left: 5px;
+	padding-right: 5px;
 }
+
 .navbar-inverse .navbar-nav>li>a {
 	color: white;
 }

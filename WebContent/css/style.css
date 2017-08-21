@@ -3,15 +3,15 @@ body {
     font-family: 'Roboto', sans-serif;
     font-size: 16px;
     font-weight: 300;
-    color: #888;
+    /* color: #666; */
     line-height: 30px;
-    text-align: center;
+    //text-align: center;
 }
 
 strong { font-weight: 500; }
 
 a, a:hover, a:focus {
-  color: #de995e;
+  color: #5c7ebd;
   text-decoration: none;
     -o-transition: all .3s; -moz-transition: all .3s; -webkit-transition: all .3s; -ms-transition: all .3s; transition: all .3s;
 }

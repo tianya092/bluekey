@@ -1,12 +1,21 @@
-<%@ page language="java" import="com.bluekey.connDb,com.bluekey.Access,com.bluekey.Mail,java.util.*" contentType="text/html; charset=UTF-8"
+<%@ page language="java" import="com.bluekey.connDb,com.bluekey.Access,com.bluekey.User,com.bluekey.Mail,java.util.*" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%  
+	String email = (String)session.getAttribute("email");
+	if(session.getAttribute("email")==null){
+		response.sendRedirect("login.jsp");
+	}
+	User  user = connDb.getUser(email); //get access list
+	if(user.getFunction()!=1000){
+		out.println("<script>alert(\"You haven't permission  to vist the page!\");window.history.go(-1);</script>");
+	}
+	
 	String access_id = request.getParameter("access_id");
-
+	
 	Access access = new Access(); 
 	Mail mail = new Mail();
 	if(access_id!=null&&!access_id.equals("")){ 
-		access = connDb.accessDetail(access_id); //get access list
+		access = connDb.getAccessByID(access_id); //get access list
 		mail = connDb.getMailTemplate(access_id); //get send mail template
 	}
 	String  title = "";
@@ -43,8 +52,8 @@
 	
 </script>
 </head>
-<body data-spy="scroll" data-target="#myScrollspy">
-
+<body >
+	<div class=" wrapper">
     <jsp:include page= "top.jsp" flush ="true"/>
     <%
     	if(access_id!=null&&!access_id.equals("")){ 
@@ -53,6 +62,7 @@
     		function = access.getFunction();
     		platform = access.getPlatform();
     		url = access.getUrl();
+    		other_url = access.getOtherUrl();
     		apply_email = access.getApplyEmail();
     		lead_time = access.getLeadTime();
     		apply_step = access.getApplyStep().trim();
@@ -65,10 +75,8 @@
     	}
     	
     %>
-	<div class="container" style="margin-bottom: 70px;">
-	   
-	  <div class="row"></div>
-		<div class="row" style="font-size: 14px;margin-top:20px">
+	<div class="container"  style=" padding-bottom: 90px;">
+		<div class="row breadcrumb-nav" >
 			<div class="col-xs-12 col-sm-12 col-sm-push-0">
 				<ol class="breadcrumb">
 					<li><a href="query.jsp">Home</a></li>
@@ -108,7 +116,7 @@
 										<div class="form-group">
 											 <label for="inputTitle" class="col-sm-2 control-label"><span style="color:red">*</span>Access Title</label>
 											<div class="col-sm-8">
-												<input type="text" class="form-control input" name="title" check-type="required" required-message="密码不能为空！"   value="<%=title%>"/>
+												<input type="text" class="form-control input" name="title"   value="<%=title%>"/>
 											</div>
 										</div>
 										<div class="form-group">
@@ -209,6 +217,7 @@
 				</div>
 			</div>
 		</div>
+	</div>
 	</div>
 	<jsp:include page= "bottom.jsp" flush ="true"/>
 	<script type="text/javascript">
