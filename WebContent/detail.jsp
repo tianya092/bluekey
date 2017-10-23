@@ -31,36 +31,44 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>Blue Key</title>
-<!-- Bootstrap -->
+<script src="js/jquery-1.10.2.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+
+<link rel="shortcut icon" href="img/favico.ico"/>
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/bootstrap-theme.min.css" rel="stylesheet">
 <link href="css/mystyles.css" rel="stylesheet">
 <link href="css/font-awesome.css" rel="stylesheet">
 <link href="css/bootstrap-social.css" rel="stylesheet">
+
+<script type="text/javascript">
+$(document).ready(function(){
+	var applyStep=  $("#detail-apply-step").text().replace(/\n/g,'<br/>');
+    $("#detail-apply-step").html(applyStep);
+    
+    var description=  $("#detail-function-description").text().replace(/\n/g,'<br/>');
+    $("#detail-function-description").html(description);
+});
+
+</script>
 </head>
 
-<body>
+<body style="overflow:scroll;overflow-x:hidden">
 	<div class="wrapper">
+		<div class="page">
 		<jsp:include page="top.jsp" flush="true" />
 
-		<header>
-			<!-- Main component for a primary marketing message or call to action -->
-
-			<div class="jumbotron">
-				<div class="row" style="margin-top: 50px;">
-					<img src="img/u6.jpg" class="center-block"
-						style="height: 94px; margin: 0px auto;">
-				</div>
-			</div>
-		</header>
 
 		<div class="container">
 			<div class="row"></div>
-			<div class="row" style="font-size: 16px;">
-				<div class="col-xs-12 col-sm-12 col-sm-push-0">
+			<div class="row breadcrumb-nav" style="font-size: 14px;">
+				<div class="col-xs-12 col-sm-12 col-sm-push-0" >
 					<ol class="breadcrumb">
 						<li><a href="query.jsp">Home</a></li>
-						<li><a href="access.jsp?role_id=<%=role_id%>">Access</a></li>
+						<%if(role_id != null && !role_id.equals("")){%>
+							<li><a href="access.jsp?role_id=<%=role_id%>">Access</a></li>
+						<%}%>
+						
 						<li class="active"><%=access.getShortTitle()%></li>
 
 					</ol>
@@ -68,7 +76,7 @@
 			</div>
 
 			<div class="row row-content">
-				<div class="col-xs-12 col-sm-2 col-sm-push-0 ">
+				<div class="col-xs-12 col-sm-2 col-sm-push-0 " style="margin-top: 50px;">
 					<p style="padding: 15px;"></p>
 					<div class="row">
 						<div class="col-xs-12 col-sm-8 col-sm-push-1 access-item-test"
@@ -94,11 +102,13 @@
 
 					<!-- å·ä½åå®¹ æ¾ç¤º -->
 					<div class="row" id="general_access">
-						<div class="col-xs-12 col-sm-12 access-item-detail"
-							style="left: 26px; top: 19px;">
-							<h3 style="font-size: 22px; padding-bottom: 40px;"><%=access.getTitle()%></h3>
+						<div class="col-xs-12 col-sm-12 access-item-detail" style="left: 26px; top: 19px;">
+							<h3 style="font-size: 22px; "><%=access.getTitle()%></h3>
+							<p style="font-size: 14px; padding-bottom: 20px; " id="detail-function-description">
+								<%=access.getFunction()%>
+							</p>
 							<p style="font-size: 14px; padding-bottom: 20px;">
-								access:
+								<b>Access:</b>
 								<%
 								if (access.getParentPart() == 1) {
 									out.print("general access");
@@ -108,13 +118,13 @@
 							%>
 							</p>
 							<p style="font-size: 14px; padding-bottom: 20px;">
-								lead time:
+								<b>Lead time:</b>
 								<%=access.getLeadTime()%>
 								days
 							</p>
 							<p
-								style="font-size: 14px; padding-bottom: 20px; padding-top: 20px;">
-								Platform:
+								style="font-size: 14px; padding-bottom: 20px; ">
+								<b>Platform:</b>
 								<%
 								if (access.getPlatform().equals("1")) {
 									out.print("lotus notes");
@@ -123,10 +133,7 @@
 								}
 							%>
 							</p>
-							<p
-								style="font-size: 14px; padding-bottom: 20px; padding-top: 20px;">
-								<%=access.getFunction()%>
-							</p>
+							
 						</div>
 					</div>
 
@@ -136,7 +143,7 @@
 							<h3>Apply</h3>
 
 							<p
-								style="font-size: 14px; padding-bottom: 20px; padding-top: 20px;">
+								style="font-size: 14px; padding-bottom: 10px; padding-top: 10px;" id="detail-apply-step">
 								<%=access.getApplyStep()%>
 							</p>
 							<%
@@ -144,7 +151,7 @@
 							%>
 							<hr>
 							<p
-								style="font-size: 14px; padding-bottom: 20px; padding-top: 20px;">
+								style="font-size: 14px; ">
 								Link: <a href=<%=access.getUrl()%> target="view_window"><%=access.getUrl()%></a>
 							</p>
 							<%
@@ -154,7 +161,7 @@
 								if (access.getOtherUrl() != null && !"".equals(access.getOtherUrl())) {
 							%>
 							<p
-								style="font-size: 14px; padding-bottom: 20px; padding-top: 20px;">
+								style="font-size: 14px; padding-bottom: 10px; padding-top: 10px;">
 								Link2: <a href=<%=access.getOtherUrl()%> target="view_window"><%=access.getOtherUrl()%></a>
 							</p>
 							<%
@@ -169,10 +176,10 @@
 								If you want to send an email to apply for the access, please
 								click the button!</p>
 
-							<div class="container">
+							<div>
 								<div>
 									<a id="modal-317864" href="#modal-container-email"
-										role="button" class="btn btn-primary" data-toggle="modal">Apply
+										role="button" class="btn btn-primary" data-toggle="modal" style="background: #5c7ebd; border: 0;">Apply
 										Access</a>
 
 									<div class="modal fade" id="modal-container-email"
@@ -193,11 +200,12 @@
 															<div class="form-group">
 																<label for="inputRecevieAddress"
 																	class="col-sm-2 control-label">Receive Address</label>
-																<div class="col-sm-9">
-																	<input type="text" class="form-control" disabled
-																		name="Receive_email" style="width: 410px;"
-																		value="<%=access.getApplyEmail()%>" /><span
-																		class="label label-warning" data-toggle="tooltip"
+																<div class="col-sm-6">
+																	<input type="text" class="form-control" readonly
+																		name="receive_email" 
+																		value="<%=access.getApplyEmail()%>" />																</div>
+																<div class="col-sm-3 ">
+																	<span class="label label-warning" data-toggle="tooltip"
 																		data-placement="right"
 																		title="If the email address is wrong,please feedback to us!">Alert</span>
 																</div>
@@ -207,10 +215,21 @@
 															<div class="form-group">
 																<label for="inputEmailTitle"
 																	class="col-sm-2 control-label">CC</label>
-																<div class="col-sm-9 ">
+																<div class=" col-sm-9 ">
 																	<input type="text" class="form-control"
-																		name="carbon_copying" style="width: 410px;"
+																		name="carbon_copying" 
 																		value="<%=email%>" />
+																		
+																</div>
+																
+																<div class="col-sm-offset-2 col-sm-9 ">
+																	<div id="myAlert" class="alert alert-warning" style="padding-top: 5px; padding-bottom: 5px; margin-bottom: 0px;">
+																		<button type="button" class="close" data-dismiss="alert"
+																				aria-hidden="true">
+																			&times;
+																		</button>
+																		<strong>Alert！</strong>separate multiple addresses by comma!
+																	</div>
 																</div>
 															</div>
 															<div class="form-group">
@@ -264,16 +283,25 @@
 				</div>
 			</div>
 		</div>
+		</div>
+		<div class="guide">
+			<div class="guide-wrap">
+				<a href="feedback.jsp" class="report" title="Feedback"><span>Feedback</span></a>
+				<a href="#" class="top" title="To top"><span>To top</span></a>
+			</div>
+		</div>
 	</div>
 	<jsp:include page="bottom.jsp" flush="true" />
 
-
-
-
-	<script src="js/jquery-3.1.0.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-
 	<script type="text/javascript">
+		$(document).ready(function(){
+			$(".top").on("click", function() { 
+	            $("body").stop().animate({  
+	                scrollTop: 0  
+	            });  
+	        })  
+		});
+
 		$(function() {
 			$("[data-toggle='tooltip']").tooltip();
 		});

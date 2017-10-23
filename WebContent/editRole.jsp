@@ -2,6 +2,7 @@
 	import="com.bluekey.connDb,com.bluekey.Access,com.bluekey.Role,com.bluekey.User,java.util.*"
 	contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
+	request.setCharacterEncoding("utf-8");
 	String email = (String) session.getAttribute("email");
 	if (email == null) {
 		response.sendRedirect("login.jsp");
@@ -11,17 +12,17 @@
 
 	String role_id = request.getParameter("role_id");
 
-	String[] functionArr = new String[]{"", "PP", "PI", "Finance", "DSA", "COSSM", "Eng"};
+	String[] functionArr = new String[]{"", "PP", "PI", "Finance", "DSA", "COSSM", "Eng","global procurement for test"};
 	String[] teamArr = new String[]{"", "Ellen Xu", "Vivian Chen", "Shirly Xie", "Simon Lv", "Hugo cai",
 			"kenny Kong", "Anne lei", "Li Ping", "Mike Huang", "Jessica Wei", "Logan Huang", "Ziv Zhao",
-			"Jason Guo", "Mary Ma"};
+			"Jason Guo", "Mary Ma","team_01"};
 	String[] jobRoleArr = new String[]{"", "GCM", "BC", "Admin", "Government relationship", "HR",
 			"Assistant of Excutive", "Communication", "Reception", "Consult", "PCE", "GCM", "DSW NPM",
 			"DSW BNPM", "BPE", "ESW NPM", "ESW BNPM", "Code Mangerment Team", "SAP team", "Pring team",
 			"CP team", "CPC FIN Control", "Staff Financial Analyst", "Demand planning", "Inventory",
 			"Supply Assurance", "GCSA", "Hardware Order to Delivery management", "QE", "TE", "OPE", "PQE",
-			"TQE", "Test", "ENG", "PQE"};
-	String[] commodityArr = new String[]{"", "Platform", "ECAT", "PCB"};
+			"TQE", "Test", "ENG", "PQE","job_role_01"};
+	String[] commodityArr = new String[]{"", "Platform", "ECAT", "PCB","commodity_01","commodity_02","commodity_03"};
 
 	Role role = new Role();
 	ArrayList<String[]> generalList = null;
@@ -69,33 +70,47 @@
 <script src="js/language/zh_CN.js"></script>
 <script src="js/jquery.cxselect.js"></script>
 
+<link rel="shortcut icon" href="img/favico.ico"/>
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/bootstrap-theme.min.css" rel="stylesheet">
 <link href="css/mystyles.css" rel="stylesheet">
 <link href="css/font-awesome.css" rel="stylesheet">
 <link href="css/bootstrap-social.css" rel="stylesheet">
 <link href="css/bootstrapValidator.css" rel="stylesheet">
+<script type="text/javascript">
+$(document).ready(function(){
+	var functionStatus ="<%= user.getFunction() %>";
+	var teamStatus ="<%= user.getTeam() %>";
+	if (functionStatus > 0 && functionStatus != 1000){
+		$("#edit-role-select").attr("disabled", true);
+	}
+	if (teamStatus > 0 ){
+		$("#edit-team-select").attr("disabled", true);
+	}
+	
+})
 
+</script>
 </head>
-<body data-spy="scroll" data-target="#myScrollspy">
+<body style="overflow:scroll;overflow-x:hidden">
 	<div class=" wrapper">
+	<div class="page">
 		<jsp:include page="top.jsp" flush="true" />
-		<%
-			
-		%>
-		<div class="container" style="padding-bottom: 90px;">
+		
+		<div class="container" >
 			<div class="row breadcrumb-nav">
 				<div class="col-xs-12 col-sm-12">
 					<ol class="breadcrumb">
 						<li><a href="input.jsp">Home</a></li>
-						<li class="active"><a href="#">Contact</a></li>
+						<li><a href="#">Setting</a></li>
+						<li class="active">Edit job role</li>
 
 					</ol>
 				</div>
 			</div>
 		
 			<fieldset id="custom_data">
-				<legend>Edit Role</legend>
+				<legend>Edit Job Role</legend>
 				<div class="col-md-12 column">
 					<form class="form-horizontal" id="role_form" method="post"
 						role="form" action="doEditRole.jsp">
@@ -107,7 +122,7 @@
 									<%
 										if (role_id == null || role_id.equals("")) {
 									%>
-									<select class="function form-control" name="function"
+									<select class="function form-control" name="function" id="edit-role-select"
 										data-value="<%=user.getFunction()%>"></select>
 									<%
 										} else {
@@ -127,7 +142,7 @@
 									<%
 										if (role_id == null || role_id.equals("")) {
 									%>
-									<select class="team form-control" name="team"
+									<select class="team form-control" name="team" id="edit-team-select"
 										data-value="<%=user.getTeam()%>"></select>
 									<%
 										} else {
@@ -237,10 +252,23 @@
 				</div>
 			</fieldset>
 		</div>
-		<jsp:include page="bottom.jsp" flush="true" />
+		</div>
+		<div class="guide">
+			<div class="guide-wrap">
+				<a href="feedback.jsp" class="report" title="Feedback"><span>Feedback</span></a>
+				<a href="#" class="top" title="To top"><span>To top</span></a>
+			</div>
+		</div>
 	</div>
-	
+	<jsp:include page="bottom.jsp" flush="true" />
 	<script>
+		$(document).ready(function(){
+			$(".top").on("click", function() { 
+	            $("body").stop().animate({  
+	                scrollTop: 0  
+	            });  
+	        })  
+		});
 		$(document)
 				.ready(
 						function() {
@@ -521,6 +549,27 @@
 					's' : [ {
 						'v' : '35',
 						'n' : 'PQE'
+					} ]
+				} ]
+			} , {
+				'v' : '7',
+				'n' : 'global procurement for test',
+				's' : [ {
+					'v' : '15',
+					'n' : 'team_01',
+					's' : [ {
+						'v' : '36',
+						'n' : 'job role_01',
+						's' : [ {
+							'v' : '4',
+							'n' : 'commodity_01'
+						}, {
+							'v' : '5',
+							'n' : 'commodity_02'
+						}, {
+							'v' : '6',
+							'n' : 'commodity_03'
+						} ]
 					} ]
 				} ]
 			} ];

@@ -32,17 +32,17 @@
 	String query_commodity = request.getParameter("commodity");
 
 	/* String page = request.getParameter("page"); */
-	String[] functionArr = new String[]{"", "PP", "PI", "Finance", "DSA", "COSSM", "Eng"};
+	String[] functionArr = new String[]{"", "PP", "PI", "Finance", "DSA", "COSSM", "Eng","global procurement for test"};
 	String[] teamArr = new String[]{"", "Ellen Xu", "Vivian Chen", "Shirly Xie", "Simon Lv", "Hugo cai",
 			"kenny Kong", "Anne lei", "Li Ping", "Mike Huang", "Jessica Wei", "Logan Huang", "Ziv Zhao",
-			"Jason Guo", "Mary Ma"};
+			"Jason Guo", "Mary Ma","team_01"};
 	String[] jobRoleArr = new String[]{"", "GCM", "BC", "Admin", "Government relationship", "HR",
 			"Assistant of Excutive", "Communication", "Reception", "Consult", "PCE", "GCM", "DSW NPM",
 			"DSW BNPM", "BPE", "ESW NPM", "ESW BNPM", "Code Mangerment Team", "SAP team", "Pring team",
 			"CP team", "CPC FIN Control", "Staff Financial Analyst", "Demand planning", "Inventory",
 			"Supply Assurance", "GCSA", "Hardware Order to Delivery management", "QE", "TE", "OPE", "PQE",
-			"TQE", "Test", "ENG", "PQE"};
-	String[] commodityArr = new String[]{"", "Platform", "ECAT", "PCB"};
+			"TQE", "Test", "ENG", "PQE","job_role_01"};
+	String[] commodityArr = new String[]{"", "Platform", "ECAT", "PCB","commodity_01","commodity_02","commodity_03"};
 
 	ArrayList<Role> roleList = connDb.getRoleList(query_function, query_team, query_job_role, query_commodity); //get role list
 %>
@@ -57,14 +57,30 @@
 <script src="js/language/zh_CN.js"></script>
 <script src="js/jquery.cxselect.js"></script>
 
+<link rel="shortcut icon" href="img/favico.ico"/>
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/bootstrap-theme.min.css" rel="stylesheet">
 <link href="css/mystyles.css" rel="stylesheet">
 <link href="css/font-awesome.css" rel="stylesheet">
 <link href="css/bootstrap-social.css" rel="stylesheet">
+<script type="text/javascript">
+$(document).ready(function(){
+	var functionStatus ="<%= user.getFunction() %>";
+	var teamStatus ="<%= user.getTeam() %>";
+	if (functionStatus > 0 && functionStatus != 1000){
+		$("#role-select").attr("disabled", true);
+	}
+	if (teamStatus > 0 ){
+		$("#team-select").attr("disabled", true);
+	}
+});
+
+
+</script>
 </head>
-<body data-spy="scroll" data-target="#myScrollspy">
+<body style="overflow:scroll;overflow-x:hidden">
 	<div class=" wrapper">
+		<div class="page">
 		<jsp:include page="top.jsp" flush="true" />
 		<div class="container">
 			<div class="row breadcrumb-nav" >
@@ -87,20 +103,17 @@
 							<label for="inputParent_part"
 								class="col-sm-1 control-label role-select-label">Function:</label>
 							<div class="col-sm-2">
-								<select class="function form-control role-select"
+								<select class="function form-control" id="role-select"
 									name="function" data-value="<%=query_function%>"
 									data-required="false" data-first-title="Select function"
-									disabled="true"
-									<%if (user.getFunction() > 0 && user.getFunction() != 1000) {
-				out.print("disabled=\"true\"");
-			}%>></select>
+									></select>
 							</div>
 						</div>
 						<div>
 							<label for="inputParent_part"
 								class="col-sm-1 control-label role-select-label">Team:</label>
 							<div class="col-sm-2">
-								<select class="team form-control" name="team"
+								<select class="team form-control" name="team" id="team-select"
 									data-value="<%=query_team%>" data-required="false"
 									data-first-title="Select team"></select>
 							</div>
@@ -126,13 +139,13 @@
 						</div>
 					</div>
 					<div class="col-md-1">
-						<button class="btn">Query</button>
+						<button class="btn btn-primary " style="background: #5c7ebd; border: 0;">Query</button>
 					</div>
 				</form>
 			</div>
 
-			<div style="margin-top: 90px;; margin-bottom: 10px;">
-				<a href="editRole.jsp" class="btn btn-info btn"> <span
+			<div style="margin-top: 100px; margin-bottom: 10px;">
+				<a href="editRole.jsp" class="btn btn-info" style="background: #5c7ebd; border: 0;"> <span
 					class="glyphicon glyphicon-plus"></span> add an role
 				</a>
 			</div>
@@ -159,11 +172,10 @@
 									//belongArr = role[1].split(",");
 									out.print("<tr><td>" + i + "</td><td>" + functionArr[role.getFunction()] + "</td><td>"
 											+ teamArr[role.getTeam()] + "</td><td>" + jobRoleArr[role.getJobRole()] + "</td><td>"
-											+ commodityArr[role.getCommodity()] + "</td><td>" + role.getUpdateTime() + "</td><td>"
+											+ commodityArr[role.getCommodity()] + "</td><td>" + role.getUpdateTime().replace(".0","") + "</td><td>"
 											+ role.getUpdateOperator() + "</td><td><a href=\"editRole.jsp?role_id=" + role.getRoleId()
-											+ "\" title=\"Edit\"><span class=\"glyphicon glyphicon-pencil\"></span></a>&nbsp;&nbsp;&nbsp;&nbsp <a href=\"deleteRole.jsp?role_id="
-											+ role.getRoleId()
-											+ "\" title=\"Delete\"><span class=\"glyphicon glyphicon-trash\"></span></a></td></tr>");
+											+ "\" title=\"Edit\" ><span class=\"glyphicon glyphicon-pencil\"></span></a>&nbsp;&nbsp;&nbsp;&nbsp <a onclick=\"return confirm('Are you sure to detele the role?')\" href=\"deleteRole.jsp?role_id="+ role.getRoleId()
+											+ " \" title=\"Delete\" ><span class=\"glyphicon glyphicon-trash\" ></span></a></td></tr>");
 
 								}
 								i++;
@@ -174,8 +186,22 @@
 			</div>
 		</div>
 	</div>
+	<div class="guide">
+		<div class="guide-wrap">
+			<a href="feedback.jsp" class="report" title="Feedback"><span>Feedback</span></a>
+			<a href="#" class="top" title="To top"><span>To top</span></a>
+		</div>
+	</div>
+	</div>
 	<jsp:include page="bottom.jsp" flush="true" />
 	<script>
+	$(document).ready(function(){
+		$(".top").on("click", function() { 
+            $("body").stop().animate({  
+                scrollTop: 0  
+            });  
+        })  
+	});
 			(function() {
 				var urlSelectData = [ {
 					'v' : '1',
@@ -424,6 +450,27 @@
 						's' : [ {
 							'v' : '35',
 							'n' : 'PQE'
+						} ]
+					} ]
+				} , {
+					'v' : '7',
+					'n' : 'global procurement for test',
+					's' : [ {
+						'v' : '15',
+						'n' : 'team_01',
+						's' : [ {
+							'v' : '36',
+							'n' : 'job role_01',
+							's' : [ {
+								'v' : '4',
+								'n' : 'commodity_01'
+							}, {
+								'v' : '5',
+								'n' : 'commodity_02'
+							}, {
+								'v' : '6',
+								'n' : 'commodity_03'
+							} ]
 						} ]
 					} ]
 				} ];

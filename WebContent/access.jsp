@@ -3,13 +3,7 @@
 <%
 	String role_id = request.getParameter("role_id");
 	String email = (String) session.getAttribute("email");
-	/* int role_id ;
-	if(role_id_str.equals("")||role_id_str==null){
-		out.println("<javascript> alter(\"function is empyt\")</javascript>");
-		response.sendRedirect("error.jsp");
-	}else{
-		role_id =Integer.parseInt(role_id_str);
-	} */
+	
 	if (session.getAttribute("email") == null) {
 		response.sendRedirect("login.jsp");
 	}
@@ -18,24 +12,8 @@
 	Map<String, String> function_access = null;
 	Map<String, String> other_access = null;
 
-	/* if(session.getAttribute("email")==null){
-		response.sendRedirect("login.jsp");
-	}else{
-		String user_id = request.getParameter("user_id");
-		String	email =	(String)session.getAttribute("email");
-		boolean right = connDb.checkUserRight(email, user_id); //check use-id is right or not
-		if(right==false){
-			out.println("<javascript> alter(\"please login yourself ID!\")</javascript>");
-			response.sendRedirect("error.jsp");
-		}else{
-			ArrayList<Map<String,String>> list = connDb.result(user_id); //get access list 
-			general_access= list.get(0);
-			function_access= list.get(1);
-			other_access= list.get(2);
-		}
-	} */
+	
 	if (role_id == null || role_id.equals("")) {
-		out.println("<javascript> alter(\"role id is null!\");window.history.go(-1);</javascript>");
 		response.sendRedirect("error.jsp");
 	} else {
 		ArrayList<Map<String, String>> list = connDb.result(role_id); //get access list 
@@ -56,6 +34,7 @@
 
 <title>Blue Key</title>
 <!-- Bootstrap -->
+<link rel="shortcut icon" href="img/favico.ico"/>
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/bootstrap-theme.min.css" rel="stylesheet">
 <link href="css/mystyles.css" rel="stylesheet">
@@ -64,30 +43,20 @@
 <link href="css/style.css" rel="stylesheet">
 <link href="css/mystyles.css" rel="stylesheet">
 
-<style type="text/css">
-#col-xs-4 col-sm-3 access-item-detail {
-	left: 26px;
-	padding: 20px;
-	height: 70px;
-	top: 19px;
-}
-</style>
-
 </head>
-
-
-<body>
-	<div class=" wrapper">
+<body style="overflow:scroll;overflow-x:hidden">
+	<div class="wrapper">
+		<div class="page">
 		<jsp:include page="top.jsp" flush="true" />
 		<header>
 			<div class="jumbotron">
 
-				<div class="row" style="margin-top: 50px;">
+				<!-- <div class="row" style="margin-top: 50px;">
 					<img src="img/u6.jpg" class="center-block" style="height: 94px; margin: 0px auto;">
 				</div>
+ -->
 
-
-				<div id="mycarousel" class="carousel slide" data-ride="carousel">
+				<div id="mycarousel" style="margin-top: 60px;" class="carousel slide" data-ride="carousel">
 					<ol class="carousel-indicators">
 						<li data-target="#mycarousel" data-slide-to="0" class="active"></li>
 						<li data-target="#mycarousel" data-slide-to="1"></li>
@@ -96,28 +65,30 @@
 					</ol>
 
 					<div class="carousel-inner" role="listbox">
-						<div class="item active">
-							<img class="img-responsive" src="img/u3.png" alt="u3">
+						<div class="item">
+							<img class="img-responsive" style="overflow:hidden" src="img/banner1.jpg" alt="u3">
 
 							<div class="carousel-caption" style="left: 50%; top: 10%;">
-								<h3>Welcome to blue key</h3>
+								<h3>Key to open your new life in IBM</h3>
 							</div>
 						</div>
 
 						<div class="item">
-							<img class="img-responsive" src="img/u1.png" alt="u1">
+							<img class="img-responsive" style="overflow:hidden" src="img/banner2.jpg" alt="u1">
 
+							
+						</div>
+						<div class="item">
+							<img class="img-responsive" style="overflow:hidden" src="img/banner3.jpg" alt="u4"> </a>
 							<div class="carousel-caption" style="left: 50%; top: 10%;">
 								<h3>You will build the future of FinTech</h3>
 							</div>
 						</div>
-						<div class="item">
-							<img class="img-responsive" src="img/u4.jpg" alt="u4"> </a>
-							<div class="carousel-caption"></div>
-						</div>
-						<div class="item">
-							<img class="img-responsive" src="img/u5.jpg" alt="u5"> </a>
-							<div class="carousel-caption"></div>
+						<div class="item active">
+							<img class="img-responsive" style="overflow:hidden" src="img/banner4.jpg" alt="u5"> </a>
+							<div class="carousel-caption" style="left: 50%; top: 10%;">
+								<h3>Welcome to blue key</h3>
+							</div>
 						</div>
 					</div>
 
@@ -135,7 +106,7 @@
 				</div>
 		</header>
 
-		<div class="container" style=" padding-bottom: 90px;">
+		<div class="container" >
 			<div class="row" >
 				<div class="col-xs-12 col-sm-12 col-sm-push-0"
 					style="font-size: 14px;">
@@ -146,7 +117,7 @@
 				</div>
 			</div>
 
-			<div class="row row-content" style="margin-top: -40px;">
+			<div class="row row-content" style="margin-top: -20px;">
 				<div class="col-xs-12 col-sm-2 col-sm-push-0 " style=" padding-left: 5px;">
 					<!-- <p style="padding: 10px;"></p> -->
 					<div class="row">
@@ -163,7 +134,7 @@
 
 				</div>
 				<div class="col-xs-12 col-sm-10 col-sm-push-0"
-					style="background-color: rgba(0, 51, 153, 0.0980392156862745);  font-size: 16px; color: #5C7EBD; font-family: 'Arial Normal', 'Arial'; font-weight: 600;">
+					style="background-color: rgba(200, 212, 243, 0.1);  font-size: 16px; color: #5C7EBD; font-family: 'Arial Normal', 'Arial'; font-weight: 600;">
 					<div class="row" id="general_access">
 						<div class="row">
 							<%
@@ -193,14 +164,27 @@
 				</div>
 			</div>
 		</div>
-	
-	<jsp:include page="bottom.jsp" flush="true" />
+		</div>
+		<div class="guide">
+			<div class="guide-wrap">
+				<a href="feedback.jsp" class="report" title="Feedback"><span>Feedback</span></a>
+				<a href="#" class="top" title="To top"><span>To top</span></a>
+			</div>
+		</div>
 	</div>
-
+	<jsp:include page="bottom.jsp" flush="true" />
 	<script src="js/jquery-3.1.0.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 
 	<script type="text/javascript">
+		$(document).ready(function(){
+			$(".top").on("click", function() { 
+	            $("body").stop().animate({  
+	                scrollTop: 0  
+	            });  
+	        })  
+		});
+
 		var generalAccess = document.getElementById("generalAccess");
 		// alert(generalAccess.id);
 

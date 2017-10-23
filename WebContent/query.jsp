@@ -35,8 +35,8 @@
 
 <title>Blue Key</title>
 
-
-<!-- Bootstrap -->
+<link rel="shortcut icon" href="img/favico.ico"/>
+<link rel="shortcut icon" href="img/favico.ico"/>
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/bootstrap-theme.min.css" rel="stylesheet">
 <link href="css/font-awesome.css" rel="stylesheet">
@@ -45,89 +45,91 @@
 <link href="css/mystyles.css" rel="stylesheet">
 </head>
 
-<body>
+<body style="overflow:scroll;overflow-x:hidden">
 	<div class="wrapper">
-		<jsp:include page="top.jsp" flush="true" />
+		<div class="page">
+			<jsp:include page="top.jsp" flush="true" />
+			<div class="container" style="padding-top: 100px;">
+				<div class="col-sm-6 col-sm-offset-3 form-box">
+					<div class="form-top">
+						<img src="img/u6.jpg" style="width: 80%; padding-left: 20%;">
+					</div>
 
-		<div class="container" style="margin-top: 10%;">
-			<div class="col-sm-6 col-sm-offset-3 form-box">
-				<div class="form-top">
-					<img src="img/u6.jpg" style="width: 80%; padding-left: 20%;">
-				</div>
+					<div class="form-bottom" id="select_role"
+						style="background-color: #E7ECF5;">
+						<form role="form" action="doSubmit.jsp" method="post"
+							class="login-form">
 
-				<div class="form-bottom" id="select_role"
-					style="background-color: #E7ECF5;">
-					<form role="form" action="doSubmit.jsp" method="post"
-						class="login-form">
-
-						<div class="row" style="margin-bottom: 15px;">
-							<div class="form-group" style="margin-bottom: 15px;">
-								<label for="functionid" class="col-sm-4 control-label "
-									style="text-align: right; color: #5c7ebd; font-size: 20px;">Function</label>
-								<div class="col-sm-8">
-									<select class="function form-control"
-										data-value="<%=remember_arr[0]%>" data-required="true"
-										name="function"></select>
-								</div>
-							</div>
-						</div>
-						<div class="row" style="margin-bottom: 15px;">
-							<div class="form-group" style="margin-bottom: 15px;">
-								<label for="teamid" class="col-sm-4 control-label"
-									style="text-align: right; color: #5c7ebd; font-size: 20px;">Team</label>
-								<div class="col-sm-8">
-									<select class="team form-control"
-										data-value="<%=remember_arr[1]%>" data-required="true"
-										name="team"></select>
-								</div>
-							</div>
-						</div>
-						<div class="row" style="margin-bottom: 15px;">
-
-							<div class="form-group" style="margin-bottom: 15px;">
-								<label for="commodity" class="col-sm-4 control-label"
-									style="text-align: right; color: #5c7ebd; font-size: 20px;">Job
-									Role</label>
-								<div class="col-sm-8">
-									<select class="job_role form-control"
-										data-value="<%=remember_arr[2]%>" data-required="true"
-										name="job_role"></select>
-								</div>
-							</div>
-						</div>
-						<div class="row" style="margin-bottom: 15px;">
-
-							<div class="form-group">
-								<label for="commodity" class="col-sm-4 control-label"
-									style="text-align: right; color: #5c7ebd; font-size: 20px;">Commodity</label>
-								<div class="col-sm-8">
-									<select class="commodity form-control"
-										data-value="<%=remember_arr[3]%>" name="commodity"></select>
-								</div>
-							</div>
-
-						</div>
-
-						<div class="row" style="margin-bottom: 15px;">
-
-
-							<div class="form-group">
-								<div class="col-sm-offset-4 col-sm-6">
-									<div class="checkbox">
-										<label> <input type="checkbox" name="remember_type"
-											style="height: 22px;"> Remember my selection
-										</label>
+							<div class="row" style="margin-bottom: 15px;">
+								<div class="form-group" style="margin-bottom: 15px;">
+									<label for="functionid" class="col-sm-4 control-label "
+										style="text-align: right; color: #5c7ebd; font-size: 20px;"><span style="color:red">*</span>Function</label>
+									<div class="col-sm-8">
+										<select class="function form-control"
+											data-value="<%=remember_arr[0]%>" data-required="true"
+											name="function"></select>
 									</div>
 								</div>
 							</div>
-						</div>
-						<input type="hidden" name="user_id" value="<%=user_id%>">
-						<button type="submit" class="btn">Query</button>
-					</form>
+							<div class="row" style="margin-bottom: 15px;">
+								<div class="form-group" style="margin-bottom: 15px;">
+									<label for="teamid" class="col-sm-4 control-label"
+										style="text-align: right; color: #5c7ebd; font-size: 20px;">Team</label>
+									<div class="col-sm-8">
+										<select class="team form-control"
+											data-value="<%=remember_arr[1]%>" data-required="true"
+											name="team"></select>
+									</div>
+								</div>
+							</div>
+							<div class="row" style="margin-bottom: 15px;">
+
+								<div class="form-group" style="margin-bottom: 15px;">
+									<label for="commodity" class="col-sm-4 control-label"
+										style="text-align: right; color: #5c7ebd; font-size: 20px;">Job
+										Role</label>
+									<div class="col-sm-8">
+										<select class="job_role form-control"
+											data-value="<%=remember_arr[2]%>" data-required="true"
+											name="job_role"></select>
+									</div>
+								</div>
+							</div>
+							<div class="row" style="margin-bottom: 15px;">
+
+								<div class="form-group">
+									<label for="commodity" class="col-sm-4 control-label"
+										style="text-align: right; color: #5c7ebd; font-size: 20px;">Commodity</label>
+									<div class="col-sm-8">
+										<select class="commodity form-control"
+											data-value="<%=remember_arr[3]%>" name="commodity"></select>
+									</div>
+								</div>
+
+							</div>
+
+							<div class="row" style="margin-bottom: 15px;">
+
+
+								<div class="form-group">
+									<div class="col-sm-offset-4 col-sm-8">
+										<div class="checkbox">
+											<label> <input type="checkbox" name="remember_type"
+												style="height: 22px;"> Remember my selection
+											</label>
+										</div>
+									</div>
+								</div>
+							</div>
+							<input type="hidden" name="user_id" value="<%=user_id%>">
+							<button type="submit" class="btn">Query</button>
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	
 	<jsp:include page="bottom.jsp" flush="true" />
 
 	<script src="js/jquery-1.10.2.min.js"></script>
@@ -153,7 +155,7 @@
 						}, {
 							'v' : '3',
 							'n' : 'PCB'
-						}, ]
+						} ]
 					} ]
 				}, {
 					'v' : '2',
@@ -382,6 +384,27 @@
 					's' : [ {
 						'v' : '35',
 						'n' : 'PQE'
+					} ]
+				} ]
+			}, {
+				'v' : '7',
+				'n' : 'global procurement for test',
+				's' : [ {
+					'v' : '15',
+					'n' : 'team_01',
+					's' : [ {
+						'v' : '36',
+						'n' : 'job_role_01',
+						's' : [ {
+							'v' : '4',
+							'n' : 'commodity_01'
+						}, {
+							'v' : '5',
+							'n' : 'commodity_02'
+						}, {
+							'v' : '6',
+							'n' : 'commodity_03'
+						} ]
 					} ]
 				} ]
 			} ];

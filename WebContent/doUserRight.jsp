@@ -1,6 +1,7 @@
 <%@ page language="java" import="com.bluekey.connDb,com.bluekey.Access,com.bluekey.User,java.util.*" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%  
+	request.setCharacterEncoding("utf-8");
 	String email = (String)session.getAttribute("email");
 	if(email==null){
 		response.sendRedirect("login.jsp");

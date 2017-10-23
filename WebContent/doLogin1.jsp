@@ -7,6 +7,7 @@
     if(email!=null&&password!=null){  
     	LDAP ldap = new LDAP();
 		boolean isAuthentication = ldap.authenticate(email, password);
+		//out.println(isAuthentication);
     	if(isAuthentication){
             request.getSession().setAttribute("email",email);     //save email
             boolean status = connDb.updataUser(email);
@@ -17,12 +18,11 @@
 			request.getSession().setAttribute("user_id",user_id);        //save user_id
 			session.setMaxInactiveInterval(12*3600);  //sessiion timeout 12h
 			
-			response.sendRedirect("query.jsp?user_id="+user_id);  
-			
-    	}else{
+			response.sendRedirect("query.jsp?user_id="+user_id);
+   		}else{
     		out.println("<script>alert(\"Email or password is wrong! Please try again\");window.location.href=\"login.jsp\";</script>");
     	}
     }else{
     	out.println("<script>alert(\"Email or password isn't empty! Please come back to try again\");window.location.href=\"login.jsp\";</script>");
-    }  
+    } 
 %>

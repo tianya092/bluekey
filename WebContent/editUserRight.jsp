@@ -2,11 +2,12 @@
 	import="com.bluekey.connDb,com.bluekey.Access,com.bluekey.User,java.util.*"
 	contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-	String email = (String)session.getAttribute("email");
-	if(email==null){
+	request.setCharacterEncoding("utf-8");
+	String email = (String) session.getAttribute("email");
+	if (email == null) {
 		response.sendRedirect("login.jsp");
 	}
-	
+
 	String user_id = request.getParameter("user_id");
 	User user = new User();
 
@@ -25,6 +26,7 @@
 <script src="js/language/zh_CN.js"></script>
 <script src="js/jquery.cxselect.js"></script>
 
+<link rel="shortcut icon" href="img/favico.ico"/>
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/bootstrap-theme.min.css" rel="stylesheet">
 <link href="css/mystyles.css" rel="stylesheet">
@@ -33,58 +35,79 @@
 <link href="css/bootstrapValidator.css" rel="stylesheet">
 
 </head>
-<body>
-	<jsp:include page="top.jsp" flush="true" />
-	<div class="container">
-		
-		<div class="row breadcrumb-nav" >
-			<div class="col-xs-12 col-sm-12 col-sm-push-0">
-				<ol class="breadcrumb">
-					<li><a href="query.jsp">Home</a></li>
-					<li><a href="#">Setting</a></li>
-					<li class="active">Access manage</li>
+<body style="overflow:scroll;overflow-x:hidden">
+	<div class=" wrapper">
+		<div class="page">
+			<jsp:include page="top.jsp" flush="true" />
+			<div class="container">
 
-				</ol>
-			</div>
-		</div>
-		<div class="col-md-12 column">
-			<form class="form-horizontal" role="form" action="doUserRight.jsp">
-				<div id="select_role">
-					<div class="form-group">
-						<label for="inputEmailTitle" class="col-sm-3 control-label"><span
-							style="color: red">*</span>User:</label>
-						<div class="col-sm-6 ">
-							<label class="col-sm-3 control-label"><%=user.getEmail()%></label>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="inputParent_part" class="col-sm-3 control-label">
-							<span style="color: red">*</span>Function:
-						</label>
-						<div class="col-sm-6">
-							<select class="function form-control" data-value="<%=user.getFunction() %>" name="function"></select>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="inputParent_part" class="col-sm-3 control-label">Team:</label>
-						<div class="col-sm-6">
-							<select class="team form-control" data-required="false" data-first-title="Select team" data-value="<%=user.getTeam()%>" name="team"></select>
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="col-sm-offset-3 col-sm-10">
-							<input type="hidden" name="user_id" value="<%=user_id %>">
-							<input type="hidden" name="user_email" value="<%=user.getEmail() %>">
-							<button type="submit" class="btn btn-primary">submit</button>
-						</div>
+				<div class="row breadcrumb-nav">
+					<div class="col-xs-12 col-sm-12 col-sm-push-0">
+						<ol class="breadcrumb">
+							<li><a href="query.jsp">Home</a></li>
+							<li><a href="#">Setting</a></li>
+							<li class="active">Edit authority role </li>
+
+						</ol>
 					</div>
 				</div>
-			</form>
+				<legend>Edit authority</legend>
+				<div class="col-md-12 column">
+					<form class="form-horizontal" role="form" action="doUserRight.jsp">
+						<div id="select_role">
+							<div class="form-group">
+								<label for="inputEmailTitle" class="col-sm-3 control-label"><span
+									style="color: red">*</span>User Email:</label>
+								<div class="col-sm-6 ">
+									<label class="col-sm-3 control-label"><%=user.getEmail()%></label>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputParent_part" class="col-sm-3 control-label">
+									<span style="color: red">*</span>Function:
+								</label>
+								<div class="col-sm-6">
+									<select class="function form-control"
+										data-value="<%=user.getFunction()%>" name="function"></select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputParent_part" class="col-sm-3 control-label">Team:</label>
+								<div class="col-sm-6">
+									<select class="team form-control" data-required="false"
+										data-first-title="Select team"
+										data-value="<%=user.getTeam()%>" name="team"></select>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-offset-3 col-sm-10">
+									<input type="hidden" name="user_id" value="<%=user_id%>">
+									<input type="hidden" name="user_email"
+										value="<%=user.getEmail()%>">
+									<button type="submit" class="btn btn-primary">submit</button>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="guide">
+			<div class="guide-wrap">
+				<a href="feedback.jsp" class="report" title="Feedback"><span>Feedback</span></a>
+				<a href="#" class="top" title="To top"><span>To top</span></a>
+			</div>
 		</div>
 	</div>
-
 	<jsp:include page="bottom.jsp" flush="true" />
 	<script>
+		$(document).ready(function(){
+			$(".top").on("click", function() { 
+	            $("body").stop().animate({  
+	                scrollTop: 0  
+	            });  
+	        })  
+		});
 		(function() {
 			var urlSelectData = [ {
 				'v' : '1',
@@ -335,8 +358,31 @@
 						'n' : 'PQE'
 					} ]
 				} ]
-			},{'v': '1000', 'n': 'Super Admin'}
-			];
+			}, {
+				'v' : '7',
+				'n' : 'global procurement for test',
+				's' : [ {
+					'v' : '15',
+					'n' : 'team_01',
+					's' : [ {
+						'v' : '36',
+						'n' : 'job role_01',
+						's' : [ {
+							'v' : '4',
+							'n' : 'commodity_01'
+						}, {
+							'v' : '5',
+							'n' : 'commodity_02'
+						}, {
+							'v' : '6',
+							'n' : 'commodity_03'
+						} ]
+					} ]
+				} ]
+			} , {
+				'v' : '1000',
+				'n' : 'Super Admin'
+			} ];
 			$('#select_role').cxSelect({
 				selects : [ 'function', 'team', 'job_role', 'commodity' ],
 				required : true,

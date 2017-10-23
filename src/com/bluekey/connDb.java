@@ -1,4 +1,12 @@
-
+/**   
+*    
+* 项目名称：BlueKey   
+* 类名称：connDb   
+* 类描述：   
+* 创建人：Bruce-wu   
+* 创建时间：2017年8月7日 上午10:52:37   
+* @version        
+*/
 package com.bluekey;
 import java.sql.*;
 import java.text.SimpleDateFormat;
@@ -7,15 +15,7 @@ import java.util.Date;
 
 import org.json.JSONObject;
 
-/**   
-*    
-* 项目名称：BlueKey   
-* 类名称：connDb   
-* 类描述：   
-* 创建人：tony-wu   
-* 创建时间：2017年8月7日 上午10:52:37   
-* @version        
-*/
+
 public class connDb {
 	private static String username;
 	private static String password;
@@ -47,9 +47,10 @@ public class connDb {
 					port = blueMailCredentials.getInt("port");
 					database = blueMailCredentials.getString("name");
 					con = DriverManager.getConnection("jdbc:MySQL://"+host+":"+port+"/"+database,username,password);
+					
 				} else {
 					// not running on Bluemix Dedicated (e.g. running in Eclipse) - use hard coded credentials
-					con = DriverManager.getConnection("jdbc:MySQL://localhost:3306/bluekey","root","root");
+					con = DriverManager.getConnection("jdbc:MySQL://localhost:3306/bluekey?useUnicode=true&characterEncoding=UTF-8","root","root");
 				}	
 			}catch(SQLException e){
 				e.printStackTrace();
@@ -216,6 +217,7 @@ public class connDb {
 		int access_id = access.getAccessId();
 		Date dNow = new Date( );
 		SimpleDateFormat ft =  new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
+		ft.setTimeZone(TimeZone.getTimeZone("GMT+8"));
 		try{
 			startConn();
 		    String sql = "update access set deleted =?,update_time=? where access_id = "+access_id;
@@ -240,11 +242,17 @@ public class connDb {
 	 * @throws SQLException
 	 */
 	
-	public static  ArrayList getAccessList() throws SQLException{
+	public static  ArrayList getAccessList(String query_access) throws SQLException{
 		ArrayList<Access> accesslist = new ArrayList();
+		String sql;
+		
 		startConn();
 	    stmt = con.createStatement();
-	    rs = stmt.executeQuery("select * from access where deleted = 0 order by parent_part ASC");
+	    sql="select * from access where deleted = 0 ";
+	    if(query_access!=null&&!query_access.equals("")){ 
+			sql+="and (title like '%"+query_access+"%' or short_title like '%"+query_access+"%')";
+		}
+	    rs = stmt.executeQuery(sql+" order by parent_part ASC");
 	    while(rs.next()){
 	    	Access access = new Access();
 	    	access.setAccessId(rs.getInt("access_id"));
@@ -314,6 +322,7 @@ public class connDb {
 		Calendar calendar = Calendar.getInstance();
 	    calendar.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
 	    SimpleDateFormat ft =  new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
+	    ft.setTimeZone(TimeZone.getTimeZone("GMT+8"));
 	    startConn();
 	    stmt = con.createStatement();
 	    result = stmt.executeQuery("select * from user where Email ='"+email+"' and deleted = 0");
@@ -343,6 +352,7 @@ public class connDb {
 		Calendar calendar = Calendar.getInstance();
 	    calendar.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
 	    SimpleDateFormat ft =  new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
+	    ft.setTimeZone(TimeZone.getTimeZone("GMT+8"));
 	    String userEmail = user.getEmail();
 	    startConn();
 	    stmt = con.createStatement();
@@ -393,9 +403,10 @@ public class connDb {
 		PreparedStatement ps;
 		Date dNow = new Date( );
 		SimpleDateFormat ft =  new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
+		ft.setTimeZone(TimeZone.getTimeZone("GMT+8"));
 		try{
 			startConn();
-		    String sql = "update user set deleted =?,update_time=?,update_operator=? where user_id = "+user_id;
+		    String sql = "update user set deleted =?,update_time=?,update_operator=? where  user_id = "+user_id;
 	    	ps = con.prepareStatement(sql);
 	    	ps.setInt(1, 1);
 	    	ps.setString(2, ft.format(dNow));
@@ -465,7 +476,7 @@ public class connDb {
 		ArrayList<User> userlist = new ArrayList();
 		startConn();
 	    stmt = con.createStatement();
-	    rs = stmt.executeQuery("select * from user where deleted = 0 and (function >0 or team >0) ");
+	    rs = stmt.executeQuery("select * from user where deleted = 0 and (function >0 or team >0) order by user_id ");
 	    while(rs.next()){
 	    	User user = new User();
 	    	user.setUserId(rs.getInt("user_id"));
@@ -482,6 +493,43 @@ public class connDb {
 
 	    endConn();
 		return userlist;
+	}
+	
+	/**
+	 * query admin user information 
+	 * @param user_id
+	 * @return
+	 * @throws SQLException
+	 */
+	public static  Map getAdminList() throws SQLException{
+		Map<String,String> adminMap = new HashMap();
+		StringBuffer superAdmin=new StringBuffer();  
+		StringBuffer normalAdmin=new StringBuffer();  
+		
+		startConn();
+	    stmt = con.createStatement();
+	    rs = stmt.executeQuery("select * from user where deleted = 0 and (function >0 or team >0) ");
+	    while(rs.next()){
+	    	if(rs.getInt("function")==1000){
+	    		superAdmin.append(rs.getString("Email")+",");
+	    	}else{
+	    		normalAdmin.append(rs.getString("Email")+",");
+	    	}
+	    }
+	    if(superAdmin.length()==0){
+	    	adminMap.put("superAdmin",superAdmin.toString());
+	    }else{
+	    	adminMap.put("superAdmin",superAdmin.toString().substring(0, superAdmin.length()-1));
+	    }
+	    
+	    if(normalAdmin.length()==0){
+	    	adminMap.put("normalAdmin",normalAdmin.toString());
+	    }else{
+	    	adminMap.put("normalAdmin",normalAdmin.toString().substring(0, normalAdmin.length()-1));
+	    }
+	    
+	    endConn();
+		return adminMap;
 	}
 	
 	
@@ -529,7 +577,7 @@ public class connDb {
 		    if(commodity==0){
 		    	sql = "select * from role where deleted = 0 and  function = "+function+" and team ="+team+" and job_role ="+job_role ;
 		    }else{
-		    	sql = "select * from role where deleted = 0 and  function = "+function+" and team ="+team+" and job_role ="+job_role +" and commodity =" +commodity;
+		    	sql = "select * from role where deleted = 0 and  function = "+function+" and team ="+team+" and job_role ="+job_role +" and commodity =" +commodity ;
 		    }
 		    
 		    rs = stmt.executeQuery(sql);
@@ -555,9 +603,10 @@ public class connDb {
 		PreparedStatement ps;
 		Date dNow = new Date( );
 		SimpleDateFormat ft =  new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
+		ft.setTimeZone(TimeZone.getTimeZone("GMT+8"));
 		try{
 			startConn();
-		    String sql = "update role set deleted =?,update_time=? where role_id = "+role_id;
+		    String sql = "update role set deleted =?,update_time=? where  role_id = "+role_id;
 	    	ps = con.prepareStatement(sql);
 	    	ps.setInt(1, 1);
 	    	ps.setString(2, ft.format(dNow));
@@ -702,11 +751,12 @@ public class connDb {
 		try{
 			Date dNow = new Date( );
 			SimpleDateFormat ft =  new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
+			ft.setTimeZone(TimeZone.getTimeZone("GMT+8"));
 		    startConn();
 		    
 		    if(temp_id!=0){
 		    	//update mail template
-		    	sql = "update mail_template set subject_title =?,content=?,update_time=?,update_operator=? where temp_id = "+temp_id;
+		    	sql = "update mail_template set subject_title =?,content=?,update_time=?,update_operator=? where and deleted = 0  temp_id = "+temp_id;
 		    	ps = con.prepareStatement(sql);
 		    	ps.setString(1, mail.getSubjectTitle());
 		    	ps.setString(2, mail.getContent());
@@ -750,6 +800,7 @@ public class connDb {
 		try{
 			Date dNow = new Date( );
 			SimpleDateFormat ft =  new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
+			ft.setTimeZone(TimeZone.getTimeZone("GMT+8"));
 		    startConn();
 		    String sql = "insert into send_record(user_id,email,receive_email,email_subject,content,create_time,access_id)values(?,?,?,?,?,?,?)";
 	    	ps = con.prepareStatement(sql);
@@ -834,7 +885,7 @@ public class connDb {
 		startConn();
 	    stmt = con.createStatement();
 	   
-	    rs = stmt.executeQuery("select * from access where  deleted = 0 and (title like '%"+search+"%' or apply_step like '%"+search+"%' or function like '%"+search+"%')");
+	    rs = stmt.executeQuery("select * from access where  deleted = 0 and (title like '%"+search+"%' or  like '%"+search+"%' or function like '%"+search+"%')");
 	    
 	    while(rs.next()){
 	    	Access access = new Access();

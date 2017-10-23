@@ -1,12 +1,15 @@
-<%@ page language="java" import="com.bluekey.connDb,com.bluekey.Access,com.bluekey.Role,java.util.*" contentType="text/html; charset=UTF-8"
+<%@ page language="java" import="com.bluekey.connDb,com.bluekey.Access,com.bluekey.User,com.bluekey.Role,java.util.*" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%  
-	
+	request.setCharacterEncoding("utf-8");
 	StringBuilder access_list_SB = new StringBuilder();
 	String accessList = "";
 	int checkFlag =0;
+	int query_function;
+	int query_team;
 	
 	String email = (String)session.getAttribute("email");
+	User user = connDb.getUser(email); 
 	if(email==null){
 		response.sendRedirect("login.jsp");
 	}
@@ -28,11 +31,23 @@
 	}
 	accessList =access_list_SB.substring(0,access_list_SB.length()-1);
 	
+	if(request.getParameter("function")!= null &&!"".equals(request.getParameter("function"))){
+		 query_function = Integer.parseInt(request.getParameter("function"));
+	}else{
+		 query_function = user.getFunction();
+	}
+	
+	if(request.getParameter("team")!= null &&!"".equals(request.getParameter("team"))){
+		query_team = Integer.parseInt(request.getParameter("team"));
+	}else{
+		query_team = user.getTeam();
+	}
 	
 	Role role = new Role();
 	if(role_id== null ||"".equals(role_id)){
-    	role.setFunction(Integer.parseInt(request.getParameter("function")));
-    	role.setTeam(Integer.parseInt(request.getParameter("team")));
+		//out.print(request.getParameter("function"));
+    	role.setFunction(query_function);
+    	role.setTeam(query_team);
     	role.setJobRole(Integer.parseInt(request.getParameter("job_role")));
     	if(request.getParameter("commodity")!= null &&!"".equals(request.getParameter("commodity"))){
     		role.setCommodity(Integer.parseInt(request.getParameter("commodity")));

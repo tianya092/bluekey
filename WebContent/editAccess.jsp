@@ -1,6 +1,7 @@
-<%@ page language="java" import="com.bluekey.connDb,com.bluekey.Access,com.bluekey.User,com.bluekey.Mail,java.util.*" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" import="com.bluekey.connDb,com.bluekey.Access,com.bluekey.User,com.bluekey.Mail,java.util.*" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
 <%  
+	request.setCharacterEncoding("utf-8");
 	String email = (String)session.getAttribute("email");
 	if(session.getAttribute("email")==null){
 		response.sendRedirect("login.jsp");
@@ -40,7 +41,7 @@
 <script src="js/bootstrap.min.js"></script>
 <script src="js/bootstrapValidator.js"></script>
 
-
+<link rel="shortcut icon" href="img/favico.ico"/>
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/bootstrap-theme.min.css" rel="stylesheet">
 <link href="css/mystyles.css" rel="stylesheet">
@@ -52,8 +53,9 @@
 	
 </script>
 </head>
-<body >
+<body style="overflow:scroll;overflow-x:hidden">
 	<div class=" wrapper">
+	<div class="page">
     <jsp:include page= "top.jsp" flush ="true"/>
     <%
     	if(access_id!=null&&!access_id.equals("")){ 
@@ -75,18 +77,18 @@
     	}
     	
     %>
-	<div class="container"  style=" padding-bottom: 90px;">
+	<div class="container"  >
 		<div class="row breadcrumb-nav" >
 			<div class="col-xs-12 col-sm-12 col-sm-push-0">
 				<ol class="breadcrumb">
 					<li><a href="query.jsp">Home</a></li>
 					<li><a href="#">Setting</a></li>
-					<li class="active">Access manage</li>
+					<li class="active">Edit access</li>
 
 				</ol>
 			</div>
 		</div>
-		Edit access<hr>
+		<legend>Edit access</legend>
 		<div class="row clearfix">
 			<div class="col-md-12 column">
 				<div class="tabbable" id="tabs-368872">
@@ -114,13 +116,13 @@
 										</div>
 										
 										<div class="form-group">
-											 <label for="inputTitle" class="col-sm-2 control-label"><span style="color:red">*</span>Access Title</label>
+											 <label for="inputTitle" class="col-sm-2 control-label"><span style="color:red">*</span>Access title</label>
 											<div class="col-sm-8">
 												<input type="text" class="form-control input" name="title"   value="<%=title%>"/>
 											</div>
 										</div>
 										<div class="form-group">
-											 <label for="inputShortTitle" class="col-sm-2 control-label"><span style="color:red">*</span>Short Title</label>
+											 <label for="inputShortTitle" class="col-sm-2 control-label"><span style="color:red">*</span>Short title</label>
 											<div class="col-sm-8">
 												<input type="text" class="form-control input" name="short_title" value="<%=short_title%>"/>
 											</div>
@@ -129,14 +131,15 @@
 										<div class="form-group">
 											 <label for="inputFunction" class="col-sm-2 control-label"><span style="color:red">*</span>Description</label>
 											<div class="col-sm-8">
-												<input type="text" class="form-control input" name="function" value="<%=function%>"/>
+												<textarea class="form-control  input" name="function" rows="6"><%=function%></textarea>
+												<%-- <input type="text" class="form-control input" name="function" value="<%=function%>"/> --%>
 											</div>
 										</div>
 										<div class="form-group">
 											 <label for="inputPlatform" class="col-sm-2 control-label"><span style="color:red">*</span>Platform</label>
 											<div class="col-sm-8">
 												 <input type="radio" name="platform" value="1" <%if(platform.equals("1")) out.print("checked"); %>>lotus notes &nbsp;&nbsp;&nbsp;
-									            <input type="radio" name="platform" value="2" <%if(platform.equals("2")) out.print("checked"); %>>web
+									             <input type="radio" name="platform" value="2" <%if(platform.equals("2")) out.print("checked"); %>>web
 											</div>
 										</div>				
 										<div class="form-group">
@@ -146,7 +149,7 @@
 											</div>
 										</div>
 										<div class="form-group">
-											 <label for="inputURL" class="col-sm-2 control-label">Other URL</label>
+											 <label for="inputURL" class="col-sm-2 control-label">URL 2</label>
 											<div class="col-sm-8">
 												<input type="url" class="form-control input" name="other_url" value="<%=other_url%>" placeholder="http://"/>
 											</div>
@@ -168,7 +171,7 @@
 										<div class="form-group">
 											 <label for="inputApply_step" class="col-sm-2 control-label"><span style="color:red">*</span>Apply step</label>
 											<div class="col-sm-8">
-												<textarea class="form-control  input" name="apply_step" rows="8"><%=apply_step%></textarea>
+												<textarea class="form-control  input" name="apply_step" rows="12"><%=apply_step%></textarea>
 											</div>
 										</div>
 										<div class="form-group">
@@ -219,8 +222,22 @@
 		</div>
 	</div>
 	</div>
+	<div class="guide">
+		<div class="guide-wrap">
+			<a href="feedback.jsp" class="report" title="Feedback"><span>Feedback</span></a>
+			<a href="#" class="top" title="To top"><span>To top</span></a>
+		</div>
+	</div>
+	</div>
 	<jsp:include page= "bottom.jsp" flush ="true"/>
 	<script type="text/javascript">
+		$(document).ready(function(){
+			$(".top").on("click", function() { 
+	            $("body").stop().animate({  
+	                scrollTop: 0  
+	            });  
+	        })  
+		});
 		$(document).ready(function() {
 		    $('#detail_form').bootstrapValidator({
 		            message: 'This value is not valid',
@@ -234,14 +251,14 @@
 		            		
 		                    validators: {
 		                        notEmpty: {
-		                            message: 'The parent_part is required'
+		                            message: 'The parent part is required'
 		                        }
 		                    }
 		                },
 		            	title: {
 		                    validators: {
 		                        notEmpty: {
-		                            message: 'The Access Title is required and cannot be empty'
+		                            message: 'The Access title is required and cannot be empty'
 		                        },
 		                        stringLength: {
 		                            min: 1,
@@ -265,11 +282,11 @@
 		                'function': {
 		                    validators: {
 		                        notEmpty: {
-		                            message: 'The function is required and cannot be empty'
+		                            message: 'The Description is required and cannot be empty'
 		                        },
 		                        stringLength: {
 		                            min: 6,
-		                            message: 'The function must be more than 6 characters long'
+		                            message: 'The Description must be more than 6 characters long'
 		                        },
 		                    }
 		                },
@@ -351,11 +368,11 @@
 	                content: {
 	                    validators: {
 	                        notEmpty: {
-	                            message: 'The content step is required and cannot be empty'
+	                            message: 'The content  is required and cannot be empty'
 	                        },
 	                        stringLength: {
 	                            min: 10,
-	                            message: 'The content step must be more than 10 characters long'
+	                            message: 'The content  must be more than 10 characters long'
 	                        },
 	                    }
 	                },

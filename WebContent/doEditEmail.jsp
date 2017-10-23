@@ -1,7 +1,7 @@
 <%@ page language="java" import="com.bluekey.connDb,com.bluekey.Access,com.bluekey.Mail,java.util.*" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%  
-	//String access_id ="1";
+	request.setCharacterEncoding("utf-8");
 	String temp_id =request.getParameter("temp_id");
 	String access_id =request.getParameter("access_id");
 	String subject_title =request.getParameter("email_title");

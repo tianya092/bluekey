@@ -1,6 +1,7 @@
 <%@ page language="java" import="com.bluekey.connDb,com.bluekey.Access,com.bluekey.Role,java.util.*" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%  
+	request.setCharacterEncoding("utf-8");
 	StringBuilder belong_part_SB = new StringBuilder();
 	StringBuilder general_access_SB = new StringBuilder();
 	StringBuilder function_access_SB = new StringBuilder();

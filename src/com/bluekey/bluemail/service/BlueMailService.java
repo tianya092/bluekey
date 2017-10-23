@@ -301,7 +301,7 @@ public class BlueMailService {
 		attachment_.setData(res);
 		attachment.setAttachment(attachment_);
 		attachmentList.add(attachment);
-		email.setAttachments(attachmentList);
+		//email.setAttachments(attachmentList);
 
 		// send the mail
 		if (validEmail) {

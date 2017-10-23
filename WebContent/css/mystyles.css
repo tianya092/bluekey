@@ -30,34 +30,41 @@ address {
 }
 
 html, body {
+	/* font-family: 'Roboto', sans-serif; */
 	margin: 0;
 	padding: 0;
-	height: 100%; 
-	/* overflow:scroll;overflow-x:hidden;overflow-y:hidden */
+	height: 100%;
+	/* min-width:1040px; */
+	/* color: white;  */
+	/* overflow:scroll;overflow-x:hidden; */
 }
+
 
 .wrapper {
 	min-height: 100%;
 	height: auto !important;
-	height: 100%; /*IE6不识别min-height*/
+	height: 100%; 
 }
 
 .footer {
 	
 	position: relative;
-	margin-top: -91.11;/*等于footer的高度*/ 
-	height: 91.11px; 
+	margin-top: -86px;/*等于footer的高度*/ 
+	height: 66px; 
 	clear:both; 
 	
 }
 
-.header {
-	
-}
 .page {
-	margin: 0 auto;
-	padding-bottom: 60px; /*等于footer的高度*/
+	padding-bottom: 91.1px; /*等于footer的高度*/
 }
+
+.history-container{
+	background:#FCFCFC;
+	margin:15px;
+	padding:10px
+}
+
 
 .navLogo{
 	margin: 5px;
@@ -166,8 +173,9 @@ padding-top: 10px;*/
 }
 
 .result-item {
-	padding: 5px;
-	margin: 10px 20px 10px 0px;
+	background: #FCFCFC;
+	padding: 15px;
+	margin: 10px 20px 10px 10px;
 }
 
 .result-item-label {
@@ -192,6 +200,7 @@ padding-top: 10px;*/
 	font-weight: 500;
 }
 
+
 .check-role input {
 	margin-left: 10px;
 	margin-right: 10px;
@@ -213,3 +222,13 @@ padding-top: 10px;*/
 .navbar-inverse .navbar-nav>li>a {
 	color: white;
 }
+
+/*** guide ***/
+.guide{width:60px;margin-left:650px;position:fixed;left:50%;bottom:134px;_position:absolute;_top:expression(documentElement.scrollTop+documentElement.clientHeight - this.clientHeight - 134+'px');display:block;}
+.guide a{display:block;width:60px;height:50px;background:url(../img/sprite_v2.png) no-repeat;margin-top:10px;text-decoration:none;font:13px/50px "Microsoft YaHei";text-align:center;color:#fff;border-radius:2px;}
+.guide a span{display:none;text-align:center;}
+.guide a:hover{text-decoration:none;background-color:#5C7EBD;color:#fff;}
+.guide a:hover span{display:block;width:60px;background:#5C7EBD}
+
+.guide .report{background-position:-146px -236px;}
+.guide .top{background-position:-145px -185px;}

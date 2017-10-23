@@ -9,7 +9,7 @@
 	String user_id =request.getParameter("user_id");
 
 	if(user_id== null ||"".equals(user_id)){
-		out.print("<script>alert(\"ERROR ouccued! \");window.location.href=\"userList.jsp\";</script>");
+		out.print("<script>window.location.href=\"error.jsp\";</script>");
 	}
 	
 	boolean flag = connDb.deleteUserRightByID(user_id,email);

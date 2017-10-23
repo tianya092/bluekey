@@ -12,10 +12,11 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Blue key login</title>
+<title>Blue Key login</title>
 
 <!-- CSS -->
-
+<link rel="shortcut icon" href="img/favico.ico"/>
+<!-- <link rel="shortcut icon" type="image/x-icon" href="img/favico.ico" media="screen" /> -->
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/bootstrap-theme.min.css" rel="stylesheet">
 <link href="css/font-awesome.css" rel="stylesheet">
@@ -33,7 +34,7 @@
 				<div class="row">
 					<div class="col-sm-8 col-sm-offset-2 text"  style="text-align: center">
 						<h1>
-							<strong>Welcome to Blue key</strong>
+							<strong>Welcome to Blue Key</strong>
 						</h1>
 						<div class="description">
 							<p style="font-size: 18px;">

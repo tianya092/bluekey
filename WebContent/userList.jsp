@@ -17,10 +17,10 @@
 	Map<String, String> detail = null;
 
 	ArrayList<User> userList = connDb.getUserList(); //get access list
-	String[] functionArr = new String[]{"", "PP", "PI", "Finance", "DSA", "COSSM", "Eng"};
+	String[] functionArr = new String[]{"", "PP", "PI", "Finance", "DSA", "COSSM", "Eng","global procurement for test"};
 	String[] teamArr = new String[]{"", "Ellen Xu", "Vivian Chen", "Shirly Xie", "Simon Lv", "Hugo cai",
 			"kenny Kong", "Anne lei", "Li Ping", "Mike Huang", "Jessica Wei", "Logan Huang", "Ziv Zhao",
-			"Jason Guo", "Mary Ma"};
+			"Jason Guo", "Mary Ma","team_01"};
 %>
 <!DOCTYPE html>
 <html>
@@ -33,6 +33,7 @@
 <script src="js/language/zh_CN.js"></script>
 <script src="js/jquery.cxselect.js"></script>
 
+<link rel="shortcut icon" href="img/favico.ico"/>
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/bootstrap-theme.min.css" rel="stylesheet">
 <link href="css/mystyles.css" rel="stylesheet">
@@ -41,8 +42,9 @@
 <link href="css/bootstrapValidator.css" rel="stylesheet">
 
 </head>
-<body data-spy="scroll" data-target="#myScrollspy">
+<body style="overflow:scroll;overflow-x:hidden">
 	<div class="wrapper">
+		<div class="page">
 		<jsp:include page="top.jsp" flush="true" />
 		<div class="container">
 			<div class="row breadcrumb-nav" >
@@ -58,7 +60,7 @@
 
 			<legend>User List</legend>
 			<div class="page-header">
-				<a class="btn btn-info btn" data-target="#edit-right-modal"
+				<a class="btn btn-info btn" style="background: #5c7ebd; border: 0;" data-target="#edit-right-modal"
 					data-toggle="modal"> <span class="glyphicon glyphicon-plus"></span>
 					add an user
 				</a>
@@ -87,8 +89,8 @@
 								}
 								out.print("<tr><td>" + i + "</td><td>" + user.getEmail() + "</td><td>" + authRolo + "</td><td>"
 										+ user.getUpdateTime() + "</td><td>" + user.getUpdateOperator()
-										+ "</td><td><a id= \"modal-174354\" href=\"editUserRight.jsp?user_id=" + user.getUserId()
-										+ " \"><span class=\"glyphicon glyphicon-pencil\"></span></a>&nbsp;&nbsp;&nbsp;&nbsp <a href=\"deleteUserRight.jsp?user_id="
+										+ "</td><td><a id= \"modal-174354\" title=\"Edit\" href=\"editUserRight.jsp?user_id=" + user.getUserId()
+										+ " \"><span class=\"glyphicon glyphicon-pencil\"></span></a>&nbsp;&nbsp;&nbsp;&nbsp <a onclick=\"return confirm('Are you sure to detele the user?')\" title=\"Delete\" href=\"deleteUserRight.jsp?user_id="
 										+ user.getUserId() + "\"><span class=\"glyphicon glyphicon-trash\"></span></a></td></tr>");
 								i++;
 							}
@@ -105,7 +107,7 @@
 								<div class="modal-header">
 									<button type="button" class="close" data-dismiss="modal"
 										aria-hidden="true">×</button>
-									<h4 class="modal-title" id="myModalLabel">Edit user right</h4>
+									<h4 class="modal-title" id="myModalLabel">Add an admin</h4>
 								</div>
 								<form class="form-horizontal" role="form"
 									action="doUserRight.jsp" action="post" id="user_right_form">
@@ -149,8 +151,22 @@
 			</div>
 		</div>
 	</div>
+	<div class="guide">
+		<div class="guide-wrap">
+			<a href="feedback.jsp" class="report" title="Feedback"><span>Feedback</span></a>
+			<a href="#" class="top" title="To top"><span>To top</span></a>
+		</div>
+	</div>
+	</div>
 	<jsp:include page="bottom.jsp" flush="true" />
 	<script>
+	$(document).ready(function(){
+		$(".top").on("click", function() { 
+            $("body").stop().animate({  
+                scrollTop: 0  
+            });  
+        })  
+	});
 		(function() {
 			var urlSelectData = [ {
 				'v' : '1',
@@ -402,6 +418,27 @@
 					} ]
 				} ]
 			}, {
+				'v' : '7',
+				'n' : 'global procurement for test',
+				's' : [ {
+					'v' : '15',
+					'n' : 'team_01',
+					's' : [ {
+						'v' : '36',
+						'n' : 'job role_01',
+						's' : [ {
+							'v' : '4',
+							'n' : 'commodity_01'
+						}, {
+							'v' : '5',
+							'n' : 'commodity_02'
+						}, {
+							'v' : '6',
+							'n' : 'commodity_03'
+						} ]
+					} ]
+				} ]
+			} , {
 				'v' : '1000',
 				'n' : 'Super Admin'
 			} ];
